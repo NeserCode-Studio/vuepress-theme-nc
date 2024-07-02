@@ -2,18 +2,18 @@ import { fs, getDirname, path } from '@vuepress/utils';
 import { viteBundler } from "@vuepress/bundler-vite"
 import { webpackBundler } from '@vuepress/bundler-webpack'
 
-import tailwindcssConfig from '../../tailwind.config'
+import { activeHeaderLinksPlugin } from '@vuepress/plugin-active-header-links'
+import { readingTimePlugin } from '@vuepress/plugin-reading-time'
+import { gitPlugin } from '@vuepress/plugin-git'
+import { tocPlugin } from '@vuepress/plugin-toc'
+
 import tailwindcss from 'tailwindcss'
 import autoprefixer from 'autoprefixer'
+import tailwindcssConfig from '../../tailwind.config'
 
 const __dirname = getDirname(import.meta.url);
 export const nesercodeTheme = ({ themePlugins = {}, ...localeOptions } = {}) => (app) => {
   // assignDefaultLocaleOptions(localeOptions);
-  // useGitPlugin(app, {
-  //     createdTime: true,
-  //     updatedTime: localeOptions.lastUpdated !== false,
-  //     contributors: localeOptions.contributors !== false,
-  // })
 
   return {
     name: 'vuepress-theme-nesercode',
@@ -65,6 +65,15 @@ export const nesercodeTheme = ({ themePlugins = {}, ...localeOptions } = {}) => 
       // save title into route meta to generate navbar and sidebar
       page.routeMeta.title = page.title;
     },
-    plugins: [],
+    plugins: [
+      activeHeaderLinksPlugin({
+        headerLinkSelector: 'a.vuepress-toc-link',
+        headerAnchorSelector: '.header-anchor',
+        offset: 60
+      }),
+      readingTimePlugin(),
+      gitPlugin(),
+      tocPlugin()
+    ],
   };
 };

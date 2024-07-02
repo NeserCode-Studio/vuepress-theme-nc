@@ -265,6 +265,18 @@
   resolved "https://registry.npmmirror.com/@esbuild/win32-x64/-/win32-x64-0.21.5.tgz#acad351d582d157bb145535db2a6ff53dd514b5c"
   integrity sha512-tQd/1efJuzPC6rCFwEvLtci/xNFcTZknmXs98FYDfGE4wP9ClFV98nyKrzJKVPMhdDnjzLhdUyMX4PsQAPjwIw==
 
+"@headlessui/vue@^1.7.22":
+  version "1.7.22"
+  resolved "https://registry.npmmirror.com/@headlessui/vue/-/vue-1.7.22.tgz#8d55a3a670c3d48beb660b7c47a7a8ff76caacfe"
+  integrity sha512-Hoffjoolq1rY+LOfJ+B/OvkhuBXXBFgd8oBlN+l1TApma2dB0En0ucFZrwQtb33SmcCqd32EQd0y07oziXWNYg==
+  dependencies:
+    "@tanstack/vue-virtual" "^3.0.0-beta.60"
+
+"@heroicons/vue@^2.1.4":
+  version "2.1.4"
+  resolved "https://registry.npmmirror.com/@heroicons/vue/-/vue-2.1.4.tgz#3079bdff18d1997f1fa870eea579812e987c0f99"
+  integrity sha512-wykVSZ/fqEG49lIeHgFGT9TCvBw9THuRTtA/sPp7FVk3iBob/HcmitMcLDwtXOW82TXb38HeLRl1/pcElPeSdg==
+
 "@isaacs/cliui@^8.0.2":
   version "8.0.2"
   resolved "https://registry.npmmirror.com/@isaacs/cliui/-/cliui-8.0.2.tgz#b37667b7bc181c168782259bab42474fbf52b550"
@@ -513,6 +525,18 @@
   version "4.0.0"
   resolved "https://registry.npmmirror.com/@sindresorhus/merge-streams/-/merge-streams-4.0.0.tgz#abb11d99aeb6d27f1b563c38147a72d50058e339"
   integrity sha512-tlqY9xq5ukxTUZBmoOp+m61cqwQD5pHJtFY3Mn8CA8ps6yghLH/Hw8UPdqg4OLmFW3IFlcXnQNmo/dh8HzXYIQ==
+
+"@tanstack/virtual-core@3.8.1":
+  version "3.8.1"
+  resolved "https://registry.npmmirror.com/@tanstack/virtual-core/-/virtual-core-3.8.1.tgz#50348857890cdfe8e6c784de3bb028caaa097f5e"
+  integrity sha512-uNtAwenT276M9QYCjTBoHZ8X3MUeCRoGK59zPi92hMIxdfS9AyHjkDWJ94WroDxnv48UE+hIeo21BU84jKc8aQ==
+
+"@tanstack/vue-virtual@^3.0.0-beta.60":
+  version "3.8.1"
+  resolved "https://registry.npmmirror.com/@tanstack/vue-virtual/-/vue-virtual-3.8.1.tgz#a1a2ad2c5bc6caad5d9c4a501dcc41c3a1081365"
+  integrity sha512-uhty1LzUbbcVc5zdMMSUjUt/ECTlMCtK49Ww7dH2m4lNNLGYwkj5SbfrAD8uCZxV1VeV7DRMXqhwUTELyR5rrA==
+  dependencies:
+    "@tanstack/virtual-core" "3.8.1"
 
 "@types/body-parser@*":
   version "1.19.5"
@@ -1039,7 +1063,7 @@
     markdown-it-emoji "^3.0.0"
     mdurl "^2.0.0"
 
-"@vuepress/plugin-active-header-links@2.0.0-rc.37":
+"@vuepress/plugin-active-header-links@2.0.0-rc.37", "@vuepress/plugin-active-header-links@^2.0.0-rc.37":
   version "2.0.0-rc.37"
   resolved "https://registry.npmmirror.com/@vuepress/plugin-active-header-links/-/plugin-active-header-links-2.0.0-rc.37.tgz#4f7345916f2f4ca379c0b0cd305a85954c34ae35"
   integrity sha512-VLM0JXgdShRAR38smp/M72sctDIVPgW4E+fBpGaP4iG+JOywXbLp5MfiO/r1ww62k7LXRI8g8/hYjlhyeMGnEg==
@@ -1065,7 +1089,7 @@
     "@vueuse/core" "^10.11.0"
     vue "^3.4.29"
 
-"@vuepress/plugin-git@2.0.0-rc.37":
+"@vuepress/plugin-git@2.0.0-rc.37", "@vuepress/plugin-git@^2.0.0-rc.37":
   version "2.0.0-rc.37"
   resolved "https://registry.npmmirror.com/@vuepress/plugin-git/-/plugin-git-2.0.0-rc.37.tgz#44af2076678a928b82cbded79f3e4832cf2d624a"
   integrity sha512-+p+EkcWsoErJXKdVZQBfazJ6Q8YFRXXjfDrb1qUSF5wCUfC7QgD6Vsgt5MmB9YZjbhj1Yf/xeZcDVB6qz8B+GA==
@@ -1118,6 +1142,14 @@
     "@vuepress/highlighter-helper" "2.0.0-rc.37"
     prismjs "^1.29.0"
 
+"@vuepress/plugin-reading-time@^2.0.0-rc.37":
+  version "2.0.0-rc.37"
+  resolved "https://registry.npmmirror.com/@vuepress/plugin-reading-time/-/plugin-reading-time-2.0.0-rc.37.tgz#41e9e829ab776124322e1ef593503687a12948af"
+  integrity sha512-jvg9pYkj0+PTv1P+H0Yk2RcXIKuz8LNwa05Ratf+pDppdi0ImnIBMNzk6gsQuBOjemol+1NNStYRu2Oo1IUudA==
+  dependencies:
+    "@vuepress/helper" "2.0.0-rc.37"
+    vue "^3.4.29"
+
 "@vuepress/plugin-seo@2.0.0-rc.37":
   version "2.0.0-rc.37"
   resolved "https://registry.npmmirror.com/@vuepress/plugin-seo/-/plugin-seo-2.0.0-rc.37.tgz#c7c3d7abe2afabae02219217dff7d373757b688f"
@@ -1133,13 +1165,21 @@
     "@vuepress/helper" "2.0.0-rc.37"
     sitemap "^8.0.0"
 
-"@vuepress/plugin-theme-data@2.0.0-rc.37":
+"@vuepress/plugin-theme-data@2.0.0-rc.37", "@vuepress/plugin-theme-data@^2.0.0-rc.37":
   version "2.0.0-rc.37"
   resolved "https://registry.npmmirror.com/@vuepress/plugin-theme-data/-/plugin-theme-data-2.0.0-rc.37.tgz#540338c54ba5570171aebdea57220a2814626a55"
   integrity sha512-xzdYyScZcS5aDbk/2bQAuEofe6wqgtX2Y/6SUqsGlV4A59D+xIfPbNUZhO0gbUX//ofYGaxgKQps0OrvPkwMVg==
   dependencies:
     "@vue/devtools-api" "^6.6.3"
     vue "^3.4.29"
+
+"@vuepress/plugin-toc@^2.0.0-rc.37":
+  version "2.0.0-rc.37"
+  resolved "https://registry.npmmirror.com/@vuepress/plugin-toc/-/plugin-toc-2.0.0-rc.37.tgz#4dcee546a734a3b7eed316a90d4b07c04fc75542"
+  integrity sha512-+DAMhKBXOzIWuQOGatIzxIGtGnhyXeyBYe3qAIRfDqDtKiRf1+ji6zSRLlxV8oG7u62TLgY3vtyXw3xNHvuaag==
+  dependencies:
+    vue "^3.4.29"
+    vue-router "^4.3.3"
 
 "@vuepress/shared@2.0.0-rc.14":
   version "2.0.0-rc.14"
@@ -1389,6 +1429,11 @@ acorn@^8.7.1, acorn@^8.8.2:
   version "8.12.0"
   resolved "https://registry.npmmirror.com/acorn/-/acorn-8.12.0.tgz#1627bfa2e058148036133b8d9b51a700663c294c"
   integrity sha512-RTvkC4w+KNXrM39/lWCUaG0IbRkWdCv7W/IOW9oU6SawyxulvkQy5HQPVTKxEjczcUvapcrw3cFx/60VN/NRNw==
+
+add@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.npmmirror.com/add/-/add-2.0.6.tgz#248f0a9f6e5a528ef2295dbeec30532130ae2235"
+  integrity sha512-j5QzrmsokwWWp6kUcJQySpbG+xfOBqqKnup3OIk1pz+kB/80SLorZ9V8zHFLO92Lcd+hbvq8bT+zOGoPkmBV0Q==
 
 ajv-formats@^2.1.1:
   version "2.1.1"

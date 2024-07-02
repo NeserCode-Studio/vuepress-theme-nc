@@ -1,16 +1,14 @@
 <script lang="ts" setup>
 import Base from "./Base.vue"
+import Navbar from "../components/Navbar.vue"
+import Page from "../components/Page.vue"
 </script>
 
 <template>
 	<Base>
-		<AutoLink> 123</AutoLink>
-		<Content class="v-nc-content" />
+		<Navbar></Navbar>
+		<Page></Page>
 	</Base>
 </template>
 
-<style lang="postcss" scoped>
-.v-nc-content {
-	@apply text-5xl;
-}
-</style>
+<style lang="postcss" scoped></style>
