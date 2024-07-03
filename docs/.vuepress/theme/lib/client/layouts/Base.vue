@@ -1,8 +1,13 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import Navbar from "../components/Navbar.vue"
+</script>
 
 <template>
 	<div class="base-layout font-family-noto">
-		<slot />
+		<Navbar></Navbar>
+		<Transition name="fade" mode="out-in" appear>
+			<slot name="page" />
+		</Transition>
 	</div>
 </template>
 
@@ -41,7 +46,7 @@ html.dark {
 
 div[class*="language-"] {
 	@apply relative m-4
-	border-2 rounded border-slate-400
+	border-2 rounded border-slate-200 dark:border-slate-600
 	overflow-hidden;
 }
 div[class*="language-"] pre,
@@ -59,6 +64,9 @@ div[class*="language-"]:before {
 }
 div[class*="language-"]:has(:hover):before {
 	@apply opacity-0 pointer-events-none;
+}
+div[class*="language-"] code span.line {
+	@apply inline-block w-full;
 }
 
 div[class*="language-"].line-numbers-mode pre {
@@ -82,7 +90,9 @@ div[class*="language-"].line-numbers-mode .line-numbers .line-number:before {
 div[class*="language-"].line-numbers-mode:after {
 	content: "";
 	@apply h-full absolute top-0 left-8
-		rounded-r border-l;
+		rounded-r border-l 
+		border-slate-200 dark:border-slate-600
+		z-10 transition-colors ease-in-out duration-300;
 }
 div[class*="language-"]:not(.line-numbers-mode) .line-numbers {
 	@apply hidden;

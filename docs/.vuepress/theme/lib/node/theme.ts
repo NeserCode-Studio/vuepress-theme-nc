@@ -10,11 +10,14 @@ import { tocPlugin } from "@vuepress/plugin-toc"
 import { nprogressPlugin } from "@vuepress/plugin-nprogress"
 import { shikiPlugin } from "@vuepress/plugin-shiki"
 import { markdownContainerPlugin } from "@vuepress/plugin-markdown-container"
+import { seoPlugin } from "@vuepress/plugin-seo"
 
 import tailwindcss from "tailwindcss"
 import autoprefixer from "autoprefixer"
 import tailwindcssConfig from "../../tailwind.config"
-import { ThemePage } from "../shared"
+import { useBlogPlugin } from "./utils/useBlog"
+
+import type { ThemePage } from "../shared"
 
 const __dirname = getDirname(import.meta.url)
 export const nesercodeTheme =
@@ -141,6 +144,10 @@ export const nesercodeTheme =
 				markdownContainerPlugin({
 					type: "details",
 				}),
+				seoPlugin({
+					hostname: "https://nesercode.github.io",
+				}),
+				useBlogPlugin(),
 			],
 		}
 	}
