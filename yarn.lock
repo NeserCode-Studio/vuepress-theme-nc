@@ -1115,7 +1115,7 @@
   dependencies:
     "@vuepress/helper" "2.0.0-rc.37"
 
-"@vuepress/plugin-markdown-container@2.0.0-rc.37":
+"@vuepress/plugin-markdown-container@2.0.0-rc.37", "@vuepress/plugin-markdown-container@^2.0.0-rc.37":
   version "2.0.0-rc.37"
   resolved "https://registry.npmmirror.com/@vuepress/plugin-markdown-container/-/plugin-markdown-container-2.0.0-rc.37.tgz#dfc16d8f9df0efb8a140b0316d7093cf419d32f9"
   integrity sha512-o/jL/uHQ2U0x0crtODh2n4S51yG4BBmHw7DWrolP6e0FN6/PoQVsBenau5700c2iuouAfdrJ6G+tRbCrOx5ZjA==

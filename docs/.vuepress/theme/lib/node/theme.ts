@@ -9,6 +9,7 @@ import { gitPlugin } from "@vuepress/plugin-git"
 import { tocPlugin } from "@vuepress/plugin-toc"
 import { nprogressPlugin } from "@vuepress/plugin-nprogress"
 import { shikiPlugin } from "@vuepress/plugin-shiki"
+import { markdownContainerPlugin } from "@vuepress/plugin-markdown-container"
 
 import tailwindcss from "tailwindcss"
 import autoprefixer from "autoprefixer"
@@ -127,6 +128,18 @@ export const nesercodeTheme =
 					lineNumbers: 3,
 					notationDiff: true,
 					notationFocus: true,
+				}),
+				markdownContainerPlugin({
+					type: "tip",
+				}),
+				markdownContainerPlugin({
+					type: "warning",
+				}),
+				markdownContainerPlugin({
+					type: "danger",
+				}),
+				markdownContainerPlugin({
+					type: "details",
 				}),
 			],
 		}
