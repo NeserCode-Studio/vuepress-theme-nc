@@ -89,7 +89,7 @@ div[class*="language-"]:not(.line-numbers-mode) .line-numbers {
 }
 
 div[class*="language-"] .line.highlighted {
-	@apply w-full inline-block px-6 mx-6
+	@apply w-full inline-block px-6 -mx-6
 	bg-slate-200 dark:bg-slate-900
 	transition-colors ease-in-out duration-300;
 }

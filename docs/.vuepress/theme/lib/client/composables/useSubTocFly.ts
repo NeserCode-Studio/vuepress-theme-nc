@@ -14,13 +14,23 @@ export const useSubTocFly = (
 				let current = -1
 				let sums = [] as number[]
 
-				function getTotal(list: number[], index: number = list.length - 1) {
-					let result = 0
+				function getTotal(numbers: number[], index: number) {
+					let sum = 0
+					for (let i = 0; i < index; i++) {
+						sum += numbers[i]
+					}
+					return sum
+				}
+				function findGroup(groups: number[], position: number) {
+					let tempGroups = [...groups]
 
-					list.forEach((num, i) => {
-						if (i < index + 1 && index >= 0) result += num
-					})
-					return result
+					for (let i = 0; i < tempGroups.length; i++) {
+						const group = tempGroups[i]
+						if (position <= group) return i
+						else position -= group
+					}
+
+					return -1
 				}
 
 				nextTick(() => {
@@ -34,21 +44,22 @@ export const useSubTocFly = (
 					})
 
 					const links = list.querySelectorAll(".vuepress-toc-link")
+					let actived: number[] = []
 					links.forEach((link, index) => {
 						if (!link.classList.contains("active")) return
-						else current = index
+						actived.push(index)
+						current = index
 					})
 
 					let offsetRadius = 0
-					let index = 0
 					if (current === -1) {
 					} else {
-						sums.forEach((_sum, i) => {
-							if (current > getTotal(sums, i - 1) + i) {
-								index = i
-							}
-						})
-						offsetRadius = current - (index > 0 ? getTotal(sums, index - 1) : 0)
+						if (actived.length === 1)
+							offsetRadius = findGroup(sums, current + 1)
+						else if (actived.length > 1) {
+							const groupIndex = findGroup(sums, current + 1)
+							offsetRadius = current - getTotal(sums, groupIndex) + groupIndex
+						}
 					}
 					// console.log(`[Debug Hash Fly Position]`, offsetRadius, sums, links)
 					;(
