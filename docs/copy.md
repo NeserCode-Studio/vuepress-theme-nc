@@ -1,6 +1,6 @@
 # theme-data
 
-[Other Copys](./copy.md)
+[First Page](./README.md)
 
 为你的主题提供客户端数据，包含 VuePress 的 [多语言支持](https://vuejs.press/zh/guide/i18n.html) 。
 
@@ -14,14 +14,13 @@
 npm i -D @vuepress/plugin-theme-data@next
 ```
 
-```ts :line-numbers {5-7}
+```ts
 import { themeDataPlugin } from "@vuepress/plugin-theme-data"
 
 export default {
 	plugins: [
 		themeDataPlugin({
-			// 配置项 // [!code --]
-			// Configs //  [!code ++]
+			// 配置项
 		}),
 	],
 }

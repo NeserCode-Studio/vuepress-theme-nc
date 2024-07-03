@@ -47,6 +47,7 @@ const pageTitle = computed(() => pageData.value.title)
 .v-nc-content h6 {
 	margin-top: calc(0.5rem - 64px);
 	padding-top: calc(0.5rem + 64px);
+	@apply mb-2;
 }
 
 .v-nc-content h2 {
@@ -74,7 +75,7 @@ const pageTitle = computed(() => pageData.value.title)
 
 .page-side-left,
 .page-side-right {
-	@apply w-1/4;
+	@apply w-1/4 pt-24;
 }
 
 .page-head {
