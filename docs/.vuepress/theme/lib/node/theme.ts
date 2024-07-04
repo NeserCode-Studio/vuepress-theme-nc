@@ -16,14 +16,16 @@ import tailwindcss from "tailwindcss"
 import autoprefixer from "autoprefixer"
 import tailwindcssConfig from "../../tailwind.config"
 import { useBlogPlugin } from "./utils/useBlog"
+import { assignDefaultOption } from "./utils/assignDefaultOption"
 
 import type { ThemePage } from "../shared"
+import { themeDataPlugin } from "@vuepress/plugin-theme-data"
 
 const __dirname = getDirname(import.meta.url)
 export const nesercodeTheme =
 	({ themePlugins = {}, ...localeOptions } = {}) =>
 	(app: App) => {
-		// assignDefaultLocaleOptions(localeOptions);
+		let themeData = assignDefaultOption(localeOptions)
 
 		return {
 			name: "vuepress-theme-nesercode",
@@ -148,6 +150,7 @@ export const nesercodeTheme =
 					hostname: "https://nesercode.github.io",
 				}),
 				useBlogPlugin(),
+				themeDataPlugin({ themeData }),
 			],
 		}
 	}

@@ -1,18 +1,64 @@
 <script lang="ts" setup>
 import DarkButton from "./DarkButton.vue"
+
+import { useSiteData, usePageHead, RouteLink } from "vuepress/client"
+import { useThemeData } from "@vuepress/plugin-theme-data/client"
+import { computed } from "vue"
+
+import type { DefaultThemeData } from "../../shared"
+
+const siteData = useSiteData()
+const pageHead = usePageHead()
+const themeConfig = useThemeData<DefaultThemeData>()
+
+const logo = computed(() => themeConfig.value.logo)
+const headLinkIcon = computed(() => {
+	let links = pageHead.value.filter((item) => item[0] === "link")
+	if (!links.length) return null
+	return links.filter((item) => item[1].rel === "icon")[0][1].href
+})
+const showHeroIcon = computed(() => logo.value || headLinkIcon.value)
+const heroIconLink = computed(() =>
+	logo.value ? logo.value : headLinkIcon.value
+)
+console.log("[Debug Navbar] Using icon href", heroIconLink.value)
+
+const heroTitle = computed(() => siteData.value.title)
 </script>
 
 <template>
 	<div class="v-nc-theme-navbar">
-		<DarkButton />
+		<RouteLink :to="'/'" class="navbar-hero-link">
+			<img
+				class="hero-icon"
+				v-if="showHeroIcon"
+				:src="heroIconLink"
+				alt="icon, avatar"
+			/>
+			<span class="hero-title">{{ heroTitle }}</span>
+		</RouteLink>
+		<div class="navbar-items">
+			<DarkButton />
+		</div>
 	</div>
 </template>
 
 <style lang="postcss" scoped>
 .v-nc-theme-navbar {
-	@apply sticky top-0 w-full h-16 flex items-center justify-center
+	@apply sticky top-0 w-full h-16 flex justify-between items-center px-4
   border-b border-slate-200 dark:border-slate-600
   bg-white/60 dark:bg-slate-800/60 backdrop-blur
 	transition-colors ease-in-out duration-300 z-50;
+}
+
+.navbar-hero-link {
+	@apply w-32 h-full inline-flex justify-center items-center gap-2 py-3;
+}
+.navbar-hero-link .hero-icon {
+	@apply w-fit h-full justify-self-center
+	rounded;
+}
+.navbar-hero-link .hero-title {
+	@apply text-sm font-black font-mono;
 }
 </style>
