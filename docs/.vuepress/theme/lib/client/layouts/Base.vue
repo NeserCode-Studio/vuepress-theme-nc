@@ -152,7 +152,7 @@ div[data-highlighter="shiki"] {
 }
 .fade-enter-from,
 .fade-leave-to {
-	@apply opacity-0;
+	@apply opacity-0 translate-y-1;
 }
 </style>
 

@@ -15,7 +15,7 @@ const { isDark, toggle } = useDark()
 <style lang="postcss" scoped>
 .v-nc-dark-button {
 	@apply w-8 h-8 inline-flex justify-center items-center
-	rounded hover:bg-slate-200 dark:hover:bg-slate-600
+	rounded
 	transition-colors ease-in-out duration-300 delay-0;
 }
 .icon {
