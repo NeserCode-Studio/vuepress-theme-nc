@@ -5,7 +5,7 @@ import Navbar from "../components/Navbar.vue"
 <template>
 	<div class="base-layout font-family-noto">
 		<Navbar></Navbar>
-		<Transition name="fade" mode="out-in" appear>
+		<Transition name="fade-slide-y" mode="out-in" appear>
 			<slot name="page" />
 		</Transition>
 	</div>
@@ -153,6 +153,15 @@ div[data-highlighter="shiki"] {
 .fade-enter-from,
 .fade-leave-to {
 	@apply opacity-0 translate-y-1;
+}
+
+.fade-slide-y-enter-active,
+.fade-slide-y-leave-active {
+	@apply transition-all ease-in-out duration-200;
+}
+.fade-slide-y-enter-from,
+.fade-slide-y-leave-to {
+	@apply opacity-0 translate-y-4;
 }
 </style>
 

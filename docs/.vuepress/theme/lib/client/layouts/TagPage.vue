@@ -5,14 +5,11 @@ import TagList from "../components/TagList.vue"
 import ArticleList from "../components/ArticleList.vue"
 
 import { usePageData } from "@vuepress/client"
-import type { ArticleCategoryData } from "../../shared"
 
 import { useBlogCategory } from "@vuepress/plugin-blog/client"
-import { Ref } from "vue"
 
 const page = usePageData()
-
-const tags: Ref<ArticleCategoryData> = useBlogCategory("tag")
+const tags = useBlogCategory("tag")
 
 function getComputedDescription() {
 	const keys = Object.keys(tags.value.map)
@@ -39,11 +36,11 @@ console.log(`[Debug: List Tags]`, tags.value)
 							</span>
 					</template>
 					<template #["after-content"]>
-						<tag-list :tag-map="tags.map" />
+						<tag-list :tag-map="tags.map as any" />
 
 						<article-list
 							v-if="tags.currentItems"
-							:articles="tags.currentItems"
+							:articles="tags.currentItems as any"
 						/>
             <slot name="tag-page-foot" />
 					</template>
