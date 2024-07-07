@@ -1,4 +1,10 @@
-export interface ArticleInfo {
+import type {
+	Article,
+	BlogCategoryData,
+	BlogTypeData,
+} from "@vuepress/plugin-blog/client"
+
+export type ArticleInfo = {
 	author: string
 	categories: string[]
 	date: string
@@ -7,26 +13,6 @@ export interface ArticleInfo {
 	title: string
 }
 
-export interface ArticleMap {
-	[key: string]: {
-		items: ArticleData[]
-		path: string
-	}
-}
-
-export interface Article {
-	path: string
-}
-
-export interface ArticleData extends Article {
-	info: ArticleInfo
-}
-
-export interface ArticleTypeData extends Article {
-	items: ArticleData[]
-}
-
-export interface ArticleCategoryData extends Article {
-	map: ArticleMap
-	currentItems?: ArticleData[]
-}
+export type BlogCategoryArticleData = BlogCategoryData<ArticleInfo>
+export type BlogTypeArticleData = BlogTypeData<ArticleInfo>
+export type BlogCategoryArticle = Article<ArticleInfo>

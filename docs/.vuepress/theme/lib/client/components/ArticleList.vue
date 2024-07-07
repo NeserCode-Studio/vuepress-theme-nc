@@ -6,10 +6,10 @@ import { useSiteLocaleData } from "@vuepress/client"
 import { usePaginationChanges } from "../composables/useComponentUtils"
 
 import type { SiteLocaleData } from "@vuepress/client"
-import type { ArticleData, PaginationPages } from "../../shared"
+import type { BlogCategoryArticle, PaginationPages } from "../../shared"
 
 const $props = defineProps<{
-	articles: ArticleData[]
+	articles: BlogCategoryArticle[]
 }>()
 
 const { articles } = toRefs($props)
@@ -67,7 +67,7 @@ function getAuthor(author: string) {
 }
 
 function getTagPath(tag: string) {
-	return encodeURI(`/tag/${tag.toLowerCase()}/`)
+	return encodeURI(`/tags/${tag.toLowerCase()}/`)
 }
 
 /* Pagination */
@@ -104,7 +104,7 @@ watch(
 				:key="article.path"
 			>
 				<div class="article-main">
-					<router-link :to="article.path" class="article-title">{{
+					<router-link :to="article.path" class="article-title route-link">{{
 						article.info.title
 					}}</router-link>
 					<span class="article-info">
@@ -118,9 +118,13 @@ watch(
 						stringfyExcerpt(article.info.excerpt)
 					}}</span>
 					<span class="article-tags">
-						<span v-for="tag of article.info.tags" :key="tag" class="tag">
-							<router-link :to="getTagPath(tag)">{{ tag }}</router-link>
-						</span>
+						<router-link
+							v-for="tag of article.info.tags"
+							:key="tag"
+							class="tag-item"
+							:to="getTagPath(tag)"
+							>{{ tag }}</router-link
+						>
 					</span>
 				</div>
 			</div>
@@ -132,3 +136,16 @@ watch(
 		:changes="articleListChanges"
 	/>
 </template>
+
+<style scoped lang="postcss">
+.article-list {
+	@apply flex flex-col gap-4 mt-8;
+}
+
+.article-main {
+	@apply flex flex-col items-start gap-1;
+}
+.v-nc-theme-page .page-main a:not(.header-anchor):not(.tag-item).article-title {
+	@apply text-2xl p-0 no-underline;
+}
+</style>

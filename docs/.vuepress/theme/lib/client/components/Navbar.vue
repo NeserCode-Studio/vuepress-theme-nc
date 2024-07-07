@@ -35,8 +35,6 @@ const NavbarLogo: FunctionalComponent = () => {
 		src: withBase(heroIconLink.value),
 		alt: heroIconLink.value,
 	})
-	// wrap brand logo with <ClientOnly> to avoid ssr-mismatch
-	// when using a different brand logo in dark mode
 	return h(ClientOnly, () => img)
 }
 
@@ -45,7 +43,7 @@ const heroTitle = computed(() => siteData.value.title)
 
 <template>
 	<div class="v-nc-theme-navbar">
-		<RouteLink :to="'/'" class="navbar-hero-link">
+		<RouteLink to="/" class="navbar-hero-link">
 			<NavbarLogo />
 			<span class="hero-title">{{ heroTitle }}</span>
 		</RouteLink>

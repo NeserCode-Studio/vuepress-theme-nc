@@ -3,14 +3,13 @@ import { Ref, toRefs } from "vue"
 import { useSiteLocaleData } from "@vuepress/client"
 
 import type { SiteLocaleData } from "@vuepress/client"
-import type { ArticleData } from "../../shared"
+import type { BlogCategoryArticleData } from "../../shared"
 
 const $props = defineProps<{
-	articles: ArticleData[]
+	articles: BlogCategoryArticleData[]
 }>()
 
 const { articles } = toRefs($props)
-console.log(`[DeBug: List Pages]`, articles.value)
 
 const siteLocale: Ref<SiteLocaleData> = useSiteLocaleData()
 

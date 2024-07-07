@@ -4,30 +4,29 @@ import { usePageFrontmatter } from "@vuepress/client"
 import { toRefs, computed, ref, onMounted } from "vue"
 import { ChevronDownIcon } from "@heroicons/vue/24/outline"
 
-import type { DefaultThemePageFrontmatter, ArticleMap } from "../../shared"
+import type {
+	DefaultThemePageFrontmatter,
+	BlogCategoryArticleData,
+} from "../../shared"
 
-interface ExtraPageFrontmatter extends DefaultThemePageFrontmatter {
-	blog: {
-		name: string
-	}
-}
-
-const frontmatter = usePageFrontmatter<ExtraPageFrontmatter>()
+const frontmatter = usePageFrontmatter<DefaultThemePageFrontmatter>()
 const $props = defineProps<{
-	tagMap: ArticleMap
+	tagMap: BlogCategoryArticleData["map"]
 }>()
 const { tagMap } = toRefs($props)
 
 const compurtedMap = computed(() => {
 	let keys = Object.keys(tagMap.value)
 
-	return keys.map((key) => {
-		return {
-			name: key,
-			count: tagMap.value[key].items.length,
-			path: tagMap.value[key].path,
-		}
-	})
+	return keys
+		.map((key) => {
+			return {
+				name: key,
+				count: tagMap.value[key].items.length,
+				path: tagMap.value[key].path,
+			}
+		})
+		.sort((a, b) => b.count - a.count)
 })
 
 // Show More btn
@@ -44,9 +43,16 @@ const shouldShowClass = (index: number) => {
 // check it is selected tag in over than 20 tags
 const isSelectedInMore = computed(() => {
 	return compurtedMap.value.slice(20).some((tag) => {
-		return tag.name.toLowerCase() === frontmatter.value.blog!.name
+		if (!frontmatter.value.blog) return false
+		if ("name" in frontmatter.value.blog)
+			return (
+				tag.name.toLowerCase() === frontmatter.value.blog.name?.toLowerCase()
+			)
 	})
 })
+const slicedMap = computed(() =>
+	isShowAll.value ? compurtedMap.value : compurtedMap.value.slice(0, 20)
+)
 
 function toggleShowAll() {
 	isShowAll.value = !isShowAll.value
@@ -59,25 +65,60 @@ onMounted(() => {
 
 <template>
 	<div class="tag-list">
-		<div
-			:class="['tag-item', shouldShowClass(index)]"
-			v-for="(tag, index) in compurtedMap"
+		<router-link
+			:to="tag.path"
+			class="tag-link tag-item"
+			:class="shouldShowClass(index)"
+			v-for="(tag, index) in slicedMap"
 			:key="tag.name"
 		>
-			<router-link :to="tag.path" class="tag-link">
-				<span class="tag-name">{{ tag.name }}</span>
-				<span class="tag-count">{{ tag.count }}</span>
-			</router-link>
-		</div>
+			<span class="tag-name">{{ tag.name }}</span>
+			<span class="tag-count">{{ tag.count }}</span>
+		</router-link>
 		<!-- if tag more than 20 -->
-		<div :class="['tag-item', 'show-more', showBtnClass]" v-if="shouldShowBtn">
-			<span
-				class="icon btn"
-				@click="toggleShowAll"
-				title="Wheather show more tags"
-			>
-				<ChevronDownIcon />
-			</span>
-		</div>
+		<button
+			type="button"
+			:class="showBtnClass"
+			v-if="shouldShowBtn"
+			class="tag-item show-more"
+			@click="toggleShowAll"
+			title="Wheather show more tags"
+		>
+			<ChevronDownIcon class="icon" />
+		</button>
 	</div>
 </template>
+
+<style lang="postcss" scoped>
+.tag-list {
+	@apply flex flex-wrap gap-2;
+}
+.tag-list .tag-item {
+	@apply inline-flex justify-center items-center gap-2 py-1 px-2
+	border-2 border-transparent rounded bg-slate-200 dark:bg-slate-700
+	hover:bg-slate-300 dark:hover:bg-slate-600 text-base
+	transition-all ease-in-out duration-300;
+}
+
+.tag-item .tag-name {
+	@apply font-semibold;
+}
+.tag-item .tag-count {
+	@apply inline-block text-sm font-thin px-1.5
+	rounded bg-slate-100 dark:bg-slate-800
+	transition-colors ease-in-out duration-300;
+}
+
+.tag-item.router-link-active {
+	@apply border-green-400 dark:border-green-600
+	text-green-500 dark:text-green-500;
+}
+
+.tag-item.show-more .icon {
+	@apply w-4 h-4;
+}
+.show .icon {
+	@apply rotate-180
+	transition-transform ease-in-out duration-300;
+}
+</style>

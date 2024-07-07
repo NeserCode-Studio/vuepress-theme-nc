@@ -26,3 +26,12 @@ export interface PaginationProps {
 		bottom: () => void
 	}
 }
+
+export type PluginName =
+	| "readingTime"
+	| "readingLine"
+	| "comment"
+	| "sidebarCategory"
+export type FrontmatterPluginState = {
+	plugins: Record<PluginName, boolean>
+}

@@ -1,5 +1,11 @@
 <script lang="ts" setup>
+import { usePageData, usePageFrontmatter } from "vuepress/client"
 import Navbar from "../components/Navbar.vue"
+
+const pageData = usePageData()
+const pageFrontmatter = usePageFrontmatter()
+
+console.log("[Debug Page - Base Layout]", pageData.value, pageFrontmatter.value)
 </script>
 
 <template>
@@ -24,7 +30,7 @@ import Navbar from "../components/Navbar.vue"
 /* html config */
 html {
 	@apply text-[16px] text-gray-800
-	scroll-smooth z-0;
+	scroll-smooth z-0 underline-offset-4;
 	color-scheme: light;
 }
 html.dark {
@@ -99,7 +105,13 @@ div[class*="language-"]:not(.line-numbers-mode) .line-numbers {
 }
 
 div[class*="language-"] .line.highlighted {
-	@apply w-full inline-block px-6 -mx-6
+	@apply relative w-full inline-block px-6 -mx-6
+	bg-slate-200 dark:bg-slate-900
+	transition-colors ease-in-out duration-300;
+}
+div[class*="language-"] .line.highlighted::after {
+	content: " ";
+	@apply absolute -right-6 w-6 inline-block
 	bg-slate-200 dark:bg-slate-900
 	transition-colors ease-in-out duration-300;
 }
@@ -162,6 +174,15 @@ div[data-highlighter="shiki"] {
 .fade-slide-y-enter-from,
 .fade-slide-y-leave-to {
 	@apply opacity-0 translate-y-4;
+}
+
+.-fade-slide-y-enter-active,
+.-fade-slide-y-leave-active {
+	@apply transition-all ease-in-out duration-200;
+}
+.-fade-slide-y-enter-from,
+.-fade-slide-y-leave-to {
+	@apply opacity-0 -translate-y-4;
 }
 </style>
 

@@ -1,8 +1,12 @@
 import { blogPlugin } from "@vuepress/plugin-blog"
 import { dateSorter } from "@vuepress/helper/shared"
 
+import { ThemePage } from "../../shared"
+
 export const useBlogPlugin = () =>
 	blogPlugin({
+		excerpt: true,
+		excerptLength: 150,
 		filter: ({ filePathRelative, frontmatter }) => {
 			// 舍弃那些不是从 Markdown 文件生成的页面
 			if (!filePathRelative) return false
@@ -16,7 +20,7 @@ export const useBlogPlugin = () =>
 			return true
 		},
 
-		getInfo: (page) => {
+		getInfo: (page: ThemePage) => {
 			const { frontmatter, title } = page
 			// 获取页面信息
 			const info = {
@@ -34,9 +38,9 @@ export const useBlogPlugin = () =>
 		},
 		category: [
 			{
-				key: "tag",
+				key: "tags",
 				getter: ({ frontmatter }) => (frontmatter.tag as any[]) || [],
-				path: "/tag/",
+				path: "/tags/",
 				layout: "TagPage",
 				frontmatter: (path) => ({
 					title: "类",
@@ -49,7 +53,7 @@ export const useBlogPlugin = () =>
 					},
 					layout: "TagPage",
 				}),
-				itemPath: "/tag/:name/",
+				itemPath: "/tags/:name/",
 				itemLayout: "TagPage",
 				itemFrontmatter: (name, path) => ({
 					title: `${name.toUpperCase()}`,
@@ -68,7 +72,7 @@ export const useBlogPlugin = () =>
 			{
 				key: "timeLine",
 				filter: (page) => page.data.path.startsWith("/blog/"),
-				sorter: (pageA, pageB) =>
+				sorter: (pageA: ThemePage, pageB: ThemePage) =>
 					dateSorter(
 						pageA.data.git?.createdTime
 							? new Date(pageA.data.git?.createdTime)
@@ -77,7 +81,7 @@ export const useBlogPlugin = () =>
 							? new Date(pageB.data.git?.createdTime)
 							: pageB.frontmatter.date
 					),
-				path: "/timeLine/",
+				path: "/time/",
 				layout: "TimeLine",
 				frontmatter: (path) => ({
 					title: "时",

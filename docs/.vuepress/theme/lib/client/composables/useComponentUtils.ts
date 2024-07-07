@@ -1,4 +1,10 @@
-import type { PaginationChanges, PaginationPages } from "../../shared"
+import { computed } from "vue"
+import type {
+	DefaultThemePageFrontmatter,
+	PaginationChanges,
+	PaginationPages,
+	PluginName,
+} from "../../shared"
 import type { Ref } from "vue"
 
 export const usePaginationChanges: (
@@ -23,3 +29,21 @@ export const usePaginationChanges: (
 		pages.value.offset = (totalPages - 1) * pages.value.limit
 	},
 })
+
+export const usePluginState = (
+	keyName: PluginName,
+	states?: DefaultThemePageFrontmatter
+) => {
+	if (typeof states === "undefined") return true
+	else if (states instanceof Array) {
+		let tempValue = true
+		for (let i = 0; i < states.length; i++) {
+			Object.keys(states[i]).forEach((key) => {
+				if (key === keyName && states.plugins)
+					tempValue = states.plugins[i][key]
+			})
+		}
+		return tempValue
+	} else if (states.plugins) return !(states.plugins[keyName] === false)
+	else return true
+}
