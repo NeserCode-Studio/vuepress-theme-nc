@@ -14,8 +14,6 @@ const isSidebarCategroyActive = computed(() =>
 	usePluginState("sidebarCategory", pageFrontmatter.value)
 )
 const pageTitle = computed(() => pageData.value.title)
-
-console.log(pageFrontmatter.value, isSidebarCategroyActive.value)
 </script>
 
 <template>
@@ -59,7 +57,7 @@ console.log(pageFrontmatter.value, isSidebarCategroyActive.value)
 .v-nc-content h6 {
 	margin-top: calc(0.5rem - 64px);
 	padding-top: calc(0.5rem + 64px);
-	@apply relative mb-2 z-0;
+	@apply relative mb-6 z-0;
 }
 
 .v-nc-content h2 a.header-anchor::before,
@@ -94,6 +92,10 @@ console.log(pageFrontmatter.value, isSidebarCategroyActive.value)
 	@apply text-base font-bold;
 }
 
+.v-nc-content p {
+	@apply my-2;
+}
+
 /* Inline code */
 .v-nc-theme-page .page-main p code,
 .v-nc-theme-page .page-main li code,
@@ -105,13 +107,13 @@ console.log(pageFrontmatter.value, isSidebarCategroyActive.value)
 
 /* Inline link */
 .v-nc-theme-page .page-main a:not(.header-anchor):not(.tag-item) {
-	@apply relative inline-flex justify-center items-center py-px px-1
+	@apply relative inline-flex justify-center items-center p-px
 	text-green-600 text-sm underline z-10 -translate-y-px;
 }
 .v-nc-theme-page
 	.page-main
 	a:not(.header-anchor):not(.tag-item):not(.route-link) {
-	@apply mr-3;
+	@apply mr-3 pr-1;
 }
 .v-nc-theme-page
 	.page-main
@@ -132,16 +134,18 @@ console.log(pageFrontmatter.value, isSidebarCategroyActive.value)
 </style>
 <style lang="postcss" scoped>
 .v-nc-theme-page {
-	@apply w-full flex justify-center gap-4 py-16;
+	@apply w-full flex justify-center gap-4 py-16 px-4 sm:px-8;
 }
 
 .v-nc-theme-page .page-main {
-	@apply w-1/2;
+	@apply w-full lg:w-1/2 max-w-3xl min-w-0
+	sm:w-full sm:min-w-[568px];
 }
 
 .page-side-left,
 .page-side-right {
-	@apply w-1/4 pt-24;
+	@apply hidden lg:w-1/4 lg:block pt-24
+	md:hidden;
 }
 
 .page-head {

@@ -5,3 +5,6 @@ export * from "./option"
 export * from "./page"
 
 export * from "./article"
+
+// Constant
+export * from "./constant"

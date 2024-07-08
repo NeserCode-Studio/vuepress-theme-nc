@@ -63,7 +63,7 @@ function getAuthor(author: string) {
 }
 
 function getTagPath(tag: string) {
-	return `/tag/${tag.toLocaleLowerCase()}/`
+	return `/tags/${tag.toLocaleLowerCase()}/`
 }
 </script>
 

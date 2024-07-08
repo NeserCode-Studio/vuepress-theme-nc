@@ -3,11 +3,9 @@ import Base from "./Base.vue"
 import Page from "../components/Page.vue"
 import Home from "../components/Home.vue"
 
-import { usePageFrontmatter, usePageData } from "vuepress/client"
-const pageFrontmatter = usePageFrontmatter()
-const pageData = usePageData()
+import { usePageFrontmatter } from "vuepress/client"
 
-console.log("[Debug Page - Layout]", pageData.value)
+const pageFrontmatter = usePageFrontmatter()
 </script>
 
 <template>

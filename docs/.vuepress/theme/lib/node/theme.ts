@@ -1,5 +1,4 @@
 import { fs, getDirname, path } from "@vuepress/utils"
-import type { App, Bundler, AppConfig } from "vuepress/core"
 import { viteBundler } from "@vuepress/bundler-vite"
 import { webpackBundler } from "@vuepress/bundler-webpack"
 
@@ -11,6 +10,7 @@ import { nprogressPlugin } from "@vuepress/plugin-nprogress"
 import { shikiPlugin } from "@vuepress/plugin-shiki"
 import { markdownContainerPlugin } from "@vuepress/plugin-markdown-container"
 import { seoPlugin } from "@vuepress/plugin-seo"
+import { themeDataPlugin } from "@vuepress/plugin-theme-data"
 
 import tailwindcss from "tailwindcss"
 import autoprefixer from "autoprefixer"
@@ -19,7 +19,7 @@ import { useBlogPlugin } from "./utils/useBlog"
 import { assignDefaultOption } from "./utils/assignDefaultOption"
 
 import type { ThemePage } from "../shared"
-import { themeDataPlugin } from "@vuepress/plugin-theme-data"
+import type { App, Bundler, AppConfig } from "vuepress/core"
 
 const __dirname = getDirname(import.meta.url)
 export const nesercodeTheme =

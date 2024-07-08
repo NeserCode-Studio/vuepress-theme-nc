@@ -1,3 +1,5 @@
+import type { ArticleInfo } from "."
+
 export interface PaginationPages {
 	total: number
 	offset: number
@@ -32,6 +34,17 @@ export type PluginName =
 	| "readingLine"
 	| "comment"
 	| "sidebarCategory"
+export type PluginState = Record<PluginName, boolean>
 export type FrontmatterPluginState = {
-	plugins: Record<PluginName, boolean>
+	plugins: PluginState
+}
+
+export interface RouteHistoryRecord {
+	path: string
+	title: string
+	_meta: {
+		_blog?: ArticleInfo
+		title: string
+	}
+	notFound: boolean
 }

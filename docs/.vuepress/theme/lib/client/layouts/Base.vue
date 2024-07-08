@@ -5,7 +5,7 @@ import Navbar from "../components/Navbar.vue"
 const pageData = usePageData()
 const pageFrontmatter = usePageFrontmatter()
 
-console.log("[Debug Page - Base Layout]", pageData.value, pageFrontmatter.value)
+console.log("[Debug Page - Base Layout]", pageData.value)
 </script>
 
 <template>
@@ -51,7 +51,7 @@ html.dark {
 }
 
 div[class*="language-"] {
-	@apply relative m-4
+	@apply relative my-4
 	border-2 rounded border-slate-200 dark:border-slate-600
 	overflow-hidden;
 }
