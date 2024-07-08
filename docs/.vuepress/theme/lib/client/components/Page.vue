@@ -106,7 +106,7 @@ console.log(pageFrontmatter.value, isSidebarCategroyActive.value)
 /* Inline link */
 .v-nc-theme-page .page-main a:not(.header-anchor):not(.tag-item) {
 	@apply relative inline-flex justify-center items-center py-px px-1
-	text-green-600 text-sm underline z-10;
+	text-green-600 text-sm underline z-10 -translate-y-px;
 }
 .v-nc-theme-page
 	.page-main
