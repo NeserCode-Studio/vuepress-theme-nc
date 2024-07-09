@@ -131,6 +131,42 @@ const pageTitle = computed(() => pageData.value.title)
 .v-nc-theme-page .page-main ul ul {
 	list-style-type: circle;
 }
+
+/* Custom container */
+.custom-container {
+	@apply relative w-full inline-block px-4 py-2 pt-4 my-2
+	border-2 border-transparent rounded bg-stone-100 dark:bg-stone-900
+	font-medium text-base
+	transition-all ease-in-out duration-300;
+}
+.custom-container::before {
+	@apply inline-flex items-center
+	font-thin font-mono;
+}
+.custom-container.tip {
+	@apply border-sky-400 dark:border-sky-800;
+}
+.custom-container.warning {
+	@apply border-orange-400 dark:border-yellow-500;
+}
+.custom-container.danger {
+	@apply border-red-400 dark:border-red-700;
+}
+.custom-container.details {
+	@apply border-green-400 dark:border-green-700;
+}
+.custom-container.tip::before {
+	content: "💡 TIP";
+}
+.custom-container.warning::before {
+	content: "🚨 WARNING";
+}
+.custom-container.danger::before {
+	content: "🚧 DANGER";
+}
+.custom-container.details::before {
+	content: "📚 DETAILS";
+}
 </style>
 <style lang="postcss" scoped>
 .v-nc-theme-page {

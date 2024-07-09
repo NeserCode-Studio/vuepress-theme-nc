@@ -3,6 +3,21 @@ pinned: true
 tag:
   - Markdown
   - Official
+  - test1
+  - test2
+  - test3
+  - test4
+  - test5
+  - test6
+  - test7
+  - test8
+  - test9
+  - test10
+  - test11
+  - test12
+  - test13
+  - test14
+  - test15
 author: NeserCode
 original: false
 originalUrl: https://v2.vuepress.vuejs.org/zh/guide/markdown.html
@@ -438,7 +453,7 @@ export default {
 
 **输出**
 
-这是默认主题内置的 `<Badge />` 组件 <Badge text="演示" />
+这是默认主题内置的 `<Badge />` 组件 <Badge text="演示" /><Badge text="演示" type="warning" /><Badge text="演示" type="danger" />
 
 ::: tip
 前往 [内置组件](../reference/components.md) 查看所有内置组件。

@@ -1,11 +1,16 @@
 <script lang="ts" setup>
 import { usePageData, usePageFrontmatter } from "vuepress/client"
 import Navbar from "../components/Navbar.vue"
+import { onMounted } from "vue"
 
 const pageData = usePageData()
 const pageFrontmatter = usePageFrontmatter()
 
-console.log("[Debug Page - Base Layout]", pageData.value)
+console.log("[Debug Page - Base Layout]", [pageData.value])
+
+// onMounted(() => {
+// 	console.log(history)
+// })
 </script>
 
 <template>
@@ -184,11 +189,20 @@ div[data-highlighter="shiki"] {
 .-fade-slide-y-leave-to {
 	@apply opacity-0 -translate-y-4;
 }
+
+.fade-slide-x-enter-active,
+.fade-slide-x-leave-active {
+	@apply transition-all ease-in-out duration-200;
+}
+.fade-slide-x-enter-from,
+.fade-slide-x-leave-to {
+	@apply translate-x-4 opacity-0;
+}
 </style>
 
 <style lang="postcss" scoped>
 .base-layout {
-	@apply flex flex-col justify-center items-center
+	@apply w-full h-full min-h-screen flex flex-col items-center
 	bg-zinc-50 dark:bg-zinc-800
 	transition-colors ease-in-out duration-300;
 }

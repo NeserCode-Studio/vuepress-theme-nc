@@ -38,13 +38,3 @@ export type PluginState = Record<PluginName, boolean>
 export type FrontmatterPluginState = {
 	plugins: PluginState
 }
-
-export interface RouteHistoryRecord {
-	path: string
-	title: string
-	_meta: {
-		_blog?: ArticleInfo
-		title: string
-	}
-	notFound: boolean
-}

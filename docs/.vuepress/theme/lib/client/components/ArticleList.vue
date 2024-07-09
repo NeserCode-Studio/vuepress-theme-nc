@@ -4,6 +4,7 @@ import Pagination from "./Pagination.vue"
 import { computed, ref, Ref, toRefs, watch } from "vue"
 import { useSiteLocaleData } from "@vuepress/client"
 import { usePaginationChanges } from "../composables/useComponentUtils"
+import { getTimeAgo, getFormatDate } from "../composables/useDate"
 
 import type { SiteLocaleData } from "@vuepress/client"
 import type { BlogCategoryArticle, PaginationPages } from "../../shared"
@@ -27,38 +28,6 @@ function stringfyExcerpt(excerpt: string) {
 			.replace(/<[^>]+>/g, "")
 	}
 	return result.trim() === "" ? "暂时没有摘要，要不进来看看？" : result
-}
-
-function translateDate(date: string) {
-	function addZero(num: number) {
-		return num < 10 ? `0${num}` : num
-	}
-
-	const dateObj = new Date(date)
-	const year = dateObj.getFullYear()
-	const month = dateObj.getMonth() + 1
-	const day = dateObj.getDate()
-	const hour = dateObj.getHours()
-	const minute = dateObj.getMinutes()
-	const second = dateObj.getSeconds()
-
-	return `${year}/${month}/${day}
-	${addZero(hour)}:${addZero(minute)}:${addZero(second)}`
-}
-
-function getTimeFromNow(date: string) {
-	const dateObj = new Date(date)
-	const now = new Date()
-	const diff = now.getTime() - dateObj.getTime()
-	const day = 1000 * 60 * 60 * 24
-	const days = Math.floor(diff / day)
-	const hours = Math.floor((diff % day) / (1000 * 60 * 60))
-	const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
-
-	if (days > 0) return `${days} days ago`
-	else if (hours > 0) return `${hours} hours ago`
-	else if (minutes > 0) return `${minutes} minutes ago`
-	else return "just now"
 }
 
 function getAuthor(author: string) {
@@ -109,8 +78,8 @@ watch(
 					}}</router-link>
 					<span class="article-info">
 						<span class="date"
-							>{{ translateDate(article.info.date) }} ·
-							{{ getTimeFromNow(article.info.date) }}</span
+							>{{ getFormatDate(article.info.date) }} ·
+							{{ getTimeAgo(article.info.date) }}</span
 						>
 						<span class="author">by {{ getAuthor(article.info.author) }}</span>
 					</span>
@@ -119,11 +88,16 @@ watch(
 					}}</span>
 					<span class="article-tags">
 						<router-link
-							v-for="tag of article.info.tags"
+							v-for="tag of article.info.tags.slice(0, 3)"
 							:key="tag"
 							class="tag-item"
 							:to="getTagPath(tag)"
 							>{{ tag }}</router-link
+						>
+						<span
+							class="tag-item tag-count-except"
+							v-if="article.info.tags.length > 3"
+							>{{ `+${article.info.tags.length - 3} tags` }}</span
 						>
 					</span>
 				</div>
@@ -139,13 +113,49 @@ watch(
 
 <style scoped lang="postcss">
 .article-list {
-	@apply flex flex-col gap-4 mt-8;
+	@apply flex flex-col gap-y-4 mt-8;
 }
 
 .article-main {
-	@apply flex flex-col items-start gap-1;
+	@apply flex flex-col items-start gap-1 pb-4;
+}
+.article-wrapper:not(:last-child) .article-main {
+	@apply border-b border-dashed
+	border-slate-400 dark:border-slate-500
+	transition-colors ease-in-out duration-300;
 }
 .v-nc-theme-page .page-main a:not(.header-anchor):not(.tag-item).article-title {
-	@apply text-2xl p-0 no-underline;
+	@apply text-2xl font-bold p-0 no-underline;
+}
+
+.article-info {
+	@apply w-full inline-flex flex-wrap gap-x-2
+	text-sm font-mono;
+}
+.article-info .date {
+	@apply text-gray-400;
+}
+.article-info .author {
+	@apply text-neutral-400;
+}
+
+.article-excerpt {
+	@apply text-base text-gray-600 dark:text-gray-400
+	transition-colors ease-in-out duration-300;
+}
+
+.article-tags {
+	@apply w-full flex flex-nowrap gap-1
+	whitespace-nowrap overflow-hidden;
+}
+.article-tags .tag-item {
+	@apply inline-flex justify-center items-center gap-2 py-0.5 px-1
+	border-2 border-transparent rounded bg-slate-200 dark:bg-slate-700
+	hover:bg-slate-300 dark:hover:bg-slate-600 text-sm font-semibold
+	transition-all ease-in-out duration-300;
+}
+.tag-item.router-link-active {
+	@apply border-green-400 dark:border-green-600
+	text-green-500 dark:text-green-500;
 }
 </style>

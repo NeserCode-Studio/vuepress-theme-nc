@@ -33,23 +33,24 @@ defineSlots<{
 
 <style lang="postcss">
 .vp-badge {
-	@apply h-4 inline-block align-top px-1
-  rounded-sm text-xs font-semibold
-  transition-colors;
+	@apply h-5 inline-block align-top px-1
+  rounded text-sm font-medium
+  transition-colors ease-in-out duration-300;
 }
 
 .vp-badge.tip {
-	@apply bg-cyan-200 text-cyan-800;
+	@apply bg-cyan-200 text-cyan-800
+	dark:bg-cyan-700 dark:text-cyan-100;
 }
 
 .vp-badge.warning {
-	background-color: var(--c-badge-warning);
-	color: var(--c-badge-warning-text);
+	@apply bg-orange-200 text-orange-800
+	dark:bg-orange-700 dark:text-orange-100;
 }
 
 .vp-badge.danger {
-	background-color: var(--c-badge-danger);
-	color: var(--c-badge-danger-text);
+	@apply bg-red-200 text-red-800
+	dark:bg-red-700 dark:text-red-100;
 }
 
 .table-of-contents .vp-badge {
