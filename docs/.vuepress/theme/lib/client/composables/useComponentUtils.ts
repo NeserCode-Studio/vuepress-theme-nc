@@ -1,5 +1,6 @@
 import type {
 	DefaultThemePageFrontmatter,
+	FrontmatterPluginState,
 	PaginationChanges,
 	PaginationPages,
 	PluginName,
@@ -31,7 +32,7 @@ export const usePaginationChanges: (
 
 export const usePluginState = (
 	keyName: PluginName,
-	states?: DefaultThemePageFrontmatter
+	states?: DefaultThemePageFrontmatter | FrontmatterPluginState
 ) => {
 	if (typeof states === "undefined") return true
 	else if (states instanceof Array) {

@@ -6,7 +6,9 @@ import Page from "../components/Page.vue"
 <template>
 	<Base>
 		<template #page>
-			<Page> </Page>
+			<Page>
+				<template #page-title> NOTFOUND </template>
+			</Page>
 		</template>
 	</Base>
 </template>

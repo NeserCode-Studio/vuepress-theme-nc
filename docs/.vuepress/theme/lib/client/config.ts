@@ -12,7 +12,9 @@ export default defineClientConfig({
 	enhance: ({ app, router, siteData }) => {
 		// Title resolve
 		resolvers.resolvePageHeadTitle = (page, siteLocale) =>
-			`${siteLocale.title} · ${page.title}`
+			`${siteLocale.title} · ${
+				page.title.trim().length === 0 ? "404" : page.title
+			}`
 		// Component
 		if (!hasGlobalComponent("Badge")) app.component("Badge", Badge)
 	},

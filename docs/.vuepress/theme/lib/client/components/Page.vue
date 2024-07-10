@@ -5,13 +5,18 @@ import { computed } from "vue"
 import { usePageData, usePageFrontmatter } from "vuepress/client"
 
 import { usePluginState } from "../composables/useComponentUtils"
+import { defaultConstants } from "../../shared"
 import { DefaultThemePageFrontmatter } from "../../shared"
 
 const pageData = usePageData()
 const pageFrontmatter = usePageFrontmatter<DefaultThemePageFrontmatter>()
 
+const isNotFound = computed(() => pageFrontmatter.value.layout !== "NotFound")
 const isSidebarCategroyActive = computed(() =>
-	usePluginState("sidebarCategory", pageFrontmatter.value)
+	usePluginState(
+		"sidebarCategory",
+		isNotFound ? defaultConstants.notFoundPluginState : pageFrontmatter.value
+	)
 )
 const pageTitle = computed(() => pageData.value.title)
 </script>
@@ -24,14 +29,20 @@ const pageTitle = computed(() => pageData.value.title)
 		<div class="page-main">
 			<div class="page-head">
 				<slot name="before-page-head"></slot>
-				<slot name="page-title">
-					<h1 class="page-title">{{ pageTitle }}</h1>
-				</slot>
+
+				<h1 class="page-title">
+					<slot name="page-title">{{ pageTitle }}</slot>
+				</h1>
+
 				<slot name="after-page-head"></slot>
 			</div>
+
 			<slot name="before-content"></slot>
+
 			<Content class="v-nc-content" />
+
 			<slot name="after-content"></slot>
+
 			<div class="page-foot">
 				<slot name="before-page-foot"></slot>
 				<span class="page-foot"> </span>
@@ -112,12 +123,14 @@ const pageTitle = computed(() => pageData.value.title)
 }
 .v-nc-theme-page
 	.page-main
-	a:not(.header-anchor):not(.tag-item):not(.route-link) {
+	a:not(.header-anchor):not(.tag-item):not(.route-link):not([href^="#"]) {
 	@apply mr-3 pr-1;
 }
 .v-nc-theme-page
 	.page-main
-	a:not(.header-anchor):not(.tag-item):not(.route-link)::after {
+	a:not(.header-anchor):not(.tag-item):not(.route-link):not(
+		[href^="#"]
+	)::after {
 	content: "↗";
 	@apply absolute inline-block left-full no-underline
 	-translate-x-1;

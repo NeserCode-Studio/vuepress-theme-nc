@@ -54,10 +54,10 @@ defineSlots<{
 }
 
 .table-of-contents .vp-badge {
-	vertical-align: middle;
+	@apply align-middle;
 }
 
 .vp-badge + .vp-badge {
-	margin-left: 5px;
+	@apply ml-1.5;
 }
 </style>
