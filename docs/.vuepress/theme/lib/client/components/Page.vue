@@ -11,13 +11,16 @@ import { DefaultThemePageFrontmatter } from "../../shared"
 const pageData = usePageData()
 const pageFrontmatter = usePageFrontmatter<DefaultThemePageFrontmatter>()
 
-const isNotFound = computed(() => pageFrontmatter.value.layout !== "NotFound")
+const isNotFound = computed(() => pageFrontmatter.value.layout === "NotFound")
 const isSidebarCategroyActive = computed(() =>
 	usePluginState(
 		"sidebarCategory",
-		isNotFound ? defaultConstants.notFoundPluginState : pageFrontmatter.value
+		isNotFound.value
+			? defaultConstants.notFoundPluginState
+			: pageFrontmatter.value
 	)
 )
+
 const pageTitle = computed(() => pageData.value.title)
 </script>
 
@@ -68,7 +71,10 @@ const pageTitle = computed(() => pageData.value.title)
 .v-nc-content h6 {
 	margin-top: calc(0.5rem - 64px);
 	padding-top: calc(0.5rem + 64px);
-	@apply relative mb-6 z-0;
+	@apply relative mb-8 pb-4
+	border-b-2 border-dotted 
+	border-teal-300 dark:border-teal-800
+	transition-colors ease-in-out duration-300 z-0;
 }
 
 .v-nc-content h2 a.header-anchor::before,
@@ -77,16 +83,9 @@ const pageTitle = computed(() => pageData.value.title)
 .v-nc-content h5 a.header-anchor::before,
 .v-nc-content h6 a.header-anchor::before {
 	content: "#";
-	@apply absolute inline-block
- 	font-thin opacity-0
-	transition-all ease-in-out duration-200;
-}
-.v-nc-content h2:has(span:hover) a.header-anchor::before,
-.v-nc-content h3:has(span:hover) a.header-anchor::before,
-.v-nc-content h4:has(span:hover) a.header-anchor::before,
-.v-nc-content h5:has(span:hover) a.header-anchor::before,
-.v-nc-content h6:has(span:hover) a.header-anchor::before {
-	@apply opacity-100 -translate-x-4;
+	@apply absolute sm:inline-block hidden
+	text-green-500
+ 	font-thin -translate-x-5;
 }
 
 .v-nc-content h2 {
@@ -103,8 +102,30 @@ const pageTitle = computed(() => pageData.value.title)
 	@apply text-base font-bold;
 }
 
-.v-nc-content p {
-	@apply my-2;
+.v-nc-content p,
+.v-nc-content blockquote {
+	@apply relative my-1;
+	z-index: 1;
+}
+
+.v-nc-content blockquote {
+	@apply w-full inline-flex items-center px-4
+	rounded-r border-2 border-l-8 border-green-400 dark:border-green-600
+	bg-zinc-100 dark:bg-zinc-700
+	text-base
+	transition-colors ease-in-out duration-300;
+}
+
+hr.footnotes-sep:has(+ section.footnotes) {
+	@apply block mt-12;
+}
+section.footnotes {
+	@apply relative mt-6 py-0;
+}
+section.footnotes::before {
+	content: "👀注脚";
+	@apply absolute inline-flex w-full
+	text-lg font-semibold;
 }
 
 /* Inline code */
@@ -121,16 +142,10 @@ const pageTitle = computed(() => pageData.value.title)
 	@apply relative inline-flex justify-center items-center p-px
 	text-green-600 text-sm underline z-10 -translate-y-px;
 }
-.v-nc-theme-page
-	.page-main
-	a:not(.header-anchor):not(.tag-item):not(.route-link):not([href^="#"]) {
-	@apply mr-3 pr-1;
+.v-nc-theme-page .page-main a[target="_blank"]:not([href^="#"]) {
+	@apply mr-3 pr-1 text-sky-500;
 }
-.v-nc-theme-page
-	.page-main
-	a:not(.header-anchor):not(.tag-item):not(.route-link):not(
-		[href^="#"]
-	)::after {
+.v-nc-theme-page .page-main a[target="_blank"]:not([href^="#"])::after {
 	content: "↗";
 	@apply absolute inline-block left-full no-underline
 	-translate-x-1;

@@ -151,7 +151,7 @@ watch(
 .article-tags .tag-item {
 	@apply inline-flex justify-center items-center gap-2 py-0.5 px-1
 	border-2 border-transparent rounded bg-slate-200 dark:bg-slate-700
-	hover:bg-slate-300 dark:hover:bg-slate-600 text-sm font-semibold
+	hover:bg-slate-300 dark:hover:bg-slate-600 text-sm font-semibold cursor-pointer
 	transition-all ease-in-out duration-300;
 }
 .tag-item.router-link-active {

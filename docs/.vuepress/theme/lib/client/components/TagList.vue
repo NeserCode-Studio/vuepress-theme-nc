@@ -97,9 +97,9 @@ onMounted(() => {
 	@apply flex flex-wrap gap-2;
 }
 .tag-list .tag-item {
-	@apply inline-flex justify-center items-center gap-2 py-1 px-2
+	@apply inline-flex justify-center items-center gap-2 py-0.5 px-1
 	border-2 border-transparent rounded bg-slate-200 dark:bg-slate-700
-	hover:bg-slate-300 dark:hover:bg-slate-600 text-base
+	hover:bg-slate-300 dark:hover:bg-slate-600 text-base cursor-pointer
 	transition-all ease-in-out duration-300;
 }
 

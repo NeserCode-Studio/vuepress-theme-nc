@@ -1,16 +1,11 @@
 <script lang="ts" setup>
 import { usePageData, usePageFrontmatter } from "vuepress/client"
 import Navbar from "../components/Navbar.vue"
-import { onMounted } from "vue"
 
 const pageData = usePageData()
 const pageFrontmatter = usePageFrontmatter()
 
 console.log("[Debug Page - Base Layout]", [pageData.value])
-
-// onMounted(() => {
-// 	console.log(history)
-// })
 </script>
 
 <template>

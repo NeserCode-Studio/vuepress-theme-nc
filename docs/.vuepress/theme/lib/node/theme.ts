@@ -11,6 +11,7 @@ import { shikiPlugin } from "@vuepress/plugin-shiki"
 import { markdownContainerPlugin } from "@vuepress/plugin-markdown-container"
 import { seoPlugin } from "@vuepress/plugin-seo"
 import { themeDataPlugin } from "@vuepress/plugin-theme-data"
+import { mdEnhancePlugin } from "vuepress-plugin-md-enhance"
 
 import tailwindcss from "tailwindcss"
 import autoprefixer from "autoprefixer"
@@ -151,6 +152,10 @@ export const nesercodeTheme =
 				}),
 				useBlogPlugin(),
 				themeDataPlugin({ themeData }),
+				mdEnhancePlugin({
+					gfm: true,
+					delay: 200 + 300,
+				}),
 			],
 		}
 	}
