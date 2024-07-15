@@ -138,14 +138,24 @@ section.footnotes::before {
 }
 
 /* Inline link */
-.v-nc-theme-page .page-main a:not(.header-anchor):not(.tag-item) {
+.v-nc-theme-page
+	.page-main
+	a:not(.header-anchor):not(.tag-item):not(.page-back):not(.article-title) {
 	@apply relative inline-flex justify-center items-center p-px
 	text-green-600 text-sm underline z-10 -translate-y-px;
 }
-.v-nc-theme-page .page-main a[target="_blank"]:not([href^="#"]) {
+.v-nc-theme-page
+	.page-main
+	a:not(.header-anchor):not(.tag-item):not(.route-link):not(
+		.article-title
+	)[target="_blank"]:not([href^="#"]) {
 	@apply mr-3 pr-1 text-sky-500;
 }
-.v-nc-theme-page .page-main a[target="_blank"]:not([href^="#"])::after {
+.v-nc-theme-page
+	.page-main
+	a:not(.header-anchor):not(.tag-item):not(.article-title)[target="_blank"]:not(
+		[href^="#"]
+	)::after {
 	content: "↗";
 	@apply absolute inline-block left-full no-underline
 	-translate-x-1;
