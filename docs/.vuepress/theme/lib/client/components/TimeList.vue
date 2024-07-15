@@ -85,8 +85,10 @@ function getTagPath(tag: string) {
 	first:pt-4 last:pb-4
 	sm:odd:self-start odd:self-auto sm:even:self-end even:self-auto
 	sm:odd:border-r-2 sm:odd:border-l-0 odd:border-l-2 even:border-l-2
+	border-sky-400 dark:border-sky-700
 	sm:odd:pr-[5%] sm:odd:pl-0 odd:pr-0 odd:pl-[5%] even:pl-[5%]
-	sm:odd:translate-x-px odd:translate-x-0 sm:even:-translate-x-px even:translate-x-0;
+	sm:odd:translate-x-px odd:translate-x-0 sm:even:-translate-x-px even:translate-x-0
+	transition-colors ease-in-out duration-300;
 }
 .timeline-wrapper:nth-child(odd)::before {
 	@apply sm:left-full right-full
@@ -117,7 +119,7 @@ function getTagPath(tag: string) {
 	@apply absolute w-4 h-4 top-1/2
 	border-2 rounded-full
 	border-green-400 dark:border-green-500
-	bg-slate-100 dark:bg-slate-900
+	bg-slate-50 dark:bg-sky-900
 	transition-all ease-in-out duration-300;
 }
 

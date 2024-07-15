@@ -100,6 +100,7 @@ onMounted(() => {
 	@apply inline-flex justify-center items-center gap-2 py-0.5 px-1
 	border-2 border-transparent rounded bg-slate-200 dark:bg-slate-700
 	hover:bg-slate-300 dark:hover:bg-slate-600 text-base cursor-pointer
+	hover:shadow-md
 	transition-all ease-in-out duration-300;
 }
 
@@ -114,7 +115,7 @@ onMounted(() => {
 
 .tag-item.router-link-active {
 	@apply border-green-400 dark:border-green-600
-	text-green-500 dark:text-green-500;
+	text-green-500 dark:text-green-500 shadow-md;
 }
 
 .tag-item.show-more .icon {

@@ -65,8 +65,7 @@ html.dark {
 
 div[class*="language-"] {
 	@apply relative my-4
-	border-2 rounded border-slate-200 dark:border-slate-600
-	overflow-hidden;
+	rounded overflow-hidden shadow;
 }
 div[class*="language-"] pre,
 div[class*="language-"] pre[class*="language-"] {
@@ -96,7 +95,7 @@ div[class*="language-"].line-numbers-mode code {
 }
 div[class*="language-"].line-numbers-mode .line-numbers {
 	@apply w-8 absolute top-0 pt-4
-	text-sm leading-7 text-center;
+	text-sm leading-7 text-center font-mono opacity-50;
 	counter-reset: line-number;
 }
 div[class*="language-"].line-numbers-mode .line-numbers .line-number {
