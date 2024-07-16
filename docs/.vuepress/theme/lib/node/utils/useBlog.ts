@@ -8,13 +8,9 @@ export const useBlogPlugin = () =>
 		excerpt: true,
 		excerptLength: 150,
 		filter: ({ filePathRelative, frontmatter }) => {
-			// 舍弃那些不是从 Markdown 文件生成的页面
 			if (!filePathRelative) return false
-			// 舍弃 `archives` 文件夹的页面
 			if (filePathRelative.startsWith("archives/")) return false
-			// 舍弃 `docs` 文件夹的页面
 			if (filePathRelative.startsWith("docs/")) return false
-			// 舍弃那些没有使用默认布局的页面
 			if (frontmatter.home || frontmatter.layout) return false
 
 			return true
@@ -26,9 +22,11 @@ export const useBlogPlugin = () =>
 			const info = {
 				author: frontmatter.author || "",
 				categories: frontmatter.categories || [],
-				date: page.data.git?.createdTime
-					? new Date(page.data.git?.createdTime)
-					: page.frontmatter.date,
+				date:
+					page.frontmatter.date ??
+					(page.data.git?.createdTime
+						? new Date(page.data.git?.createdTime)
+						: new Date()),
 				tags: frontmatter.tags || frontmatter.tag || [],
 				excerpt: page.data.excerpt || "",
 				title,
@@ -74,12 +72,14 @@ export const useBlogPlugin = () =>
 				filter: (page) => page.data.path.startsWith("/blog/"),
 				sorter: (pageA: ThemePage, pageB: ThemePage) =>
 					dateSorter(
-						pageA.data.git?.createdTime
-							? new Date(pageA.data.git?.createdTime)
-							: pageA.frontmatter.date,
-						pageB.data.git?.createdTime
-							? new Date(pageB.data.git?.createdTime)
-							: pageB.frontmatter.date
+						pageA.frontmatter.date ??
+							(pageA.data.git?.createdTime
+								? new Date(pageA.data.git?.createdTime)
+								: new Date()),
+						pageB.frontmatter.date ??
+							(pageB.data.git?.createdTime
+								? new Date(pageB.data.git?.createdTime)
+								: new Date())
 					),
 				path: "/time/",
 				layout: "TimeLine",

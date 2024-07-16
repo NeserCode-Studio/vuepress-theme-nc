@@ -1,9 +1,9 @@
 ---
 about: true
-permalink: /about
+permalink: /about.html
 plugins:
   readingTime: true
-  sidebarCategory: false
+  sidebarCategory: true
 ---
 
 # 关于

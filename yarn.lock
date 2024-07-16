@@ -1353,6 +1353,14 @@
     chokidar "^3.6.0"
     sass "^1.77.6"
 
+"@vuepress/plugin-search@^2.0.0-rc.38":
+  version "2.0.0-rc.38"
+  resolved "https://registry.npmmirror.com/@vuepress/plugin-search/-/plugin-search-2.0.0-rc.38.tgz#290b22f913a8bace488da58f771b6b5907d91fdf"
+  integrity sha512-5FTyewhnE9me8EzTXVPJYvnDyo90gw0shkXDfqmImqygk3LFcpKSxJE7imSIPjFBl+Vl9zop+EK2YJF/l4KvlQ==
+  dependencies:
+    chokidar "^3.6.0"
+    vue "^3.4.31"
+
 "@vuepress/plugin-seo@2.0.0-rc.37", "@vuepress/plugin-seo@^2.0.0-rc.37":
   version "2.0.0-rc.37"
   resolved "https://registry.npmmirror.com/@vuepress/plugin-seo/-/plugin-seo-2.0.0-rc.37.tgz#c7c3d7abe2afabae02219217dff7d373757b688f"
@@ -4776,7 +4784,7 @@ vue-router@^4.2.5, vue-router@^4.3.3:
   dependencies:
     "@vue/devtools-api" "^6.5.1"
 
-vue@^3.4.15, vue@^3.4.29:
+vue@^3.4.15, vue@^3.4.29, vue@^3.4.31:
   version "3.4.31"
   resolved "https://registry.npmmirror.com/vue/-/vue-3.4.31.tgz#83a3c4dab8302b0e974b0d4b92a2f6a6378ae797"
   integrity sha512-njqRrOy7W3YLAlVqSKpBebtZpDVg21FPoaq1I7f/+qqBThK9ChAIjkRWgeP6Eat+8C+iia4P3OYqpATP21BCoQ==

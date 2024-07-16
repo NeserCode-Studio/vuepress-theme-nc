@@ -76,8 +76,8 @@ useSubTocFly(toc, tocFly)
 .toc-main
 	.vuepress-toc-list
 	.vuepress-toc-item:has(.vuepress-toc-list .vuepress-toc-item)::before {
-	content: "H2";
-	@apply absolute top-1 -left-7
+	content: "H";
+	@apply absolute top-1 -left-6
 	opacity-50 text-xs font-semibold font-mono
 	translate-y-[12%];
 }

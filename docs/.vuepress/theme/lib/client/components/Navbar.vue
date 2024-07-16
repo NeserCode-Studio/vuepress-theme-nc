@@ -48,6 +48,7 @@ const heroTitle = computed(() => siteData.value.title)
 			<span class="hero-title">{{ heroTitle }}</span>
 		</RouteLink>
 		<div class="navbar-items">
+			<SearchBox />
 			<DarkButton class="hover-style" />
 		</div>
 	</div>
@@ -72,6 +73,10 @@ const heroTitle = computed(() => siteData.value.title)
 .hover-style {
 	@apply hover:bg-slate-200 dark:hover:bg-slate-600
 	transition-colors ease-in-out duration-100;
+}
+
+.navbar-items {
+	@apply flex gap-2 items-center;
 }
 </style>
 

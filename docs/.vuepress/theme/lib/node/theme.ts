@@ -11,6 +11,7 @@ import { shikiPlugin } from "@vuepress/plugin-shiki"
 import { markdownContainerPlugin } from "@vuepress/plugin-markdown-container"
 import { seoPlugin } from "@vuepress/plugin-seo"
 import { themeDataPlugin } from "@vuepress/plugin-theme-data"
+import { searchPlugin } from "@vuepress/plugin-search"
 import { mdEnhancePlugin } from "vuepress-plugin-md-enhance"
 
 import tailwindcss from "tailwindcss"
@@ -156,6 +157,7 @@ export const nesercodeTheme =
 					gfm: true,
 					delay: 200 + 300,
 				}),
+				searchPlugin({}),
 			],
 		}
 	}
