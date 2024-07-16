@@ -44,7 +44,7 @@ function getComputedDescription() {
 						</span>
 					</template>
 					<template #after-content>
-						<TimeList :articles="timeLines.items" />
+						<!-- <TimeList :articles="timeLines.items" /> -->
 					</template>
 				</Page>
 			</div>
