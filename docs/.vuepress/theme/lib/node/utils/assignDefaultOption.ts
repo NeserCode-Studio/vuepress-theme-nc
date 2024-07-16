@@ -5,7 +5,34 @@ export const DEFAULT_LOCALE_OPTIONS = {
 	colorMode: "auto",
 	colorModeSwitch: true,
 	// navbar
-	navbar: [],
+	navbar: [
+		{
+			text: "关于",
+			activeMatch: "^/about/",
+			link: "/blog/about/aboutme.md",
+		},
+		{
+			text: "时间线",
+			activeMatch: "^/timeLine/",
+			link: "/timeLine/",
+		},
+		{
+			text: "类",
+			activeMatch: "^/tag/",
+			link: "/tag/",
+		},
+		{
+			text: "其他",
+			children: [
+				{
+					text: "Markdown",
+					link: "/blog/guide/markdown.md",
+					activeMatch: "^/blog/guide/",
+				},
+				{ text: "$404", link: "/blog/guide/wtf" },
+			],
+		},
+	],
 	logo: null,
 	repo: null,
 	selectLanguageText: "Languages",
