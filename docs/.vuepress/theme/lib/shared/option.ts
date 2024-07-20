@@ -1,7 +1,7 @@
 import type { ThemeData } from "@vuepress/plugin-theme-data"
-// import type { HelperOptions } from "vuepress-plugin-data-helper/lib/share"
 import type { LocaleData } from "@vuepress/shared"
-import type { NavbarConfig, SidebarConfig } from "./nav.js"
+import type { SidebarOptions } from "./sidebar"
+import { NavbarOptions } from "./navbar"
 export interface DefaultThemePluginsOptions {
 	/**
 	 * Enable @vuepress/plugin-active-header-links or not
@@ -168,7 +168,7 @@ export interface DefaultThemeLocaleData extends LocaleData {
 	 *
 	 * Set to `false` to disable navbar in current locale
 	 */
-	navbar?: false | NavbarConfig
+	navbar?: false | NavbarOptions
 	/**
 	 * Navbar logo config
 	 *
@@ -218,7 +218,7 @@ export interface DefaultThemeLocaleData extends LocaleData {
 	 *
 	 * Set to `false` to disable sidebar in current locale
 	 */
-	sidebar?: "auto" | false | SidebarConfig
+	sidebar?: "auto" | false | SidebarOptions
 	/**
 	 * Sidebar depth
 	 *
@@ -400,4 +400,12 @@ export interface DefaultThemeLocaleData extends LocaleData {
 				 **/
 				themeInfoDisplay?: boolean
 		  }
+}
+
+export interface DefaultThemeOptions extends DefaultThemeLocaleOptions {
+	/**
+	 * To avoid confusion with the root `plugins` option,
+	 * we use `themePlugins`
+	 */
+	themePlugins?: DefaultThemePluginsOptions
 }

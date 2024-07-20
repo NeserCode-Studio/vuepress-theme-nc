@@ -33,6 +33,7 @@
 		"vuepress-plugin-md-enhance": "^2.0.0-rc.50"
 	},
 	"dependencies": {
+		"@giscus/vue": "^3.0.0",
 		"@headlessui/vue": "^1.7.22",
 		"@heroicons/vue": "^2.1.4",
 		"@vueuse/core": "^10.11.0"

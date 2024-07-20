@@ -20,12 +20,12 @@ import tailwindcssConfig from "../../tailwind.config"
 import { useBlogPlugin } from "./utils/useBlog"
 import { assignDefaultOption } from "./utils/assignDefaultOption"
 
-import type { ThemePage } from "../shared"
+import type { ThemePage, DefaultThemeOptions } from "../shared"
 import type { App, Bundler, AppConfig } from "vuepress/core"
 
 const __dirname = getDirname(import.meta.url)
 export const nesercodeTheme =
-	({ themePlugins = {}, ...localeOptions } = {}) =>
+	({ themePlugins = {}, ...localeOptions }: DefaultThemeOptions = {}) =>
 	(app: App) => {
 		let themeData = assignDefaultOption(localeOptions)
 

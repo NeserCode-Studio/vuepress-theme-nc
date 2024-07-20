@@ -5,7 +5,22 @@ import { defineUserConfig } from "vuepress"
 
 export default defineUserConfig({
 	bundler: viteBundler(),
-	theme: nesercodeTheme(),
+	theme: nesercodeTheme({
+		giscus: {
+			repo: "NeserCode/NeserCode.github.io",
+			repoId: "R_kgDOHf8WIA",
+			category: "General",
+			categoryId: "DIC_kwDOHf8WIM4CRa-j",
+			mapping: "title",
+			strict: "1",
+			theme: "light",
+			darkTheme: "dark_dimmed",
+			reactionsEnabled: "1",
+			inputPosition: "top",
+			language: "zh-CN",
+			loading: "eager",
+		},
+	}),
 
 	title: "NeserCode",
 	description: "Make learning useful.",

@@ -1,20 +1,32 @@
 <script lang="ts" setup>
 import { computed, ref } from "vue"
-import { usePageData } from "vuepress/client"
+import { usePageData, usePageFrontmatter } from "vuepress/client"
 import { PageHeader } from "vuepress/shared"
 
 import { useSubTocFly } from "../composables/useSubTocFly"
+import { usePluginState } from "../composables/useComponentUtils"
+import { defaultConstants, DefaultThemePageFrontmatter } from "../../shared"
 
 const pageData = usePageData()
-const isOpenComment = ref(false)
+const pageFrontmatter = usePageFrontmatter<DefaultThemePageFrontmatter>()
+
+const isNotFound = computed(() => pageFrontmatter.value.layout === "NotFound")
+const computedStateSource = computed(() =>
+	isNotFound.value
+		? defaultConstants.notFoundPluginState
+		: pageFrontmatter.value
+)
+const isCommentActive = computed(() =>
+	usePluginState("comment", computedStateSource.value)
+)
 const tocHeaders = computed<PageHeader[]>(() => {
 	const headers: PageHeader[] = pageData.value.headers ?? []
-	if (!isOpenComment.value) return headers
+	if (!isCommentActive.value) return headers
 	else if (headers[headers.length - 1].title !== "评论")
 		headers.push({
 			level: 2,
-			link: `#Comment-for-Up-and-Down`,
-			slug: `Comment-for-Up-and-Down`,
+			link: `#v-nc-comment`,
+			slug: `v-nc-comment`,
 			title: `评论`,
 			children: [],
 		})

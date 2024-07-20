@@ -1,25 +1,36 @@
 <script lang="ts" setup>
 import SubToc from "./SubToc.vue"
+import Comment from "./Comment.vue"
 
 import { computed } from "vue"
 import { usePageData, usePageFrontmatter } from "vuepress/client"
 
 import { usePluginState } from "../composables/useComponentUtils"
-import { defaultConstants } from "../../shared"
+import { defaultConstants, DefaultThemeLocaleData } from "../../shared"
 import { DefaultThemePageFrontmatter } from "../../shared"
+import { useThemeData } from "@vuepress/plugin-theme-data/client"
 
 const pageData = usePageData()
 const pageFrontmatter = usePageFrontmatter<DefaultThemePageFrontmatter>()
+const themeData = useThemeData<DefaultThemeLocaleData>()
 
 const isNotFound = computed(() => pageFrontmatter.value.layout === "NotFound")
-const isSidebarCategroyActive = computed(() =>
-	usePluginState(
-		"sidebarCategory",
-		isNotFound.value
-			? defaultConstants.notFoundPluginState
-			: pageFrontmatter.value
-	)
+const computedStateSource = computed(() =>
+	isNotFound.value
+		? defaultConstants.notFoundPluginState
+		: pageFrontmatter.value
 )
+const isSidebarCategroyActive = computed(() =>
+	usePluginState("sidebarCategory", computedStateSource.value)
+)
+
+const isCommentActive = computed(() =>
+	usePluginState("comment", computedStateSource.value)
+)
+const commentOption = computed(() => {
+	if (!isCommentActive.value) return undefined
+	return themeData.value.giscus ?? undefined
+})
 
 const pageTitle = computed(() => pageData.value.title)
 </script>
@@ -43,8 +54,9 @@ const pageTitle = computed(() => pageData.value.title)
 			<slot name="before-content"></slot>
 
 			<Content class="v-nc-content" />
+			<Comment :options="commentOption" />
 
-			<slot name="after-content"></slot>
+			<slot name="after-content"> </slot>
 
 			<div class="page-foot">
 				<slot name="before-page-foot"></slot>
@@ -65,10 +77,15 @@ const pageTitle = computed(() => pageData.value.title)
 	@apply hidden;
 }
 .v-nc-content h2,
+.v-nc-content + .v-nc-theme-comment h2,
 .v-nc-content h3,
+.v-nc-content + .v-nc-theme-comment h3,
 .v-nc-content h4,
+.v-nc-content + .v-nc-theme-comment h4,
 .v-nc-content h5,
-.v-nc-content h6 {
+.v-nc-content + .v-nc-theme-comment h5,
+.v-nc-content h6,
+.v-nc-content + .v-nc-theme-comment h6 {
 	margin-top: calc(0.5rem - 64px);
 	padding-top: calc(0.5rem + 64px);
 	@apply relative mb-8 pb-4
@@ -78,27 +95,37 @@ const pageTitle = computed(() => pageData.value.title)
 }
 
 .v-nc-content h2 a.header-anchor::before,
+.v-nc-content + .v-nc-theme-comment h2 a.header-anchor::before,
 .v-nc-content h3 a.header-anchor::before,
+.v-nc-content + .v-nc-theme-comment h3 a.header-anchor::before,
 .v-nc-content h4 a.header-anchor::before,
+.v-nc-content + .v-nc-theme-comment h4 a.header-anchor::before,
 .v-nc-content h5 a.header-anchor::before,
-.v-nc-content h6 a.header-anchor::before {
+.v-nc-content + .v-nc-theme-comment h5 a.header-anchor::before,
+.v-nc-content h6 a.header-anchor::before,
+.v-nc-content + .v-nc-theme-comment h6 a.header-anchor::before {
 	content: "#";
 	@apply absolute sm:inline-block hidden
 	text-green-500
  	font-thin -translate-x-5;
 }
 
-.v-nc-content h2 {
+.v-nc-content h2,
+.v-nc-content + .v-nc-theme-comment h2 {
 	@apply text-2xl font-bold;
 }
-.v-nc-content h3 {
+.v-nc-content h3,
+.v-nc-content + .v-nc-theme-comment h3 {
 	@apply text-xl font-bold;
 }
-.v-nc-content h4 {
+.v-nc-content h4,
+.v-nc-content + .v-nc-theme-comment h4 {
 	@apply text-lg font-bold;
 }
 .v-nc-content h5,
-.v-nc-content h6 {
+.v-nc-content + .v-nc-theme-comment h5,
+.v-nc-content h6,
+.v-nc-content + .v-nc-theme-comment h6 {
 	@apply text-base font-bold;
 }
 
@@ -178,7 +205,7 @@ section.footnotes::before {
 	transition-all ease-in-out duration-300;
 }
 .custom-container::before {
-	@apply inline-flex items-center
+	@apply inline-flex items-center mb-2
 	font-thin font-mono;
 }
 .custom-container.tip {

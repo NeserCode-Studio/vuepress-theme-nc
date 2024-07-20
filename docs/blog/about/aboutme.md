@@ -4,6 +4,7 @@ permalink: /about.html
 plugins:
   readingTime: true
   sidebarCategory: true
+  comment: false
 ---
 
 # 关于
