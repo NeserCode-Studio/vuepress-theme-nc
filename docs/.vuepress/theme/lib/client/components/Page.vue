@@ -144,15 +144,16 @@ const pageTitle = computed(() => pageData.value.title)
 }
 
 hr.footnotes-sep:has(+ section.footnotes) {
-	@apply block mt-12;
+	@apply hidden;
 }
 section.footnotes {
-	@apply relative mt-6 py-0;
+	@apply w-full relative mt-40 pt-12;
 }
 section.footnotes::before {
 	content: "👀注脚";
-	@apply absolute inline-flex w-full
-	text-lg font-semibold;
+	@apply w-full absolute -top-0 inline-flex justify-start items-center p-2
+	rounded bg-neutral-300 dark:bg-neutral-700
+	text-lg font-semibold transition-colors ease-in-out duration-300;
 }
 
 /* Inline code */
@@ -167,7 +168,9 @@ section.footnotes::before {
 /* Inline link */
 .v-nc-theme-page
 	.page-main
-	a:not(.header-anchor):not(.tag-item):not(.page-back):not(.article-title) {
+	a:not(.header-anchor):not(.tag-item):not(.page-back):not(
+		.footnote-anchor
+	):not(.article-title) {
 	@apply relative inline-flex justify-center items-center p-px
 	text-green-600 text-sm underline z-10 -translate-y-px;
 }
@@ -182,7 +185,7 @@ section.footnotes::before {
 	.page-main
 	a:not(.header-anchor):not(.tag-item):not(.article-title)[target="_blank"]:not(
 		[href^="#"]
-	)::after {
+	):after {
 	content: "↗";
 	@apply absolute inline-block left-full no-underline
 	-translate-x-1;

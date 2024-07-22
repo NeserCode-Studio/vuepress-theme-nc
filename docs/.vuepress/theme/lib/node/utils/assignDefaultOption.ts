@@ -1,38 +1,40 @@
-import { DefaultThemeLocaleOptions } from "../../shared"
+import { DefaultThemeLocaleOptions, NavbarOptions } from "../../shared"
+
+const DefaultThemeNavbarConfig = [
+	{
+		text: "关于",
+		activeMatch: "^/about/",
+		link: "/blog/about/aboutme.md",
+	},
+	{
+		text: "时间线",
+		activeMatch: "^/time/",
+		link: "/time/",
+	},
+	{
+		text: "类",
+		activeMatch: "^/tags/",
+		link: "/tags/",
+	},
+	{
+		text: "其他",
+		children: [
+			{
+				text: "Markdown",
+				link: "/blog/guide/markdown.md",
+				activeMatch: "^/blog/guide/",
+			},
+			{ text: "$404", link: "/blog/guide/wtf" },
+		],
+	},
+]
 
 export const DEFAULT_LOCALE_OPTIONS = {
 	// color mode
 	colorMode: "auto",
 	colorModeSwitch: true,
 	// navbar
-	navbar: [
-		{
-			text: "关于",
-			activeMatch: "^/about/",
-			link: "/blog/about/aboutme.md",
-		},
-		{
-			text: "时间线",
-			activeMatch: "^/timeLine/",
-			link: "/timeLine/",
-		},
-		{
-			text: "类",
-			activeMatch: "^/tag/",
-			link: "/tag/",
-		},
-		{
-			text: "其他",
-			children: [
-				{
-					text: "Markdown",
-					link: "/blog/guide/markdown.md",
-					activeMatch: "^/blog/guide/",
-				},
-				{ text: "$404", link: "/blog/guide/wtf" },
-			],
-		},
-	],
+	navbar: DefaultThemeNavbarConfig,
 	logo: null,
 	repo: null,
 	selectLanguageText: "Languages",
@@ -86,4 +88,9 @@ export const assignDefaultOption = (
 	})
 
 	return rt
+}
+
+export const extendDefaultNavbarConfig = (config: NavbarOptions) => {
+	if (!config) return []
+	return [...DefaultThemeNavbarConfig, ...config]
 }

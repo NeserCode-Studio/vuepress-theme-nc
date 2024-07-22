@@ -1,6 +1,6 @@
 import { viteBundler } from "@vuepress/bundler-vite"
 // import { defaultTheme } from "@vuepress/theme-default"
-import { nesercodeTheme } from "./theme"
+import { nesercodeTheme, extendDefaultNavbarConfig } from "./theme"
 import { defineUserConfig } from "vuepress"
 
 export default defineUserConfig({
@@ -18,8 +18,14 @@ export default defineUserConfig({
 			reactionsEnabled: "1",
 			inputPosition: "top",
 			language: "zh-CN",
-			loading: "eager",
+			loading: "lazy",
 		},
+		footer: {
+			copyRight: "© 2022~~ NeserCode",
+		},
+		navbar: extendDefaultNavbarConfig([
+			{ text: "Github", link: "https://github.com/NeserCode" },
+		]),
 	}),
 
 	title: "NeserCode",

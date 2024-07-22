@@ -76,9 +76,7 @@ onMounted(() => {
 			<span class="tag-count">{{ tag.count }}</span>
 		</router-link>
 		<!-- if tag more than 20 -->
-		<span class="tag-item" v-if="!isShowAll && shouldShowBtn">{{
-			`+${compurtedMap.length - 20} tags`
-		}}</span>
+
 		<button
 			type="button"
 			:class="showBtnClass"
@@ -87,6 +85,9 @@ onMounted(() => {
 			@click="toggleShowAll"
 			title="Wheather show more tags"
 		>
+			<span class="text" v-if="!isShowAll && shouldShowBtn">{{
+				`more ${compurtedMap.length - 20} tags`
+			}}</span>
 			<ChevronDownIcon class="icon" />
 		</button>
 	</div>

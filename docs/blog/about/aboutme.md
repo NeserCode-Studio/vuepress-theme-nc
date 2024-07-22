@@ -1,6 +1,6 @@
 ---
 about: true
-permalink: /about.html
+permalink: /about/
 plugins:
   readingTime: true
   sidebarCategory: true

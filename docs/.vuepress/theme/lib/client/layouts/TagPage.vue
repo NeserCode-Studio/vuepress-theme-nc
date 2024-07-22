@@ -49,7 +49,7 @@ console.log(`[Debug: List Tags]`, tags.value)
 							{{ getComputedDescription() }}
 						</span>
 					</template>
-					<template #after-content>
+					<template #before-content>
 						<tag-list :tag-map="tags.map" />
 
 						<article-list
@@ -58,6 +58,7 @@ console.log(`[Debug: List Tags]`, tags.value)
 						/>
 						<slot name="tag-page-foot" />
 					</template>
+					<template #after-content> </template>
 				</Page>
 			</div>
 		</template>

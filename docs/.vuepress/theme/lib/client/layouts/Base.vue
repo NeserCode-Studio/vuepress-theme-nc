@@ -3,7 +3,6 @@ import { usePageData, usePageFrontmatter } from "vuepress/client"
 import Navbar from "../components/Navbar.vue"
 
 import { useScrollPromise } from "../composables/useScrollbarPromise"
-import { useNavbarConfig } from "../composables/useNavbarConfig"
 
 const pageData = usePageData()
 const pageFrontmatter = usePageFrontmatter()
@@ -13,12 +12,9 @@ const scrollPromise = useScrollPromise()
 const onBeforeEnter = scrollPromise.resolve
 const onBeforeLeave = scrollPromise.pending
 
-const navbarConfig = useNavbarConfig()
-
 console.log("[Debug Page - Base Layout]", [
 	pageData.value,
 	pageFrontmatter.value,
-	navbarConfig.value,
 ])
 </script>
 
@@ -211,6 +207,15 @@ div[data-highlighter="shiki"] {
 .fade-slide-x-enter-from,
 .fade-slide-x-leave-to {
 	@apply translate-x-4 opacity-0;
+}
+
+.menu-enter-active,
+.menu-leave-active {
+	@apply transition-all ease-in-out duration-200;
+}
+.menu-enter-from,
+.menu-leave-to {
+	@apply scale-90 opacity-0;
 }
 </style>
 

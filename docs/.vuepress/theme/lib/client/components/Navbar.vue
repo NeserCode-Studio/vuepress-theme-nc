@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import DarkButton from "./DarkButton.vue"
+import NavbarItems from "./NavbarItems.vue"
+import Divide from "./presets/Divide.vue"
 
 import {
 	useSiteData,
@@ -9,13 +11,15 @@ import {
 	ClientOnly,
 } from "vuepress/client"
 import { useThemeData } from "@vuepress/plugin-theme-data/client"
-import { computed, FunctionalComponent, h } from "vue"
+import { computed, FunctionalComponent, h, onMounted } from "vue"
+import { useNavbarConfig } from "../composables/useNavbarConfig"
 
 import type { DefaultThemeData } from "../../shared"
 
 const siteData = useSiteData()
 const pageHead = usePageHead()
 const themeConfig = useThemeData<DefaultThemeData>()
+const navbarConfig = useNavbarConfig()
 
 const logo = computed(() => themeConfig.value.logo)
 const headLinkIcon = computed(() => {
@@ -39,6 +43,12 @@ const NavbarLogo: FunctionalComponent = () => {
 }
 
 const heroTitle = computed(() => siteData.value.title)
+
+onMounted(() => {
+	document
+		?.querySelector(".navbar-search input")
+		?.setAttribute("placeholder", " ")
+})
 </script>
 
 <template>
@@ -47,8 +57,10 @@ const heroTitle = computed(() => siteData.value.title)
 			<NavbarLogo />
 			<span class="hero-title">{{ heroTitle }}</span>
 		</RouteLink>
-		<div class="navbar-items">
-			<SearchBox />
+		<div class="navbar-divied-items">
+			<SearchBox class="navbar-search" />
+			<NavbarItems class="navbar-items" :items="navbarConfig" />
+			<Divide />
 			<DarkButton class="hover-style" />
 		</div>
 	</div>
@@ -75,8 +87,11 @@ const heroTitle = computed(() => siteData.value.title)
 	transition-colors ease-in-out duration-100;
 }
 
+.navbar-divied-items {
+	@apply flex w-fit gap-2 items-center;
+}
 .navbar-items {
-	@apply flex gap-2 items-center;
+	@apply sm:inline-flex hidden;
 }
 </style>
 
@@ -84,5 +99,32 @@ const heroTitle = computed(() => siteData.value.title)
 .navbar-hero-link .hero-icon {
 	@apply w-fit h-full justify-self-center
 	rounded;
+}
+
+.navbar-search {
+	@apply relative mr-2
+	transition-all ease-in-out duration-300;
+}
+.navbar-search::before {
+	content: "检索";
+	@apply absolute top-1/2 sm:left-2 -left-2 inline-flex justify-center items-center
+	text-gray-500 dark:text-gray-400 sm:text-sm text-base -translate-y-1/2 whitespace-nowrap
+	pointer-events-none transition-all ease-in-out duration-300;
+}
+.navbar-search:has(input:focus)::before {
+	@apply opacity-100 sm:-translate-x-12 -translate-x-8
+	text-base text-gray-900 dark:text-gray-100;
+}
+.navbar-search:has(input:not(:placeholder-shown)):has(
+		input:not(:focus)
+	)::before {
+	@apply opacity-0 translate-x-0;
+}
+
+.navbar-search input {
+	@apply px-2 py-0.5 w-0 sm:w-32 focus:w-24
+	bg-none bg-transparent border-2 rounded border-transparent sm:border-zinc-200 sm:dark:border-zinc-600
+	text-neutral-800 dark:text-neutral-200
+	transition-all ease-in-out duration-300;
 }
 </style>

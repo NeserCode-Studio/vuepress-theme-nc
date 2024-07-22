@@ -56,6 +56,9 @@ console.log("[Debug Comment]", [giscusOptions.value, options.value])
 </template>
 
 <style lang="postcss" scoped>
+.v-nc-theme-comment {
+	@apply w-full mt-8;
+}
 .v-nc-comment-placeholder {
 	@apply w-full inline-flex justify-center items-center my-4 py-3
   rounded bg-gray-100 dark:bg-gray-900

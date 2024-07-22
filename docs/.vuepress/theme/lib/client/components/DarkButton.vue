@@ -6,7 +6,12 @@ const { isDark, toggle } = useDark()
 </script>
 
 <template>
-	<button type="button" class="v-nc-dark-button" @click="toggle(!isDark)">
+	<button
+		type="button"
+		class="v-nc-dark-button"
+		@click="toggle(!isDark)"
+		title="toggle dark mode"
+	>
 		<SunIcon class="icon about-dark" v-if="!isDark"></SunIcon>
 		<MoonIcon class="icon about-dark" v-else></MoonIcon>
 	</button>

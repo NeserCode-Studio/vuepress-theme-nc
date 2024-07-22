@@ -43,9 +43,10 @@ function getComputedDescription() {
 							{{ getComputedDescription() }}
 						</span>
 					</template>
-					<template #after-content>
+					<template #before-content>
 						<TimeList :articles="timeLines.items" />
 					</template>
+					<template #after-content> </template>
 				</Page>
 			</div>
 		</template>
