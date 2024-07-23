@@ -11,7 +11,7 @@ import {
 	ClientOnly,
 } from "vuepress/client"
 import { useThemeData } from "@vuepress/plugin-theme-data/client"
-import { computed, FunctionalComponent, h, onMounted } from "vue"
+import { computed, type FunctionalComponent, h, onMounted } from "vue"
 import { useNavbarConfig } from "../composables/useNavbarConfig"
 
 import type { DefaultThemeData } from "../../shared"

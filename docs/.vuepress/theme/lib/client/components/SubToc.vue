@@ -61,15 +61,16 @@ useSubTocFly(toc, tocFly)
 	@apply sticky top-28 pl-4;
 }
 .toc-fly {
-	@apply absolute w-1 h-6 top-1 left-[15px]
-  rounded-sm bg-green-300
+	@apply absolute w-1 h-[23.5px] top-1 left-[15px]
+  rounded-full bg-green-400 dark:bg-green-600
   translate-y-0 transition-all ease-in-out duration-100 z-10;
 }
 </style>
 <style lang="postcss">
 .toc-main {
 	@apply w-fit pl-2
-	border-l;
+	border-l-2 border-slate-200 dark:border-slate-700
+	transition-colors ease-in-out duration-300;
 }
 .toc-main::before {
 	content: "On This Page";

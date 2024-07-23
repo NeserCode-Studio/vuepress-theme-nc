@@ -3,6 +3,7 @@ import { computed } from "vue"
 import type { ComputedRef } from "vue"
 import { isString } from "vuepress/shared"
 import type {
+	DefaultThemeLocaleData,
 	NavbarGroupOptions,
 	NavbarLinkOptions,
 	NavGroup,
@@ -40,7 +41,7 @@ const resolveNavbarItem = (
 }
 
 export const useNavbarConfig = (): ComputedRef<NavbarItem[]> => {
-	const themeLocale = useThemeLocaleData()
+	const themeLocale = useThemeLocaleData<DefaultThemeLocaleData>()
 
 	return computed(() =>
 		(themeLocale.value.navbar || []).map((item) => resolveNavbarItem(item))

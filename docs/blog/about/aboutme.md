@@ -5,6 +5,7 @@ plugins:
   readingTime: true
   sidebarCategory: true
   comment: false
+  sidebar: false
 ---
 
 # 关于

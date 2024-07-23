@@ -1,14 +1,20 @@
 <script lang="ts" setup>
+import Sidebar from "./Sidebar.vue"
+import PageNav from "./PageNav.vue"
 import SubToc from "./SubToc.vue"
 import Comment from "./Comment.vue"
 
 import { computed } from "vue"
 import { usePageData, usePageFrontmatter } from "vuepress/client"
+import { useThemeData } from "@vuepress/plugin-theme-data/client"
 
 import { usePluginState } from "../composables/useComponentUtils"
-import { defaultConstants, DefaultThemeLocaleData } from "../../shared"
-import { DefaultThemePageFrontmatter } from "../../shared"
-import { useThemeData } from "@vuepress/plugin-theme-data/client"
+import { setupHeaders } from "../composables/useSidebar"
+import { defaultConstants } from "../../shared"
+import type {
+	DefaultThemePageFrontmatter,
+	DefaultThemeLocaleData,
+} from "../../shared"
 
 const pageData = usePageData()
 const pageFrontmatter = usePageFrontmatter<DefaultThemePageFrontmatter>()
@@ -24,6 +30,10 @@ const isSidebarCategroyActive = computed(() =>
 	usePluginState("sidebarCategory", computedStateSource.value)
 )
 
+const isSidebarActive = computed(() =>
+	usePluginState("sidebar", computedStateSource.value)
+)
+
 const isCommentActive = computed(() =>
 	usePluginState("comment", computedStateSource.value)
 )
@@ -33,11 +43,15 @@ const commentOption = computed(() => {
 })
 
 const pageTitle = computed(() => pageData.value.title)
+
+setupHeaders()
 </script>
 
 <template>
-	<div class="v-nc-theme-page">
+	<main class="v-nc-theme-page">
+		<Sidebar v-if="isSidebarActive" />
 		<div class="page-side-left">
+			<PageNav />
 			<slot name="page-side-left"></slot>
 		</div>
 		<div class="page-main">
@@ -69,7 +83,7 @@ const pageTitle = computed(() => pageData.value.title)
 				<SubToc v-if="isSidebarCategroyActive" />
 			</slot>
 		</div>
-	</div>
+	</main>
 </template>
 
 <style lang="postcss">
@@ -136,8 +150,8 @@ const pageTitle = computed(() => pageData.value.title)
 }
 
 .v-nc-content blockquote {
-	@apply w-full inline-flex items-center px-4
-	rounded-r border-2 border-l-8 border-green-400 dark:border-green-600
+	@apply w-full inline-flex items-center px-4 my-4
+	rounded border-2 border-l-8 border-green-400 dark:border-green-600
 	bg-zinc-100 dark:bg-zinc-700
 	text-base
 	transition-colors ease-in-out duration-300;

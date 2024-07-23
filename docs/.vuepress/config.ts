@@ -1,5 +1,4 @@
 import { viteBundler } from "@vuepress/bundler-vite"
-// import { defaultTheme } from "@vuepress/theme-default"
 import { nesercodeTheme, extendDefaultNavbarConfig } from "./theme"
 import { defineUserConfig } from "vuepress"
 

@@ -27,6 +27,7 @@ console.log($props.items)
 							class="navbar-menu-item"
 						>
 							<AutoLink
+								v-if="!('children' in subItem)"
 								:config="subItem"
 								:class="{ actived: active }"
 								@click="close"

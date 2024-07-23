@@ -40,7 +40,7 @@ export const DEFAULT_LOCALE_OPTIONS = {
 	selectLanguageText: "Languages",
 	selectLanguageAriaLabel: "Select language",
 	// sidebar
-	sidebar: "auto",
+	sidebar: "heading",
 	sidebarDepth: 2,
 	// page meta
 	editLink: true,
@@ -64,7 +64,7 @@ export const DEFAULT_LOCALE_OPTIONS = {
 }
 export const DEFAULT_LOCALE_DATA = {
 	// navbar
-	selectLanguageName: "en-US",
+	selectLanguageName: "zh-CN",
 }
 /**
  * Assign default options

@@ -21,7 +21,7 @@ defineSlots<{
 
 <template>
 	<span
-		class="vp-badge"
+		class="v-nc-badge"
 		:class="type"
 		:style="{
 			verticalAlign: vertical,
@@ -32,7 +32,7 @@ defineSlots<{
 </template>
 
 <style lang="postcss">
-.vp-badge {
+.v-nc-badge {
 	@apply h-5 inline-block align-top px-1
   rounded text-sm font-medium
   transition-colors ease-in-out duration-300;

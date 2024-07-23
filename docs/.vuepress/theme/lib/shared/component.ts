@@ -33,6 +33,7 @@ export type PluginName =
 	| "readingTime"
 	| "readingLine"
 	| "comment"
+	| "sidebar"
 	| "sidebarCategory"
 export type PluginState = Record<PluginName, boolean>
 export type FrontmatterPluginState = {

@@ -1,10 +1,12 @@
-import { defineClientConfig, resolvers } from "vuepress/client"
-import { hasGlobalComponent } from "@vuepress/helper/client"
 import Layout from "./layouts/Layout.vue"
 import NotFound from "./layouts/NotFound.vue"
 import TimeLine from "./layouts/TimeLine.vue"
 import TagPage from "./layouts/TagPage.vue"
 import Badge from "./components/global/Badge.vue"
+
+import { defineClientConfig, resolvers } from "vuepress/client"
+import { hasGlobalComponent } from "@vuepress/helper/client"
+import { setupSidebarItems } from "./composables/useSidebar"
 
 import "./style/index.css"
 
@@ -18,7 +20,9 @@ export default defineClientConfig({
 		// Component
 		if (!hasGlobalComponent("Badge")) app.component("Badge", Badge)
 	},
-	setup() {},
+	setup() {
+		setupSidebarItems()
+	},
 	layouts: {
 		Layout,
 		TimeLine,
