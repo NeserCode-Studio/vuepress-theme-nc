@@ -1,16 +1,7 @@
 import { useThemeLocaleData } from "@vuepress/plugin-theme-data/client"
 import { getHeaders, keys, startsWith } from "@vuepress/helper/client"
 import type { MenuItem } from "@vuepress/helper/client"
-import {
-	computed,
-	inject,
-	nextTick,
-	onActivated,
-	onMounted,
-	provide,
-	ref,
-	watch,
-} from "vue"
+import { computed, inject, nextTick, onMounted, provide, ref, watch } from "vue"
 import type { ComputedRef, InjectionKey, Ref } from "vue"
 import {
 	usePageData,
@@ -63,7 +54,7 @@ export const setupHeaders = (): void => {
 				.map((_, i) => `.v-nc-content h${i + 1}`)
 				.join(","),
 			levels: [2, levels.value + 1],
-			ignore: [".v-nc-badge", "h1"],
+			ignore: [".v-nc-badge"],
 		})
 	}
 
@@ -180,6 +171,7 @@ export const resolveSidebarHeadingItem = (
 ): SidebarItem[] => [
 	{
 		text: page.title,
+		link: page.path,
 		children: resolveSidebarHeaderItems(headers),
 	},
 ]

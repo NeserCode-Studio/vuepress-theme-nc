@@ -4,7 +4,7 @@ import PageNav from "./PageNav.vue"
 import SubToc from "./SubToc.vue"
 import Comment from "./Comment.vue"
 
-import { computed } from "vue"
+import { computed, onMounted } from "vue"
 import { usePageData, usePageFrontmatter } from "vuepress/client"
 import { useThemeData } from "@vuepress/plugin-theme-data/client"
 
@@ -43,7 +43,6 @@ const commentOption = computed(() => {
 })
 
 const pageTitle = computed(() => pageData.value.title)
-
 setupHeaders()
 </script>
 

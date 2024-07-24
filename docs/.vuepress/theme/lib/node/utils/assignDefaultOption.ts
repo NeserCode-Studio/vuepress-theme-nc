@@ -1,6 +1,39 @@
-import { DefaultThemeLocaleOptions, NavbarOptions } from "../../shared"
+import { isArray } from "@vuepress/helper"
+import {
+	DefaultThemeLocaleOptions,
+	NavbarOptions,
+	SidebarOptions,
+} from "../../shared"
 
 const DefaultThemeNavbarConfig = [
+	{
+		text: "关于",
+		activeMatch: "^/about/",
+		link: "/blog/about/aboutme.md",
+	},
+	{
+		text: "时间线",
+		activeMatch: "^/time/",
+		link: "/time/",
+	},
+	{
+		text: "类",
+		activeMatch: "^/tags/",
+		link: "/tags/",
+	},
+	{
+		text: "其他",
+		children: [
+			{
+				text: "Markdown",
+				link: "/blog/guide/markdown.md",
+				activeMatch: "^/blog/guide/",
+			},
+			{ text: "$404", link: "/blog/guide/wtf" },
+		],
+	},
+]
+const DefaultThemeSidebarConfig = [
 	{
 		text: "关于",
 		activeMatch: "^/about/",
@@ -40,7 +73,7 @@ export const DEFAULT_LOCALE_OPTIONS = {
 	selectLanguageText: "Languages",
 	selectLanguageAriaLabel: "Select language",
 	// sidebar
-	sidebar: "heading",
+	sidebar: DefaultThemeSidebarConfig,
 	sidebarDepth: 2,
 	// page meta
 	editLink: true,
@@ -93,4 +126,10 @@ export const assignDefaultOption = (
 export const extendDefaultNavbarConfig = (config: NavbarOptions) => {
 	if (!config) return []
 	return [...DefaultThemeNavbarConfig, ...config]
+}
+export const extendDefaultSidebarConfig = (config: SidebarOptions) => {
+	if (!config) return []
+	if (config === "heading") return "heading"
+	if (isArray(config)) return [...DefaultThemeSidebarConfig, ...config]
+	return config
 }

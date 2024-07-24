@@ -10,7 +10,6 @@ const $props = defineProps<{
 	items: NavbarItem[]
 }>()
 const { items } = toRefs($props)
-console.log($props.items)
 </script>
 
 <template>

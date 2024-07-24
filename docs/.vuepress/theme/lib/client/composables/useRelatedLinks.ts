@@ -16,20 +16,15 @@ const resolveFromFrontmatterConfig = (
 	config: unknown,
 	currentPath: string
 ): null | false | AutoLinkOptions => {
-	if (config === false) {
-		return false
-	}
+	if (config === false) return false
 
-	if (isString(config)) {
-		return getAutoLink(config, currentPath)
-	}
+	if (isString(config)) return getAutoLink(config, currentPath)
 
-	if (isPlainObject<AutoLinkOptions>(config)) {
+	if (isPlainObject<AutoLinkOptions>(config))
 		return {
 			...config,
 			link: getAutoLink(config.link, currentPath).link,
 		}
-	}
 
 	return null
 }
