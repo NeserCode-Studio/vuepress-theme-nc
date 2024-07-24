@@ -17,7 +17,7 @@ import { mdEnhancePlugin } from "vuepress-plugin-md-enhance"
 import tailwindcss from "tailwindcss"
 import autoprefixer from "autoprefixer"
 import tailwindcssConfig from "../../tailwind.config"
-import { useBlogPlugin } from "./utils/useBlog"
+import { getPagesMap, useBlogPlugin } from "./utils"
 import { assignDefaultOption } from "./utils/assignDefaultOption"
 
 import type { ThemePage, DefaultThemeOptions } from "../shared"
@@ -67,6 +67,8 @@ export const nesercodeTheme =
 						},
 					}) as unknown as Bundler
 				}
+
+				;(app.siteData as any).pagesMap = getPagesMap(app)
 			},
 			clientConfigFile: path.resolve(__dirname, "../client/config.ts"),
 			extendsBundlerOptions: (_config: AppConfig, _app: App) => {

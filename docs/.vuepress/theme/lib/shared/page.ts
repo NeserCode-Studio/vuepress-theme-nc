@@ -10,6 +10,7 @@ import { SeoPluginPageData } from "@vuepress/plugin-seo"
 
 import type { FrontmatterPluginState, SidebarArrayOptions } from "."
 import { AutoLinkConfig } from "vuepress/client"
+import { MarkdownLink } from "vuepress/markdown"
 
 export interface ExtraPageData extends PageData {
 	filePathRelative?: string | null
@@ -67,3 +68,18 @@ export interface DefaultThemeNormalPageFrontmatter
 	prev?: string | AutoLinkConfig
 	next?: string | AutoLinkConfig
 }
+
+export interface PagesMapInfo {
+	data: PageData<ExtraPageData, DefaultThemeNormalPageFrontmatter>
+	date: string
+	links: MarkdownLink[]
+	pathInferred: string | null
+	permalink: string | null
+	routeMeta: Record<string, unknown>
+	slug: string
+	filePathRelative: string | null
+}
+
+export type PagesMap = Record<string, PagesMapInfo[]>
+export type PagesMapFilter = (page: Page) => boolean
+export type PagesMapTransformer = (page: Page) => PagesMapInfo

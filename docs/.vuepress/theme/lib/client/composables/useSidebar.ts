@@ -20,9 +20,9 @@ import type {
 	SidebarObjectOptions,
 	SidebarOptions,
 	ThemePageData,
-} from "../../shared/index.js"
-import type { SidebarHeaderItem, SidebarItem } from "../typings.js"
-import { getAutoLink, isLinkInternal, resolvePrefix } from "../utils/index.js"
+} from "../../shared"
+import type { SidebarHeaderItem, SidebarItem } from "../typings"
+import { getAutoLink, isLinkInternal, resolvePrefix } from "../utils"
 
 export type HeadersRef = Ref<MenuItem[]>
 

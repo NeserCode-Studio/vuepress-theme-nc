@@ -128,7 +128,7 @@ div[class*="language-"] .line.highlighted::after {
 	content: " ";
 	@apply absolute -right-6 w-6 inline-block
 	bg-slate-200 dark:bg-slate-900
-	transition-colors ease-in-out duration-300;
+	transition-colors ease-in-out duration-300 -z-10;
 }
 
 div[class*="language-"] .line.diff {
