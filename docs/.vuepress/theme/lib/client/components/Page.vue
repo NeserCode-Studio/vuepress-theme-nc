@@ -4,8 +4,8 @@ import PageNav from "./PageNav.vue"
 import SubToc from "./SubToc.vue"
 import Comment from "./Comment.vue"
 
-import { computed, onMounted } from "vue"
-import { usePageData, usePageFrontmatter } from "vuepress/client"
+import { computed, ref, watch } from "vue"
+import { usePageData, usePageFrontmatter, useRoute } from "vuepress/client"
 import { useThemeData } from "@vuepress/plugin-theme-data/client"
 
 import { usePluginState } from "../composables/useComponentUtils"
@@ -37,10 +37,18 @@ const isSidebarActive = computed(() =>
 const isCommentActive = computed(() =>
 	usePluginState("comment", computedStateSource.value)
 )
-const commentOption = computed(() => {
-	if (!isCommentActive.value) return undefined
-	return themeData.value.giscus ?? undefined
-})
+const commentOption = ref()
+
+// non-flash hook
+const $route = useRoute()
+watch(
+	() => $route.path,
+	() => {
+		if (!isCommentActive.value) commentOption.value = undefined
+		else commentOption.value = themeData.value.giscus ?? undefined
+	},
+	{ immediate: true }
+)
 
 const pageTitle = computed(() => pageData.value.title)
 setupHeaders()

@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import SidebarItems from "./SidebarItems.vue"
 
-import { usePagesMap } from "../composables/usePagesMap"
 import { onMounted } from "vue"
 
 defineSlots<{
