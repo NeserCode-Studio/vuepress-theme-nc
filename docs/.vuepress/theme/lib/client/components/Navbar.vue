@@ -70,7 +70,7 @@ onMounted(() => {
 .v-nc-theme-navbar {
 	@apply sticky top-0 w-full h-16 flex justify-between items-center px-4 py-2
   border-b border-slate-200 dark:border-slate-600
-  bg-white/60 dark:bg-slate-800/60 backdrop-blur
+  bg-white/60 dark:bg-slate-800/60 backdrop-blur shadow-sm
 	transition-colors ease-in-out duration-300 z-50;
 }
 

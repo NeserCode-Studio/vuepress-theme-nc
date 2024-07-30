@@ -38,26 +38,26 @@ defineSlots<{
   transition-colors ease-in-out duration-300;
 }
 
-.vp-badge.tip {
+.v-nc-badge.tip {
 	@apply bg-cyan-200 text-cyan-800
 	dark:bg-cyan-700 dark:text-cyan-100;
 }
 
-.vp-badge.warning {
+.v-nc-badge.warning {
 	@apply bg-orange-200 text-orange-800
 	dark:bg-orange-700 dark:text-orange-100;
 }
 
-.vp-badge.danger {
+.v-nc-badge.danger {
 	@apply bg-red-200 text-red-800
 	dark:bg-red-700 dark:text-red-100;
 }
 
-.table-of-contents .vp-badge {
+.table-of-contents .v-nc-badge {
 	@apply align-middle;
 }
 
-.vp-badge + .vp-badge {
+.v-nc-badge + .v-nc-badge {
 	@apply ml-1.5;
 }
 </style>

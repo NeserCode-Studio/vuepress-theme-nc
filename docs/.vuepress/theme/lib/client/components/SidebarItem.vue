@@ -26,8 +26,8 @@ const collapsible = computed(
 )
 const isActive = computed(() => isActiveLinkItem(item.value, route))
 const itemClass = computed(() => ({
-	"vp-sidebar-item": true,
-	"vp-sidebar-heading": depth.value === 0,
+	"v-nc-sidebar-item": true,
+	"v-nc-sidebar-heading": depth.value === 0,
 	active: isActive.value,
 	collapsible: collapsible.value,
 }))
@@ -78,7 +78,7 @@ onBeforeUnmount(() => {
 		</p>
 
 		<DropdownTransition v-if="'children' in item && item.children.length">
-			<ul v-show="isOpen" class="vp-sidebar-children">
+			<ul v-show="isOpen" class="v-nc-sidebar-children">
 				<SidebarItem
 					v-for="child in item.children"
 					:key="`${depth}${child.text}${child.link}`"
@@ -90,4 +90,28 @@ onBeforeUnmount(() => {
 	</li>
 </template>
 
-<style lang="postcss" scoped></style>
+<style lang="postcss" scoped>
+li .auto-link.v-nc-sidebar-item,
+li p.v-nc-sidebar-item.v-nc-sidebar-heading {
+	@apply w-full max-w-32 inline-block py-1.5
+	text-slate-600 dark:text-slate-300
+	truncate delay-0;
+}
+.auto-link.v-nc-sidebar-item.active {
+	@apply text-green-500 dark:text-green-400;
+}
+
+p.v-nc-sidebar-heading + ul li,
+p.v-nc-sidebar-heading + ul li ul li {
+	@apply pl-3;
+}
+p.v-nc-sidebar-heading.active + ul > li > ul,
+p.v-nc-sidebar-heading:not(.active) + ul {
+	@apply border-l border-dashed border-slate-300 dark:border-slate-600
+	transition-colors ease-in-out duration-300;
+}
+
+.auto-link.v-nc-sidebar-item.active:has(+ * .v-nc-sidebar-item.active) {
+	@apply text-blue-500 dark:text-blue-400;
+}
+</style>

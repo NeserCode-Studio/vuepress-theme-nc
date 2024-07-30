@@ -23,6 +23,7 @@ import type {
 } from "../../shared"
 import type { SidebarHeaderItem, SidebarItem } from "../typings"
 import { getAutoLink, isLinkInternal, resolvePrefix } from "../utils"
+import { useStorage, useToggle } from "@vueuse/core"
 
 export type HeadersRef = Ref<MenuItem[]>
 
@@ -254,4 +255,14 @@ export const resolveMultiSidebarItems = (
 	console.warn(`${decodeURI(path)} is missing sidebar config.`)
 
 	return []
+}
+
+export const useSidebarCollapsed = () => {
+	const sidebarCollapsed = useStorage("v-nc-sidebar-collapsed", false)
+	const toggleSidebarCollapsed = useToggle(sidebarCollapsed)
+
+	return {
+		collapsed: sidebarCollapsed,
+		toggle: toggleSidebarCollapsed,
+	}
 }
