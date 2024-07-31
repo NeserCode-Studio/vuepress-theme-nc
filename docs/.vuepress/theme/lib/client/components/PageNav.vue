@@ -74,6 +74,15 @@ onMounted(() => {
 	rounded bg-stone-100 dark:bg-stone-900
 	border-2 border-green-400 dark:border-green-600
 	hover:bg-slate-200 dark:hover:bg-slate-800
+	text-gray-500 dark:text-gray-400
 	transition-colors ease-in-out duration-300;
+}
+.auto-link .link {
+	@apply text-green-600 dark:text-green-400;
+}
+
+.page-nav-main .hint {
+	@apply w-full inline-flex justify-end items-center
+	text-sm;
 }
 </style>

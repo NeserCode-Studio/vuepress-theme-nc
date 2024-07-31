@@ -51,6 +51,7 @@ const DefaultThemeSidebarConfig = [
 	},
 	{
 		text: "其他",
+		collapsed: true,
 		children: [
 			{
 				text: "Markdown",
@@ -76,12 +77,14 @@ export const DEFAULT_LOCALE_OPTIONS = {
 	sidebar: DefaultThemeSidebarConfig,
 	sidebarDepth: 2,
 	// page meta
-	editLink: true,
-	editLinkText: "Edit this page",
+	editLink: false,
+	editLinkText: "编辑",
 	lastUpdated: true,
-	lastUpdatedText: "Last Updated",
+	lastUpdatedText: "⌚上次更新",
 	contributors: true,
-	contributorsText: "Contributors",
+	contributorsText: "✍作者",
+	prev: "上篇",
+	next: "下篇",
 	// 404 page messages
 	notFound: [
 		`There's nothing here.`,
@@ -89,11 +92,11 @@ export const DEFAULT_LOCALE_OPTIONS = {
 		`That's a Four-Oh-Four.`,
 		`Looks like we've got some broken links.`,
 	],
-	backToHome: "Take me home",
+	backToHome: "回到首页",
 	// a11y
-	openInNewWindow: "open in new window",
-	toggleColorMode: "toggle color mode",
-	toggleSidebar: "toggle sidebar",
+	openInNewWindow: "在新窗口打开",
+	toggleColorMode: "切换主题",
+	toggleSidebar: "切换侧边栏",
 }
 export const DEFAULT_LOCALE_DATA = {
 	// navbar

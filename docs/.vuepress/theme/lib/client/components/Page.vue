@@ -156,27 +156,6 @@ setupHeaders()
 	z-index: 1;
 }
 
-.v-nc-content blockquote {
-	@apply w-full inline-flex items-center px-4 my-4
-	rounded border-2 border-l-8 border-green-400 dark:border-green-600
-	bg-zinc-100 dark:bg-zinc-700
-	text-base
-	transition-colors ease-in-out duration-300;
-}
-
-hr.footnotes-sep:has(+ section.footnotes) {
-	@apply hidden;
-}
-section.footnotes {
-	@apply w-full relative mt-40 pt-12;
-}
-section.footnotes::before {
-	content: "👀注脚";
-	@apply w-full absolute -top-0 inline-flex justify-start items-center p-2
-	rounded bg-neutral-300 dark:bg-neutral-700
-	text-lg font-semibold transition-colors ease-in-out duration-300;
-}
-
 /* Inline code */
 .v-nc-theme-page .page-main p code,
 .v-nc-theme-page .page-main li code,
@@ -202,14 +181,33 @@ section.footnotes::before {
 	)[target="_blank"]:not([href^="#"]) {
 	@apply mr-3 pr-1 text-sky-500;
 }
-.v-nc-theme-page
-	.page-main
-	a:not(.header-anchor):not(.tag-item):not(.article-title)[target="_blank"]:not(
-		[href^="#"]
-	):after {
+.v-nc-theme-page .page-main a[target="_blank"]:not([href^="#"]):after {
 	content: "↗";
 	@apply absolute inline-block left-full no-underline
 	-translate-x-1;
+}
+
+/* blockquote */
+.v-nc-content blockquote {
+	@apply w-full inline-flex items-center px-4 my-4
+	rounded border-2 border-l-8 border-green-400 dark:border-green-600
+	bg-zinc-100 dark:bg-zinc-700
+	text-base
+	transition-colors ease-in-out duration-300;
+}
+
+/* footnote */
+hr.footnotes-sep:has(+ section.footnotes) {
+	@apply hidden;
+}
+section.footnotes {
+	@apply w-full relative mt-40 pt-12;
+}
+section.footnotes::before {
+	content: "👀注脚";
+	@apply w-full absolute -top-0 inline-flex justify-start items-center p-2
+	rounded bg-neutral-300 dark:bg-neutral-700
+	text-lg font-semibold transition-colors ease-in-out duration-300;
 }
 
 /* Inline list */
