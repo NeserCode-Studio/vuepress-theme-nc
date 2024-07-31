@@ -113,7 +113,7 @@ onMounted(() => {
 }
 .navbar-search:has(input:focus)::before {
 	@apply opacity-100 sm:-translate-x-12 -translate-x-8
-	text-base text-gray-900 dark:text-gray-100;
+	text-gray-900 dark:text-gray-100;
 }
 .navbar-search:has(input:not(:placeholder-shown)):has(
 		input:not(:focus)

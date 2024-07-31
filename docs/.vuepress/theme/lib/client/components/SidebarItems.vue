@@ -17,7 +17,8 @@ const sidebarItems = useSidebarItems()
 
 <style lang="postcss" scoped>
 ul.theme-sidebar-items {
-	@apply flex flex-col py-4;
+	@apply w-full flex flex-col py-4
+	overflow-y-auto;
 }
 ul.theme-sidebar-items li {
 	@apply w-full inline-flex flex-col justify-center items-baseline;

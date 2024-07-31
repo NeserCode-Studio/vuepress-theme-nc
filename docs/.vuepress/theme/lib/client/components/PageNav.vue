@@ -60,4 +60,20 @@ onMounted(() => {
 	</div>
 </template>
 
-<style lang="postcss" scoped></style>
+<style lang="postcss" scoped>
+.v-nc-page-nav {
+	@apply sticky top-20 w-full flex justify-end pt-4 pr-4;
+}
+
+.page-nav-main {
+	@apply w-fit flex flex-col items-center gap-y-2;
+}
+
+.page-nav-main .auto-link {
+	@apply inline-flex flex-col justify-center items-end px-3 py-1
+	rounded bg-stone-100 dark:bg-stone-900
+	border-2 border-green-400 dark:border-green-600
+	hover:bg-slate-200 dark:hover:bg-slate-800
+	transition-colors ease-in-out duration-300;
+}
+</style>

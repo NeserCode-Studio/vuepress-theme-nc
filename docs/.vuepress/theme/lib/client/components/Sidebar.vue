@@ -27,7 +27,7 @@ const toggleClass = computed(() => (collapsed.value ? "collapsed" : null))
 
 <style lang="postcss" scoped>
 .v-nc-sidebar {
-	@apply w-72 h-full fixed top-0 left-0 flex flex-col justify-start items-start pt-16 px-4
+	@apply w-72 h-full fixed top-0 left-0 flex flex-col justify-start items-start pt-16 pl-4
 	border-r border-slate-200 dark:border-slate-600
 	bg-white/60 dark:bg-slate-800/60 backdrop-blur
 	transition-all ease-in-out duration-200 z-40 whitespace-nowrap;

@@ -217,6 +217,25 @@ div[data-highlighter="shiki"] {
 .menu-leave-to {
 	@apply scale-90 opacity-0;
 }
+
+/* Arrow span */
+span.arrow {
+	@apply relative inline-block w-4 h-4 align-middle bg-center bg-no-repeat
+	transition-all ease-in-out duration-200;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='rgba(0,0,0,0.5)' d='M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z'/%3E%3C/svg%3E");
+}
+html.dark span.arrow {
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='rgba(255,255,255,0.5)' d='M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z'/%3E%3C/svg%3E");
+}
+span.arrow.right {
+	@apply rotate-90;
+}
+span.arrow.down {
+	@apply rotate-180;
+}
+span.arrow.left {
+	@apply -rotate-90;
+}
 </style>
 
 <style lang="postcss" scoped>
