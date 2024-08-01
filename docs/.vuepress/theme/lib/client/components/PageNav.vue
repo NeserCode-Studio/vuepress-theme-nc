@@ -66,7 +66,7 @@ onMounted(() => {
 }
 
 .page-nav-main {
-	@apply w-fit flex flex-col items-center gap-y-2;
+	@apply w-fit flex flex-col justify-center items-end gap-y-2;
 }
 
 .page-nav-main .auto-link {
@@ -78,7 +78,9 @@ onMounted(() => {
 	transition-colors ease-in-out duration-300;
 }
 .auto-link .link {
-	@apply text-green-600 dark:text-green-400;
+	@apply w-full max-w-48 inline-block 
+	text-green-600 dark:text-green-400
+	truncate;
 }
 
 .page-nav-main .hint {

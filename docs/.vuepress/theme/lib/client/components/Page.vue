@@ -183,8 +183,8 @@ setupHeaders()
 }
 .v-nc-theme-page .page-main a[target="_blank"]:not([href^="#"]):after {
 	content: "↗";
-	@apply absolute inline-block left-full no-underline
-	-translate-x-1;
+	@apply absolute inline-block left-full
+	text-xs no-underline -translate-x-0;
 }
 
 /* blockquote */

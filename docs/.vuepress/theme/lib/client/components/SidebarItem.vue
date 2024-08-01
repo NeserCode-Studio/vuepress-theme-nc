@@ -93,9 +93,9 @@ onBeforeUnmount(() => {
 <style lang="postcss" scoped>
 li .auto-link.v-nc-sidebar-item,
 li p.v-nc-sidebar-item.v-nc-sidebar-heading {
-	@apply w-full max-w-32 inline-block py-1.5
+	@apply w-fit max-w-48 inline-block py-1.5
 	text-slate-600 dark:text-slate-300
-	truncate delay-0;
+	truncate delay-0 cursor-pointer;
 }
 .auto-link.v-nc-sidebar-item.active {
 	@apply text-green-500 dark:text-green-400;
