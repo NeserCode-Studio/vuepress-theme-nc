@@ -15,9 +15,10 @@ import { defaultConstants } from "../../shared"
 import type {
 	DefaultThemePageFrontmatter,
 	DefaultThemeLocaleData,
+	DefaultThemePageData,
 } from "../../shared"
 
-const pageData = usePageData()
+const pageData = usePageData<DefaultThemePageData>()
 const pageFrontmatter = usePageFrontmatter<DefaultThemePageFrontmatter>()
 const themeData = useThemeData<DefaultThemeLocaleData>()
 
@@ -70,7 +71,9 @@ setupHeaders()
 					<slot name="page-title">{{ pageTitle }}</slot>
 				</h1>
 
-				<PageMeta />
+				<PageMeta
+					v-if="pageData.git.createdTime && pageData.git.contributors.length"
+				/>
 				<slot name="after-page-head"></slot>
 			</div>
 

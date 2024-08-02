@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { useThemeLocaleData } from "@vuepress/plugin-theme-data/client"
-
 import { useLastUpdated, useContributors } from "../composables/usePageMeta"
 
 import type { DefaultThemeLocaleData } from "../../shared"
@@ -44,7 +43,22 @@ const contributors = useContributors()
 }
 
 .meta-item {
-	@apply inline-flex flex-col justify-center
-  text-sm;
+	@apply w-full inline-flex flex-col justify-center gap-y-1
+  text-sm text-gray-500 dark:text-gray-400
+  transition-colors ease-in-out duration-300;
+}
+
+.git-info-item {
+	@apply w-fit inline-flex items-center gap-x-1;
+}
+
+.meta-item-label {
+	@apply pr-1.5
+  font-bold
+  border-r border-slate-300 dark:border-slate-600
+  transition-colors ease-in-out duration-300;
+}
+.meta-item-info {
+	@apply font-mono;
 }
 </style>
