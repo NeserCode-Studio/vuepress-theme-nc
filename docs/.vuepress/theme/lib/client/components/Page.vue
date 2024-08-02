@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import Sidebar from "./Sidebar.vue"
+import PageMeta from "./PageMeta.vue"
 import PageNav from "./PageNav.vue"
 import SubToc from "./SubToc.vue"
 import Comment from "./Comment.vue"
@@ -69,6 +70,7 @@ setupHeaders()
 					<slot name="page-title">{{ pageTitle }}</slot>
 				</h1>
 
+				<PageMeta />
 				<slot name="after-page-head"></slot>
 			</div>
 

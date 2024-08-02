@@ -61,32 +61,6 @@ const DefaultThemeSidebarConfig = [
 			{ text: "$404", link: "/blog/guide/wtf" },
 		],
 	},
-	{
-		text: "Desktop Application",
-		collapsible: true,
-		children: [
-			{
-				text: "RoCoX Codex(zh-CN)",
-				link: "/blog/other/RoCoX-Codex.md",
-				activeMatch: "^/blog/other/",
-			},
-			{
-				text: "RoCoX Codex(en-US)",
-				link: "/blog/other/RoCoX-Codex.en-US.md",
-				activeMatch: "^/blog/other/",
-			},
-			{
-				text: "KeyBoard Monitor(zh-CN)",
-				link: "/blog/other/KeyBoard-Monitor.md",
-				activeMatch: "^/blog/other/",
-			},
-			{
-				text: "KeyBoard Monitor(zh-CN)",
-				link: "/blog/other/KeyBoard-Monitor.en-US.md",
-				activeMatch: "^/blog/other/",
-			},
-		],
-	},
 ]
 
 export const DEFAULT_LOCALE_OPTIONS = {

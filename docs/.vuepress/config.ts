@@ -1,5 +1,9 @@
 import { viteBundler } from "@vuepress/bundler-vite"
-import { nesercodeTheme, extendDefaultNavbarConfig } from "./theme"
+import {
+	nesercodeTheme,
+	extendDefaultNavbarConfig,
+	extendDefaultSidebarConfig,
+} from "./theme"
 import { defineUserConfig } from "vuepress"
 
 export default defineUserConfig({
@@ -24,6 +28,34 @@ export default defineUserConfig({
 		},
 		navbar: extendDefaultNavbarConfig([
 			{ text: "Github", link: "https://github.com/NeserCode" },
+		]),
+		sidebar: extendDefaultSidebarConfig([
+			{
+				text: "Desktop Application",
+				collapsible: true,
+				children: [
+					{
+						text: "RoCoX Codex(zh-CN)",
+						link: "/blog/other/RoCoX-Codex.md",
+						activeMatch: "^/blog/other/",
+					},
+					{
+						text: "RoCoX Codex(en-US)",
+						link: "/blog/other/RoCoX-Codex.en-US.md",
+						activeMatch: "^/blog/other/",
+					},
+					{
+						text: "KeyBoard Monitor(zh-CN)",
+						link: "/blog/other/KeyBoard-Monitor.md",
+						activeMatch: "^/blog/other/",
+					},
+					{
+						text: "KeyBoard Monitor(zh-CN)",
+						link: "/blog/other/KeyBoard-Monitor.en-US.md",
+						activeMatch: "^/blog/other/",
+					},
+				],
+			},
 		]),
 	}),
 
