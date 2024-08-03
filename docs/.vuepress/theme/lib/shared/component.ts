@@ -32,6 +32,7 @@ export interface PaginationProps {
 export type PluginName =
 	| "readingTime"
 	| "readingLine"
+	| "pageMeta"
 	| "comment"
 	| "sidebar"
 	| "sidebarCategory"

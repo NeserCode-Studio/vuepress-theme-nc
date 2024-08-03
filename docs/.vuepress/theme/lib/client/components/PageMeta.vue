@@ -26,9 +26,13 @@ const contributors = useContributors()
 				<span class="meta-item-label">{{ themeLocale.contributorsText }}</span>
 				<span class="meta-item-info">
 					<template v-for="(contributor, index) in contributors" :key="index">
-						<span class="contributor" :title="`email: ${contributor.email}`">
+						<a
+							class="contributor"
+							:title="`email: ${contributor.email}`"
+							:href="`mailto://${contributor.email}`"
+						>
 							{{ contributor.name }}
-						</span>
+						</a>
 						<template v-if="index !== contributors.length - 1">, </template>
 					</template>
 				</span>
@@ -53,10 +57,7 @@ const contributors = useContributors()
 }
 
 .meta-item-label {
-	@apply pr-1.5
-  font-bold
-  border-r border-slate-300 dark:border-slate-600
-  transition-colors ease-in-out duration-300;
+	@apply pr-1.5 font-bold;
 }
 .meta-item-info {
 	@apply font-mono;

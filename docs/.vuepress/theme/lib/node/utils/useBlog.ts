@@ -47,6 +47,7 @@ export const useBlogPlugin = () =>
 						readingTime: false,
 						readingLine: false,
 						comment: false,
+						pageMeta: false,
 						sidebarCategory: false,
 						sidebar: false,
 					},
@@ -60,6 +61,7 @@ export const useBlogPlugin = () =>
 					plugins: {
 						readingTime: false,
 						readingLine: false,
+						pageMeta: false,
 						comment: false,
 						sidebarCategory: false,
 						sidebar: false,
@@ -91,6 +93,7 @@ export const useBlogPlugin = () =>
 					plugins: {
 						readingTime: false,
 						readingLine: false,
+						pageMeta: false,
 						comment: false,
 						sidebarCategory: false,
 						sidebar: false,

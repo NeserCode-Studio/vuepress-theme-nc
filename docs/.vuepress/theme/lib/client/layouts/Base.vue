@@ -175,7 +175,7 @@ div[data-highlighter="shiki"] {
 /* transitions */
 .fade-enter-active,
 .fade-leave-active {
-	@apply transition-opacity ease-in-out duration-100;
+	@apply transition-all ease-in-out duration-100;
 }
 .fade-enter-from,
 .fade-leave-to {

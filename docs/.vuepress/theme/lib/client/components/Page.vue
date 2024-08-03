@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import Sidebar from "./Sidebar.vue"
+import ReadingTime from "./ReadingTime.vue"
 import PageMeta from "./PageMeta.vue"
 import PageNav from "./PageNav.vue"
 import SubToc from "./SubToc.vue"
@@ -15,10 +16,10 @@ import { defaultConstants } from "../../shared"
 import type {
 	DefaultThemePageFrontmatter,
 	DefaultThemeLocaleData,
-	DefaultThemePageData,
+	ThemePageData,
 } from "../../shared"
 
-const pageData = usePageData<DefaultThemePageData>()
+const pageData = usePageData<ThemePageData>()
 const pageFrontmatter = usePageFrontmatter<DefaultThemePageFrontmatter>()
 const themeData = useThemeData<DefaultThemeLocaleData>()
 
@@ -30,6 +31,14 @@ const computedStateSource = computed(() =>
 )
 const isSidebarCategroyActive = computed(() =>
 	usePluginState("sidebarCategory", computedStateSource.value)
+)
+
+const isReadingTimeActive = computed(() =>
+	usePluginState("readingTime", computedStateSource.value)
+)
+
+const isPageMetaActive = computed(() =>
+	usePluginState("pageMeta", computedStateSource.value)
 )
 
 const isSidebarActive = computed(() =>
@@ -71,9 +80,8 @@ setupHeaders()
 					<slot name="page-title">{{ pageTitle }}</slot>
 				</h1>
 
-				<PageMeta
-					v-if="pageData.git.createdTime && pageData.git.contributors.length"
-				/>
+				<PageMeta v-if="isPageMetaActive" />
+				<ReadingTime :data="pageData.readingTime" v-if="isReadingTimeActive" />
 				<slot name="after-page-head"></slot>
 			</div>
 
