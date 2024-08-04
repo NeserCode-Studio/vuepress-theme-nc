@@ -12,7 +12,8 @@ const { data } = toRefs($props)
 	<div class="page-reading-time" v-if="data">
 		<span class="reading-time-label">📖阅读时间</span>
 		<span class="reading-time">
-			总字数 {{ data.words }}, 大约需要 {{ data.minutes }} 分钟阅读
+			总字数 <span class="number">{{ data.words }}</span
+			>, 大约需要 <span class="number">{{ data.minutes }}</span> 分钟阅读
 		</span>
 	</div>
 </template>
@@ -29,5 +30,9 @@ const { data } = toRefs($props)
 }
 .reading-time {
 	@apply text-sm;
+}
+
+.reading-time .number {
+	@apply font-mono font-bold;
 }
 </style>

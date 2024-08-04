@@ -3,9 +3,23 @@ import Base from "./Base.vue"
 import Page from "../components/Page.vue"
 import Home from "../components/Home.vue"
 
-import { usePageFrontmatter } from "vuepress/client"
+import GithubRepo from "../components/GithubRepo.vue"
 
-const pageFrontmatter = usePageFrontmatter()
+import { usePageFrontmatter } from "vuepress/client"
+import { computed } from "vue"
+import { DefaultThemeNormalPageFrontmatter } from "../../shared"
+
+const pageFrontmatter = usePageFrontmatter<DefaultThemeNormalPageFrontmatter>()
+
+// repo info
+const githubRepoData = computed(() => {
+	let data = pageFrontmatter.value.repo?.split("/")
+	if (!data?.length) return false
+	return {
+		owner: data[0],
+		repo: data[1],
+	}
+})
 </script>
 
 <template>
@@ -17,6 +31,11 @@ const pageFrontmatter = usePageFrontmatter()
 					<slot name="page-side-left" />
 				</template>
 				<template #page-side-right>
+					<GithubRepo
+						:owner="githubRepoData?.owner"
+						:repo="githubRepoData?.repo"
+						v-if="githubRepoData"
+					/>
 					<slot name="page-side-right" />
 				</template>
 				<template #before-page-head>

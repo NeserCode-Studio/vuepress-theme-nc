@@ -62,7 +62,7 @@ onMounted(() => {
 
 <style lang="postcss" scoped>
 .v-nc-page-nav {
-	@apply sticky top-20 w-full flex justify-end pt-4 pr-4;
+	@apply w-full flex justify-end pt-4 pr-4;
 }
 
 .page-nav-main {

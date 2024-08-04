@@ -57,6 +57,13 @@ export default defineUserConfig({
 				],
 			},
 		]),
+
+		github: {
+			username: "nesercode",
+			// it got expired
+			accessServer: "https://github-info-server.onrender.com",
+			accessToken: "nesercode",
+		},
 	}),
 
 	title: "NeserCode",

@@ -58,7 +58,7 @@ useSubTocFly(toc, tocFly)
 
 <style lang="postcss" scoped>
 .v-nc-theme-sub-toc {
-	@apply sticky top-28 pl-4;
+	@apply pl-4;
 }
 .toc-fly {
 	@apply absolute w-1 h-[23.5px] top-1 left-[15px]

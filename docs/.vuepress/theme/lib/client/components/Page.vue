@@ -29,6 +29,7 @@ const computedStateSource = computed(() =>
 		? defaultConstants.notFoundPluginState
 		: pageFrontmatter.value
 )
+
 const isSidebarCategroyActive = computed(() =>
 	usePluginState("sidebarCategory", computedStateSource.value)
 )
@@ -69,8 +70,10 @@ setupHeaders()
 	<main class="v-nc-theme-page">
 		<Sidebar v-if="isSidebarActive" />
 		<div class="page-side-left">
-			<PageNav />
-			<slot name="page-side-left"></slot>
+			<div class="page-side-container">
+				<PageNav />
+				<slot name="page-side-left"></slot>
+			</div>
 		</div>
 		<div class="page-main">
 			<div class="page-head">
@@ -99,9 +102,10 @@ setupHeaders()
 			</div>
 		</div>
 		<div class="page-side-right">
-			<slot name="page-side-right">
+			<div class="page-side-container">
 				<SubToc v-if="isSidebarCategroyActive" />
-			</slot>
+				<slot name="page-side-right"> </slot>
+			</div>
 		</div>
 	</main>
 </template>
@@ -282,6 +286,10 @@ section.footnotes::before {
 .page-side-right {
 	@apply hidden lg:w-1/4 lg:block pt-24
 	md:hidden;
+}
+
+.page-side-container {
+	@apply sticky top-28;
 }
 
 .page-head {

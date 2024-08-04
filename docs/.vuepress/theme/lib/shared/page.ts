@@ -67,6 +67,8 @@ export interface DefaultThemeNormalPageFrontmatter
 	sidebarDepth?: number
 	prev?: string | AutoLinkConfig
 	next?: string | AutoLinkConfig
+
+	repo?: `${string}/${string}`
 }
 
 export interface PagesMapInfo {
