@@ -3,21 +3,6 @@ pinned: true
 tag:
   - Markdown
   - Official
-  - test1
-  - test2
-  - test3
-  - test4
-  - test5
-  - test6
-  - test7
-  - test8
-  - test9
-  - test10
-  - test11
-  - test12
-  - test13
-  - test14
-  - test15
 author: NeserCode
 date: 2022-09-15
 original: false
@@ -25,6 +10,7 @@ originalUrl: https://v2.vuepress.vuejs.org/zh/guide/markdown.html
 password: "12345678"
 hint:
   - "八位数密码"
+repo: vuepress/ecosystem
 ---
 
 # Markdown

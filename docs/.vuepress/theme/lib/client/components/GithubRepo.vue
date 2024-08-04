@@ -65,7 +65,7 @@ onBeforeMount(() => {
 	<Transition name="fade" mode="out-in" appear>
 		<div class="github-repo-card" v-if="owner && repo">
 			<span class="prefix">Linked Github Repo</span>
-			<a :href="repoInfo?.html_url" class="card-main" target="_blank">
+			<a :href="repoInfo?.data?.html_url" class="card-main" target="_blank">
 				<span class="repo-title">
 					<BookmarkSquareIcon class="icon" />
 					<span class="repo-name">
@@ -76,6 +76,15 @@ onBeforeMount(() => {
 				<span class="repo-description" v-if="repoInfo?.data?.description">{{
 					repoInfo?.data?.description
 				}}</span>
+				<span class="repo-tags" v-if="repoInfo?.data?.topics?.length">
+					<span v-for="tag in repoInfo?.data?.topics" class="repo-tag">{{
+						tag
+					}}</span>
+				</span>
+				<span class="other">
+					<span class="license" v-html="repoInfo?.data?.license?.spdx_id" />
+					<span class="lang" v-html="repoInfo?.data?.language" />
+				</span>
 			</a>
 		</div>
 	</Transition>
@@ -93,8 +102,11 @@ onBeforeMount(() => {
 .github-repo-card .card-main {
 	@apply w-fit max-w-48 flex flex-col justify-center py-1 px-2 gap-1
   border-2 rounded border-sky-300 dark:border-sky-600
-  
-  transition-all ease-in-out duration-300 cursor-pointer;
+  bg-sky-100 dark:bg-sky-950
+  transition-all ease-in-out duration-300;
+}
+.github-repo-card .card-main:has(a[href*="github.com"]) {
+	@apply cursor-pointer;
 }
 
 .card-main .repo-title {
@@ -111,7 +123,22 @@ onBeforeMount(() => {
 }
 
 .repo-description {
-	@apply text-sm opacity-50;
+	@apply text-xs opacity-50;
+}
+
+.repo-tags {
+	@apply inline-flex flex-wrap gap-1;
+}
+
+.repo-tag {
+	@apply inline-flex items-center px-1 py-px
+  rounded bg-blue-300 dark:bg-blue-800
+  text-xs;
+}
+
+.other {
+	@apply inline-flex justify-center items-center gap-x-3
+  text-xs text-gray-500 dark:text-gray-400;
 }
 
 .card-main .icon {
