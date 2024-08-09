@@ -32,8 +32,8 @@ const githubRepoData = computed(() => {
 				</template>
 				<template #page-side-right>
 					<GithubRepo
-						:owner="githubRepoData?.owner"
-						:repo="githubRepoData?.repo"
+						:owner="githubRepoData.owner"
+						:repo="githubRepoData.repo"
 						v-if="githubRepoData"
 					/>
 					<slot name="page-side-right" />

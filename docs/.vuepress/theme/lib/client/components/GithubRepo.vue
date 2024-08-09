@@ -10,8 +10,8 @@ import { onRouteChange } from "../composables/usePageHook"
 import type { DefaultThemeLocaleData } from "../../shared"
 const $props = withDefaults(
 	defineProps<{
-		owner?: string
-		repo?: string
+		owner: string
+		repo: string
 	}>(),
 	{}
 )
@@ -21,7 +21,7 @@ const themeLocale: Ref<DefaultThemeLocaleData> = useThemeLocaleData()
 let repoInfo = useStorage<{
 	data: any
 	timestamp: number
-}>(`v-nc-github-repo[${owner?.value}/${repo?.value}]`, {
+}>(`v-nc-github-repo[${owner.value}/${repo.value}]`, {
 	data: {},
 	timestamp: -1,
 })
@@ -29,7 +29,7 @@ onRouteChange(() => {
 	repoInfo = useStorage<{
 		data: any
 		timestamp: number
-	}>(`v-nc-github-repo[${owner?.value}/${repo?.value}]`, {
+	}>(`v-nc-github-repo[${owner.value}/${repo.value}]`, {
 		data: {},
 		timestamp: -1,
 	})
@@ -82,8 +82,14 @@ onBeforeMount(() => {
 					}}</span>
 				</span>
 				<span class="other">
-					<span class="license" v-html="repoInfo?.data?.license?.spdx_id" />
-					<span class="lang" v-html="repoInfo?.data?.language" />
+					<span
+						class="license"
+						v-html="`[License] ${repoInfo?.data?.license?.spdx_id}`"
+					/>
+					<span
+						class="lang"
+						v-html="`[Language] ${repoInfo?.data?.language}`"
+					/>
 				</span>
 			</a>
 		</div>
@@ -100,9 +106,8 @@ onBeforeMount(() => {
 }
 
 .github-repo-card .card-main {
-	@apply w-fit max-w-48 flex flex-col justify-center py-1 px-2 gap-1
-  border-2 rounded border-sky-300 dark:border-sky-600
-  bg-sky-100 dark:bg-sky-950
+	@apply w-fit max-w-48 flex flex-col justify-center p-2 gap-1
+  rounded bg-sky-100 dark:bg-sky-950 shadow
   transition-all ease-in-out duration-300;
 }
 .github-repo-card .card-main:has(a[href*="github.com"]) {
@@ -137,7 +142,7 @@ onBeforeMount(() => {
 }
 
 .other {
-	@apply inline-flex justify-center items-center gap-x-3
+	@apply inline-flex flex-wrap justify-start items-center gap-x-3
   text-xs text-gray-500 dark:text-gray-400;
 }
 

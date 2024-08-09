@@ -27,6 +27,10 @@ const unsetHeight = (items: any): void => {
 <style lang="postcss">
 .dropdown-enter-from,
 .dropdown-leave-to {
-	@apply h-0;
+	@apply h-0 opacity-0;
+}
+.dropdown-enter-active,
+.dropdown-leave-active {
+	@apply transition-all ease-in-out duration-300;
 }
 </style>

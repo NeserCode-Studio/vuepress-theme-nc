@@ -55,9 +55,9 @@ function getTagPath(tag: string) {
 					>
 					<span class="author">by {{ getAuthor(article.info.author) }}</span>
 				</span>
-				<!-- <span class="article-excerpt">{{
+				<span class="article-excerpt">{{
 					stringfyExcerpt(article.info.excerpt)
-				}}</span> -->
+				}}</span>
 				<span class="article-tags">
 					<router-link
 						:to="getTagPath(tag)"
