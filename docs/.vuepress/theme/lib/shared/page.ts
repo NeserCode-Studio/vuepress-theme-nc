@@ -68,6 +68,9 @@ export interface DefaultThemeNormalPageFrontmatter
 	prev?: string | AutoLinkConfig
 	next?: string | AutoLinkConfig
 
+	original?: boolean
+	originalUrl?: string
+
 	repo?: `${string}/${string}`
 }
 

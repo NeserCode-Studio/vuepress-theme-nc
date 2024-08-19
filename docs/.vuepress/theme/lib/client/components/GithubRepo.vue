@@ -67,11 +67,7 @@ onBeforeMount(() => {
 			<span class="prefix">Linked Github Repo</span>
 			<a :href="repoInfo?.data?.html_url" class="card-main" target="_blank">
 				<span class="repo-title">
-					<BookmarkSquareIcon class="icon" />
-					<span class="repo-name">
-						<span class="repo">{{ repo }}</span>
-						<span class="owner">{{ owner }}</span>
-					</span>
+					<span class="repo-name"> {{ repo }} / {{ owner }} </span>
 				</span>
 				<span class="repo-description" v-if="repoInfo?.data?.description">{{
 					repoInfo?.data?.description
@@ -84,11 +80,11 @@ onBeforeMount(() => {
 				<span class="other">
 					<span
 						class="license"
-						v-html="`[License] ${repoInfo?.data?.license?.spdx_id}`"
+						v-html="`License - ${repoInfo?.data?.license?.spdx_id}`"
 					/>
 					<span
 						class="lang"
-						v-html="`[Language] ${repoInfo?.data?.language}`"
+						v-html="`Language - ${repoInfo?.data?.language}`"
 					/>
 				</span>
 			</a>

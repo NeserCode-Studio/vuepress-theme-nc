@@ -9,6 +9,7 @@ import { defineUserConfig } from "vuepress"
 export default defineUserConfig({
 	bundler: viteBundler(),
 	theme: nesercodeTheme({
+		domain: "http://localhost:8080",
 		giscus: {
 			repo: "NeserCode/NeserCode.github.io",
 			repoId: "R_kgDOHf8WIA",

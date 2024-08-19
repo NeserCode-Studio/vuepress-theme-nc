@@ -91,6 +91,12 @@ setupHeaders()
 			<slot name="before-content"></slot>
 
 			<Content class="v-nc-content" />
+
+			<div class="content-end">
+				<span class="text">- END -</span>
+			</div>
+			<slot name="before-comment"></slot>
+
 			<Comment :options="commentOption" />
 
 			<slot name="after-content"> </slot>
@@ -115,15 +121,15 @@ setupHeaders()
 	@apply hidden;
 }
 .v-nc-content h2,
-.v-nc-content + .v-nc-theme-comment h2,
+.v-nc-content ~ .v-nc-theme-comment h2,
 .v-nc-content h3,
-.v-nc-content + .v-nc-theme-comment h3,
+.v-nc-content ~ .v-nc-theme-comment h3,
 .v-nc-content h4,
-.v-nc-content + .v-nc-theme-comment h4,
+.v-nc-content ~ .v-nc-theme-comment h4,
 .v-nc-content h5,
-.v-nc-content + .v-nc-theme-comment h5,
+.v-nc-content ~ .v-nc-theme-comment h5,
 .v-nc-content h6,
-.v-nc-content + .v-nc-theme-comment h6 {
+.v-nc-content ~ .v-nc-theme-comment h6 {
 	margin-top: calc(0.5rem - 64px);
 	padding-top: calc(0.5rem + 64px);
 	@apply relative mb-8 pb-4
@@ -133,15 +139,15 @@ setupHeaders()
 }
 
 .v-nc-content h2 a.header-anchor::before,
-.v-nc-content + .v-nc-theme-comment h2 a.header-anchor::before,
+.v-nc-content ~ .v-nc-theme-comment h2 a.header-anchor::before,
 .v-nc-content h3 a.header-anchor::before,
-.v-nc-content + .v-nc-theme-comment h3 a.header-anchor::before,
+.v-nc-content ~ .v-nc-theme-comment h3 a.header-anchor::before,
 .v-nc-content h4 a.header-anchor::before,
-.v-nc-content + .v-nc-theme-comment h4 a.header-anchor::before,
+.v-nc-content ~ .v-nc-theme-comment h4 a.header-anchor::before,
 .v-nc-content h5 a.header-anchor::before,
-.v-nc-content + .v-nc-theme-comment h5 a.header-anchor::before,
+.v-nc-content ~ .v-nc-theme-comment h5 a.header-anchor::before,
 .v-nc-content h6 a.header-anchor::before,
-.v-nc-content + .v-nc-theme-comment h6 a.header-anchor::before {
+.v-nc-content ~ .v-nc-theme-comment h6 a.header-anchor::before {
 	content: "#";
 	@apply absolute sm:inline-block hidden
 	text-green-500
@@ -149,21 +155,21 @@ setupHeaders()
 }
 
 .v-nc-content h2,
-.v-nc-content + .v-nc-theme-comment h2 {
+.v-nc-content ~ .v-nc-theme-comment h2 {
 	@apply text-2xl font-bold;
 }
 .v-nc-content h3,
-.v-nc-content + .v-nc-theme-comment h3 {
+.v-nc-content ~ .v-nc-theme-comment h3 {
 	@apply text-xl font-bold;
 }
 .v-nc-content h4,
-.v-nc-content + .v-nc-theme-comment h4 {
+.v-nc-content ~ .v-nc-theme-comment h4 {
 	@apply text-lg font-bold;
 }
 .v-nc-content h5,
-.v-nc-content + .v-nc-theme-comment h5,
+.v-nc-content ~ .v-nc-theme-comment h5,
 .v-nc-content h6,
-.v-nc-content + .v-nc-theme-comment h6 {
+.v-nc-content ~ .v-nc-theme-comment h6 {
 	@apply text-base font-bold;
 }
 
@@ -297,5 +303,12 @@ section.footnotes::before {
 }
 h1.page-title {
 	@apply text-3xl font-black;
+}
+
+.content-end {
+	@apply w-full inline-flex justify-center items-center py-2 mt-8;
+}
+.content-end .text {
+	@apply text-xl font-mono font-black;
 }
 </style>

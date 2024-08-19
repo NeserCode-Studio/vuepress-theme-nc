@@ -4,12 +4,21 @@ import Page from "../components/Page.vue"
 import Home from "../components/Home.vue"
 
 import GithubRepo from "../components/GithubRepo.vue"
+import Copyright from "../components/Copyright.vue"
 
-import { usePageFrontmatter } from "vuepress/client"
+import { usePageData, usePageFrontmatter, useSiteData } from "vuepress/client"
 import { computed } from "vue"
-import { DefaultThemeNormalPageFrontmatter } from "../../shared"
+import {
+	DefaultThemeData,
+	DefaultThemeNormalPageFrontmatter,
+	DefaultThemePageData,
+} from "../../shared"
+import { useThemeData } from "@vuepress/plugin-theme-data/client"
 
+const pageData = usePageData<DefaultThemePageData>()
 const pageFrontmatter = usePageFrontmatter<DefaultThemeNormalPageFrontmatter>()
+const themeLocale = useThemeData<DefaultThemeData>()
+const siteData = useSiteData()
 
 // repo info
 const githubRepoData = computed(() => {
@@ -20,6 +29,21 @@ const githubRepoData = computed(() => {
 		repo: data[1],
 	}
 })
+
+/* Original */
+const isOriginal = computed(() => {
+	if (pageFrontmatter.value.original === false) return false
+	else return true
+})
+const originalUrl = computed(() => {
+	if (pageFrontmatter.value.originalUrl)
+		return pageFrontmatter.value.originalUrl
+	return (
+		themeLocale.value.domain +
+		((siteData.value.base ?? "") + pageData.value.path).replace("//", "/")
+	)
+})
+const copyrightTips = [""]
 </script>
 
 <template>
@@ -46,6 +70,13 @@ const githubRepoData = computed(() => {
 				</template>
 				<template #before-content>
 					<slot name="before-content" />
+				</template>
+				<template #before-comment>
+					<Copyright
+						:isOriginal="isOriginal"
+						:originalUrl="originalUrl"
+						:tips="copyrightTips"
+					/>
 				</template>
 				<template #after-content>
 					<slot name="after-content" />
