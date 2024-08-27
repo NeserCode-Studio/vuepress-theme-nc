@@ -50,7 +50,11 @@ console.log("[Debug Comment]", [giscusOptions.value, options.value])
 			:loading="giscusOptions.loading"
 		/>
 		<div class="v-nc-comment-placeholder" v-else>
-			<span class="text">评论已关闭</span>
+			<h2 id="v-nc-comment" tabindex="-1">
+				<a class="header-anchor text" href="#v-nc-comment" aria-hidden="true"
+					>评论已关闭</a
+				>
+			</h2>
 		</div>
 	</div>
 </template>

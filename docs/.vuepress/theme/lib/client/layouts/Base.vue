@@ -240,7 +240,7 @@ span.arrow.left {
 
 <style lang="postcss" scoped>
 .base-layout {
-	@apply w-full h-full min-h-screen flex flex-col items-center
+	@apply w-full h-full min-h-screen flex flex-col items-center py-16
 	bg-zinc-50 dark:bg-zinc-800
 	transition-colors ease-in-out duration-300;
 }

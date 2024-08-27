@@ -18,6 +18,7 @@ import type {
 	DefaultThemeLocaleData,
 	ThemePageData,
 } from "../../shared"
+import { Hook } from "../composables/useHook"
 
 const pageData = usePageData<ThemePageData>()
 const pageFrontmatter = usePageFrontmatter<DefaultThemePageFrontmatter>()
@@ -53,14 +54,11 @@ const commentOption = ref()
 
 // non-flash hook
 const $route = useRoute()
-watch(
-	() => $route.path,
-	() => {
-		if (!isCommentActive.value) commentOption.value = undefined
-		else commentOption.value = themeData.value.giscus ?? undefined
-	},
-	{ immediate: true }
-)
+Hook.onRoute(() => {
+	if (!isCommentActive.value) commentOption.value = undefined
+	else commentOption.value = themeData.value.giscus ?? undefined
+	console.log(isCommentActive.value, commentOption.value)
+}, $route)
 
 const pageTitle = computed(() => pageData.value.title)
 setupHeaders()
@@ -68,6 +66,7 @@ setupHeaders()
 
 <template>
 	<main class="v-nc-theme-page">
+		<slot name="before-page"></slot>
 		<Sidebar v-if="isSidebarActive" />
 		<div class="page-side-left">
 			<div class="page-side-container">
@@ -280,7 +279,7 @@ section.footnotes::before {
 </style>
 <style lang="postcss" scoped>
 .v-nc-theme-page {
-	@apply w-full flex justify-center gap-4 py-16 px-4 sm:px-8;
+	@apply relative w-full flex justify-center gap-4 py-16 px-4 sm:px-8;
 }
 
 .v-nc-theme-page .page-main {

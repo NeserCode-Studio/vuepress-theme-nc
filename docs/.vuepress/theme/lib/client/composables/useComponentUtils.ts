@@ -1,3 +1,4 @@
+import { useDebounceFn } from "@vueuse/core"
 import type {
 	DefaultThemePageFrontmatter,
 	FrontmatterPluginState,
@@ -46,4 +47,27 @@ export const usePluginState = (
 		return tempValue
 	} else if (states.plugins) return !(states.plugins[keyName] === false)
 	else return true
+}
+
+export const useElementSrcolled = (elementSelector: string) => {
+	if (!document) return false
+	const element = document.querySelector(elementSelector)
+	if (!element) return false
+
+	return {
+		onScroll: (callback: (total: number, scrolled: number) => void) => {
+			const listener = useDebounceFn(() => {
+				let rects = element.getBoundingClientRect()
+				let scrolled =
+					rects.height - rects.bottom > 0
+						? rects.height - rects.bottom > rects.height
+							? rects.height
+							: rects.height - rects.bottom
+						: 0
+				callback(rects.height, scrolled)
+			}, 100)
+			document.removeEventListener("scroll", listener)
+			document.addEventListener("scroll", listener)
+		},
+	}
 }
