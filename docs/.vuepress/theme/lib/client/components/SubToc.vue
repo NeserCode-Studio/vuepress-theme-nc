@@ -1,11 +1,12 @@
 <script lang="ts" setup>
 import { computed, ref } from "vue"
-import { usePageData, usePageFrontmatter } from "vuepress/client"
+import { usePageData, usePageFrontmatter, useRoute } from "vuepress/client"
 import { PageHeader } from "vuepress/shared"
 
 import { useSubTocFly } from "../composables/useSubTocFly"
 import { usePluginState } from "../composables/useComponentUtils"
 import { defaultConstants, DefaultThemePageFrontmatter } from "../../shared"
+import { Hook } from "../composables/useHook"
 
 const pageData = usePageData()
 const pageFrontmatter = usePageFrontmatter<DefaultThemePageFrontmatter>()
@@ -19,19 +20,7 @@ const computedStateSource = computed(() =>
 const isCommentActive = computed(() =>
 	usePluginState("comment", computedStateSource.value)
 )
-const tocHeaders = computed<PageHeader[]>(() => {
-	const headers: PageHeader[] = pageData.value.headers ?? []
-	if (!isCommentActive.value) return headers
-	else if (headers[headers.length - 1].title !== "评论")
-		headers.push({
-			level: 2,
-			link: `#v-nc-comment`,
-			slug: `v-nc-comment`,
-			title: `评论`,
-			children: [],
-		})
-	return headers
-})
+const tocHeaders = ref<PageHeader[]>(pageData.value.headers ?? [])
 
 const tocOptions = {
 	containerTag: "nav",
@@ -47,6 +36,23 @@ const tocOptions = {
 const toc = ref<HTMLDivElement | null>(null)
 const tocFly = ref<HTMLDivElement | null>(null)
 useSubTocFly(toc, tocFly)
+
+const $route = useRoute()
+Hook.onRoute(
+	() => {
+		if (!isCommentActive || !document) return
+		if (document.querySelector("h2#v-nc-comment"))
+			tocHeaders.value.push({
+				level: 2,
+				link: `#v-nc-comment`,
+				slug: `v-nc-comment`,
+				title: `评论`,
+				children: [],
+			})
+	},
+	$route,
+	{ immediate: true }
+)
 </script>
 
 <template>

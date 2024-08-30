@@ -6,7 +6,7 @@ import PageNav from "./PageNav.vue"
 import SubToc from "./SubToc.vue"
 import Comment from "./Comment.vue"
 
-import { computed, ref, watch } from "vue"
+import { computed, ref } from "vue"
 import { usePageData, usePageFrontmatter, useRoute } from "vuepress/client"
 import { useThemeData } from "@vuepress/plugin-theme-data/client"
 
@@ -52,13 +52,15 @@ const isCommentActive = computed(() =>
 )
 const commentOption = ref()
 
-// non-flash hook
 const $route = useRoute()
-Hook.onRoute(() => {
-	if (!isCommentActive.value) commentOption.value = undefined
-	else commentOption.value = themeData.value.giscus ?? undefined
-	console.log(isCommentActive.value, commentOption.value)
-}, $route)
+Hook.onRoute(
+	() => {
+		if (!isCommentActive.value) commentOption.value = undefined
+		else commentOption.value = themeData.value.giscus ?? undefined
+	},
+	$route,
+	{ immediate: true }
+)
 
 const pageTitle = computed(() => pageData.value.title)
 setupHeaders()
