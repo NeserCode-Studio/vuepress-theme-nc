@@ -38,21 +38,22 @@ const tocFly = ref<HTMLDivElement | null>(null)
 useSubTocFly(toc, tocFly)
 
 const $route = useRoute()
-Hook.onRoute(
-	() => {
-		if (!isCommentActive || !document) return
-		if (document.querySelector("h2#v-nc-comment"))
-			tocHeaders.value.push({
-				level: 2,
-				link: `#v-nc-comment`,
-				slug: `v-nc-comment`,
-				title: `评论`,
-				children: [],
-			})
-	},
-	$route,
-	{ immediate: true }
-)
+Hook.onRoute(() => {
+	tocHeaders.value = pageData.value.headers ?? []
+
+	if (!isCommentActive || !document) return
+	if (
+		document.querySelector("h2#v-nc-comment") &&
+		tocHeaders.value[tocHeaders.value.length - 1].slug !== "v-nc-comment"
+	)
+		tocHeaders.value.push({
+			level: 2,
+			link: `#v-nc-comment`,
+			slug: `v-nc-comment`,
+			title: `💬评论`,
+			children: [],
+		})
+}, $route)
 </script>
 
 <template>

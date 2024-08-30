@@ -25,7 +25,24 @@ export default defineUserConfig({
 			loading: "lazy",
 		},
 		footer: {
-			copyRight: "© 2022~~ NeserCode",
+			year: "2022 - 2024",
+			themeInfoDisplay: true,
+			copyRight:
+				"<a target='_blank' href='https://github.com/Nesercode'>NeserCode</a>",
+			footerLinks: [
+				{
+					title: "GitHub",
+					link: "https://github.com/nesercode",
+				},
+				{
+					title: "Gitee",
+					link: "https://gitee.com/nesercode",
+				},
+				{
+					title: "Bilibili",
+					link: "https://space.bilibili.com/nesercode",
+				},
+			],
 		},
 		navbar: extendDefaultNavbarConfig([
 			{ text: "Github", link: "https://github.com/NeserCode" },

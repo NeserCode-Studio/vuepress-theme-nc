@@ -5,6 +5,7 @@ import PageMeta from "./PageMeta.vue"
 import PageNav from "./PageNav.vue"
 import SubToc from "./SubToc.vue"
 import Comment from "./Comment.vue"
+import PageFooter from "./PageFooter.vue"
 
 import { computed, ref } from "vue"
 import { usePageData, usePageFrontmatter, useRoute } from "vuepress/client"
@@ -104,7 +105,7 @@ setupHeaders()
 
 			<div class="page-foot">
 				<slot name="before-page-foot"></slot>
-				<span class="page-foot"> </span>
+				<PageFooter />
 				<slot name="after-page-foot"></slot>
 			</div>
 		</div>
