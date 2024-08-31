@@ -1,3 +1,6 @@
+import { useDebounceFn, useEventListener } from "@vueuse/core"
+import { useRoute } from "vuepress/client"
+
 import type {
 	DefaultThemePageFrontmatter,
 	FrontmatterPluginState,
@@ -46,4 +49,27 @@ export const usePluginState = (
 		return tempValue
 	} else if (states.plugins) return !(states.plugins[keyName] === false)
 	else return true
+}
+
+export const useElementSrcolled = (elementSelector: string) => {
+	if (!document) return false
+	const element = document.querySelector(elementSelector)
+	if (!element) return false
+
+	return {
+		onScroll: (callback: (total: number, scrolled: number) => void) => {
+			const listener = useDebounceFn(() => {
+				let rects = element.getBoundingClientRect()
+				let scrolled =
+					rects.height - rects.bottom > 0
+						? rects.height - rects.bottom > rects.height
+							? rects.height
+							: rects.height - rects.bottom
+						: 0
+				if (rects.height === 0) return
+				callback(rects.height, scrolled)
+			}, 100)
+			useEventListener(document, "scroll", listener)
+		},
+	}
 }

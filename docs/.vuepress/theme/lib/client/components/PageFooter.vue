@@ -71,7 +71,7 @@ const footerLinks = computed(() =>
 }
 
 .v-nc-page-footer .normal-info {
-	@apply w-fit inline-flex gap-x-2 pt-2
+	@apply w-fit inline-flex gap-x-2 pt-6
   border-t border-slate-400 dark:border-slate-700
   transition-all ease-in-out duration-300;
 }

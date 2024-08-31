@@ -6,6 +6,7 @@ import PageNav from "./PageNav.vue"
 import SubToc from "./SubToc.vue"
 import Comment from "./Comment.vue"
 import PageFooter from "./PageFooter.vue"
+import BackToTop from "./BackToTop.vue"
 
 import { computed, ref } from "vue"
 import { usePageData, usePageFrontmatter, useRoute } from "vuepress/client"
@@ -112,6 +113,7 @@ setupHeaders()
 		<div class="page-side-right">
 			<div class="page-side-container">
 				<SubToc v-if="isSidebarCategroyActive" />
+				<BackToTop />
 				<slot name="page-side-right"> </slot>
 			</div>
 		</div>
@@ -191,22 +193,20 @@ setupHeaders()
 }
 
 /* Inline link */
-.v-nc-theme-page
-	.page-main
+.page-main
 	a:not(.header-anchor):not(.tag-item):not(.page-back):not(
 		.footnote-anchor
 	):not(.article-title) {
 	@apply relative inline-flex justify-center items-center p-px
 	text-green-600 text-sm underline z-10 -translate-y-px;
 }
-.v-nc-theme-page
-	.page-main
+.page-main
 	a:not(.header-anchor):not(.tag-item):not(.route-link):not(
 		.article-title
 	)[target="_blank"]:not([href^="#"]) {
 	@apply mr-3 pr-1 text-sky-500;
 }
-.v-nc-theme-page .page-main a[target="_blank"]:not([href^="#"]):after {
+.page-main a[target="_blank"]:not([href^="#"]):after {
 	content: "↗";
 	@apply absolute inline-block left-full
 	text-xs no-underline -translate-x-0;
