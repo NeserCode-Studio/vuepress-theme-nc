@@ -3,7 +3,10 @@ import Pagination from "./Pagination.vue";
 
 import { computed, ref, Ref, toRefs, watch } from "vue";
 import { useSiteLocaleData } from "@vuepress/client";
-import { usePaginationChanges } from "../composables/useComponentUtils";
+import {
+  getTagPathByTag,
+  usePaginationChanges,
+} from "../composables/useComponentUtils";
 import { getTimeAgo, getFormatDate } from "../composables/useDate";
 
 import type { SiteLocaleData } from "@vuepress/client";
@@ -33,10 +36,6 @@ function stringfyExcerpt(excerpt: string) {
 function getAuthor(author: string) {
   if (author.trim() === "") return siteLocale.value.title ?? "Unknown";
   return author === undefined ? "Unknown" : author;
-}
-
-function getTagPath(tag: string) {
-  return encodeURI(`/tags/${tag.toLowerCase()}/`);
 }
 
 /* Pagination */
@@ -91,7 +90,7 @@ watch(
               v-for="tag of article.info.tags.slice(0, 3)"
               :key="tag"
               class="tag-item"
-              :to="getTagPath(tag)"
+              :to="getTagPathByTag(tag)"
               >{{ tag }}</router-link
             >
             <span

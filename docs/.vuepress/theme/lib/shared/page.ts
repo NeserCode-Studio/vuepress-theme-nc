@@ -2,8 +2,8 @@ import type { Page, PageData } from "vuepress/core";
 import type { GitPluginPageData } from "@vuepress/plugin-git";
 
 import {
-  BlogPluginPageData,
   BlogPluginFrontmatter,
+  BlogPluginPageData,
 } from "@vuepress/plugin-blog";
 import { ReadingTimePluginPageData } from "@vuepress/plugin-reading-time";
 import { SeoPluginPageData } from "@vuepress/plugin-seo";
@@ -11,6 +11,15 @@ import { SeoPluginPageData } from "@vuepress/plugin-seo";
 import type { FrontmatterPluginState, SidebarArrayOptions } from ".";
 import { AutoLinkConfig } from "vuepress/client";
 import { MarkdownLink } from "vuepress/markdown";
+
+export interface BlogMetaData {
+  author: string;
+  categories: string | string[];
+  date: string | Date;
+  tags: string | string[];
+  excerpt: string;
+  title: string;
+}
 
 export interface ExtraPageData extends PageData {
   filePathRelative?: string | null;
@@ -81,7 +90,10 @@ export interface PagesMapInfo {
   links: MarkdownLink[];
   pathInferred: string | null;
   permalink: string | null;
-  routeMeta: Record<string, unknown>;
+  routeMeta: {
+    title: string;
+    _blog?: BlogMetaData;
+  };
   slug: string;
   filePathRelative: string | null;
 }
