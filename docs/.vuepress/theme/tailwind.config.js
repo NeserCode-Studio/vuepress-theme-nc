@@ -5,12 +5,13 @@ export default {
   theme: {
     extend: {},
   },
-  plugins: [{
-    tailwindcss: {},
-    autoprefixer: {},
-  }],
+  plugins: [
+    {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  ],
   options: {
     safelist: ["html", "body"],
-  }
-}
-
+  },
+};
