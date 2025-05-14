@@ -22,6 +22,10 @@ jobs:
         with:
           node-version: 22
 
+      - name: 设置yarn
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: config set ignore-engines true
       - name: 安装依赖
         uses: borales/actions-yarn@v4
         with:
