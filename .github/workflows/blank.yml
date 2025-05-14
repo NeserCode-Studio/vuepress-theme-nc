@@ -21,7 +21,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-
       - name: 设置yarn
         uses: borales/actions-yarn@v4
         with:
