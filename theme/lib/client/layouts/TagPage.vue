@@ -69,10 +69,14 @@ function getComputedDescription() {
 	@apply w-full min-w-0;
 }
 
+.v-nc-theme-page .page-main .description {
+	@apply block mt-3 text-sm text-gray-500 dark:text-gray-400;
+}
+
 .v-nc-theme-page .page-main a.page-back {
-	@apply relative -ml-1 mb-2 inline-flex justify-center items-center py-0.5 px-1 pr-3
+	@apply relative mb-2 inline-flex justify-center items-center py-0.5 px-1 pr-3
 	rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 text-sm no-underline
-	-translate-x-1 hover:translate-x-0
+	translate-x-0 hover:translate-x-1
 	transition-all ease-in-out duration-300;
 }
 .page-back .icon {
