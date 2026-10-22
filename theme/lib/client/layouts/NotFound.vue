@@ -3,7 +3,7 @@ import Base from "./Base.vue";
 import Page from "../components/Page.vue";
 
 import { useRouteLocale } from "@vuepress/client";
-import { useThemeLocaleData } from "@vuepress/plugin-theme-data/client";
+import { useThemeLocaleData } from "../composables/useThemeLocale";
 
 import { ArrowUturnLeftIcon } from "@heroicons/vue/24/outline";
 import type { DefaultThemeLocaleData } from "../../shared";
@@ -36,15 +36,16 @@ const homeText = themeLocale.value.backToHome ?? "Back to home";
 
 <style lang="postcss" scoped>
 #not-found {
-  @apply flex flex-col min-h-60 w-full justify-center items-center;
+  @apply flex flex-col min-h-60 w-full px-4 justify-center items-center
+  text-center;
 }
 
 .not-found-number,
 .not-found-number::after {
   @apply relative w-fit h-fit inline-flex justify-center items-center
-  font-mono font-black whitespace-nowrap
+  font-mono font-black
   select-none;
-  font-size: 12rem;
+  font-size: clamp(5rem, 30vw, 12rem);
 }
 .not-found-number::after {
   @apply w-fit absolute top-0 left-0 bottom-0 right-0;

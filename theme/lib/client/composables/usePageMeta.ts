@@ -1,5 +1,5 @@
 import { computed } from "vue"
-import { useThemeLocaleData } from "@vuepress/plugin-theme-data/client"
+import { useThemeLocaleData } from "./useThemeLocale"
 import { usePageData, usePageFrontmatter } from "vuepress/client"
 
 import { getFormatDate, getTimeAgo } from "./useDate"

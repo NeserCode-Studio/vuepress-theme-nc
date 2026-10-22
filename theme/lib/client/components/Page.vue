@@ -124,6 +124,10 @@ setupHeaders();
 .v-nc-content h1 {
   @apply hidden;
 }
+
+.v-nc-content {
+  @apply min-w-0 break-words;
+}
 .v-nc-content h2,
 .v-nc-content ~ .v-nc-theme-comment h2,
 .v-nc-content h3,
@@ -193,7 +197,7 @@ setupHeaders();
 .v-nc-theme-page .page-main p code,
 .v-nc-theme-page .page-main li code,
 .v-nc-theme-page .page-main td code {
-  @apply inline-flex justify-center items-center py-px px-1 mx-0.5
+  @apply inline-block max-w-full break-words py-px px-1 mx-0.5
 	rounded bg-slate-200 dark:bg-slate-700 -translate-y-px
 	text-sm font-thin font-mono transition-all ease-in-out duration-300;
 }
@@ -292,8 +296,25 @@ section.footnotes::before {
 }
 
 .v-nc-theme-page .page-main {
-  @apply w-full lg:w-1/2 max-w-3xl min-w-0
-	sm:w-full sm:min-w-[568px];
+  @apply w-full max-w-3xl min-w-0 overflow-x-clip lg:w-1/2;
+}
+
+@media (max-width: 767px) {
+  .v-nc-theme-page .page-main {
+    max-width: calc(100vw - 2rem);
+    overflow-x: hidden;
+  }
+
+  .v-nc-content {
+    overflow-wrap: anywhere;
+  }
+
+  .v-nc-content p,
+  .v-nc-content li,
+  .v-nc-content td {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
 }
 
 .page-side-left,

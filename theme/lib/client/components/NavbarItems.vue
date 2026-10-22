@@ -51,7 +51,7 @@ const { items } = toRefs($props)
 
 <style lang="postcss">
 .theme-navbar-items {
-	@apply inline-flex justify-center items-center gap-1
+	@apply justify-center items-center gap-1
 	text-sm font-medium;
 }
 

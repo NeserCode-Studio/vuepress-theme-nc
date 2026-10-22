@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useThemeLocaleData } from "@vuepress/plugin-theme-data/client"
+import { useThemeLocaleData } from "../composables/useThemeLocale"
 import { useLastUpdated, useContributors } from "../composables/usePageMeta"
 
 import type { DefaultThemeLocaleData } from "../../shared"

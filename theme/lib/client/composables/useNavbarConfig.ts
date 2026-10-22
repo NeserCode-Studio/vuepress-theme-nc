@@ -1,4 +1,4 @@
-import { useThemeLocaleData } from "@vuepress/plugin-theme-data/client"
+import { useThemeLocaleData } from "./useThemeLocale"
 import { computed } from "vue"
 import type { ComputedRef } from "vue"
 import { isString } from "vuepress/shared"

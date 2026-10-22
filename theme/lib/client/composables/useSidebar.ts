@@ -1,4 +1,4 @@
-import { useThemeLocaleData } from "@vuepress/plugin-theme-data/client"
+import { useThemeLocaleData } from "./useThemeLocale"
 import { getHeaders, keys, startsWith } from "@vuepress/helper/client"
 import type { HeaderItem } from "@vuepress/helper/client"
 import { computed, inject, nextTick, onMounted, provide, ref, watch } from "vue"

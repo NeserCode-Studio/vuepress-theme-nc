@@ -3,7 +3,7 @@ import { BookmarkSquareIcon } from "@heroicons/vue/24/outline"
 
 import { Ref, onBeforeMount, toRefs } from "vue"
 import { useStorage } from "@vueuse/core"
-import { useThemeLocaleData } from "@vuepress/plugin-theme-data/client"
+import { useThemeLocaleData } from "../composables/useThemeLocale"
 
 import { onRouteChange } from "../composables/usePageHook"
 
@@ -37,13 +37,9 @@ onRouteChange(() => {
 
 onBeforeMount(() => {
 	const updateRepoInfo = async () =>
-		await fetch(`${themeLocale.value.github?.accessServer}/repo`, {
-			method: "POST",
-			body: JSON.stringify({ username: owner.value, repo: repo.value }),
+		await fetch(`https://api.github.com/repos/${owner.value}/${repo.value}`, {
 			headers: {
-				"Content-Type": "application/json",
-				Accept: "application/json",
-				Authorization: `Bearer ${themeLocale.value.github?.accessToken}`,
+				Accept: "application/vnd.github+json",
 			},
 		})
 			.then((res) => res.json())

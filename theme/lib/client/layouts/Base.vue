@@ -291,8 +291,8 @@ span.arrow.left {
 
 <style lang="postcss" scoped>
 .base-layout {
-  @apply w-full min-w-full h-full min-h-screen flex flex-col items-center py-16
-	bg-zinc-50 dark:bg-zinc-800
-	transition-colors ease-in-out duration-300;
+  @apply w-full min-w-full h-full min-h-screen flex flex-col items-center
+  bg-zinc-50 dark:bg-zinc-900
+  transition-colors ease-in-out duration-300;
 }
 </style>

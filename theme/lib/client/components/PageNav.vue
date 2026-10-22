@@ -2,7 +2,7 @@
 import { AutoLink } from "vuepress/client";
 import { onMounted } from "vue";
 import { useEventListener } from "@vueuse/core";
-import { useThemeLocaleData } from "@vuepress/plugin-theme-data/client";
+import { useThemeLocaleData } from "../composables/useThemeLocale";
 
 import { useRelatedLinks } from "../composables/useRelatedLinks";
 import { useNavigate } from "../composables/useNavigate";

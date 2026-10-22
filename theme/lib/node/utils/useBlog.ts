@@ -41,7 +41,7 @@ export const useBlogPlugin = () =>
 				path: "/tags/",
 				layout: "TagPage",
 				frontmatter: (path) => ({
-					title: "类",
+					title: "Topics",
 					localePath: path,
 					plugins: {
 						readingTime: false,
