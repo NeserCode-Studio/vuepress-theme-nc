@@ -65,8 +65,12 @@ function getComputedDescription() {
 </template>
 
 <style lang="postcss" scoped>
+.page-warpper {
+	@apply w-full min-w-0;
+}
+
 .v-nc-theme-page .page-main a.page-back {
-	@apply absolute left-0 -top-8 inline-flex justify-center items-center py-0.5 px-1 pr-3
+	@apply relative -ml-1 mb-2 inline-flex justify-center items-center py-0.5 px-1 pr-3
 	rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 text-sm no-underline
 	-translate-x-1 hover:translate-x-0
 	transition-all ease-in-out duration-300;

@@ -34,14 +34,16 @@ export const useSubTocFly = (
 				}
 
 				nextTick(() => {
-					const list = toc.value?.querySelector<HTMLDivElement>(
+					const list = toc.value?.querySelector<HTMLUListElement>(
 						".vuepress-toc-list"
-					) as HTMLDivElement
+					) as HTMLUListElement
 					if (!list) return
 
-					list.querySelectorAll("& > .vuepress-toc-item").forEach((l) => {
-						sums.push(l.querySelectorAll(".vuepress-toc-link").length)
-					})
+					list
+						.querySelectorAll(":scope > .vuepress-toc-item")
+						.forEach((l) => {
+							sums.push(l.querySelectorAll(".vuepress-toc-link").length)
+						})
 
 					const links = list.querySelectorAll(".vuepress-toc-link")
 					let actived: number[] = []
