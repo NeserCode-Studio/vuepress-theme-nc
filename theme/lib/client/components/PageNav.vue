@@ -13,8 +13,6 @@ const themeLocale = useThemeLocaleData<DefaultThemeLocaleData>();
 const navigate = useNavigate();
 const { prevLink, nextLink } = useRelatedLinks();
 
-console.log("[Debug PageNav]", [prevLink.value, nextLink.value]);
-
 onMounted(() => {
   useEventListener("keydown", (event): void => {
     if (event.altKey) {

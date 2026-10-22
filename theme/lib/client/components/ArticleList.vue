@@ -17,7 +17,6 @@ const $props = defineProps<{
 }>();
 
 const { articles } = toRefs($props);
-console.log(`[DeBug: List Pages]`, articles.value);
 
 const siteLocale: Ref<SiteLocaleData> = useSiteLocaleData();
 

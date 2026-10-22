@@ -24,8 +24,6 @@ const themeComputed = computed(() =>
 		? giscusOptions.value.darkTheme ?? "dark"
 		: giscusOptions.value.theme
 )
-
-console.log("[Debug Comment]", [giscusOptions.value, options.value])
 </script>
 
 <template>

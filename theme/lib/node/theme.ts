@@ -1,6 +1,5 @@
 import { fs, getDirname, path } from "@vuepress/utils"
 import { viteBundler } from "@vuepress/bundler-vite"
-import { webpackBundler } from "@vuepress/bundler-webpack"
 
 import { activeHeaderLinksPlugin } from "@vuepress/plugin-active-header-links"
 import { readingTimePlugin } from "@vuepress/plugin-reading-time"
@@ -12,7 +11,6 @@ import { markdownContainerPlugin } from "@vuepress/plugin-markdown-container"
 import { seoPlugin } from "@vuepress/plugin-seo"
 import { themeDataPlugin } from "@vuepress/plugin-theme-data"
 import { searchPlugin } from "@vuepress/plugin-search"
-import { mdEnhancePlugin } from "vuepress-plugin-md-enhance"
 
 import tailwindcss from "tailwindcss"
 import autoprefixer from "autoprefixer"
@@ -21,7 +19,7 @@ import { getPagesMap, useBlogPlugin } from "./utils"
 import { assignDefaultOption } from "./utils/assignDefaultOption"
 
 import type { ThemePage, DefaultThemeOptions } from "../shared"
-import type { App, Bundler, AppConfig } from "vuepress/core"
+import type { App, AppConfig } from "vuepress/core"
 
 const __dirname = getDirname(import.meta.url)
 export const nesercodeTheme =
@@ -55,17 +53,6 @@ export const nesercodeTheme =
 							},
 						},
 					})
-				} else {
-					app.options.bundler = webpackBundler({
-						postcss: {
-							postcssOptions: {
-								plugins: [
-									["tailwindcss", tailwindcssConfig],
-									["autoprefixer", {}],
-								],
-							},
-						},
-					}) as unknown as Bundler
 				}
 
 				;(app.siteData as any).pagesMap = getPagesMap(app)
@@ -155,10 +142,6 @@ export const nesercodeTheme =
 				}),
 				useBlogPlugin(),
 				themeDataPlugin({ themeData }),
-				mdEnhancePlugin({
-					gfm: true,
-					delay: 200 + 300,
-				}),
 				searchPlugin({}),
 			],
 		}

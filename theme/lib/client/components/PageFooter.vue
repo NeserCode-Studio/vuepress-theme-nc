@@ -6,7 +6,6 @@ import { computed } from "vue"
 import type { DefaultThemeLocaleData } from "../../shared"
 
 const themeLocale = useThemeLocaleData<DefaultThemeLocaleData>()
-console.log("[Debug Footer]", themeLocale.value.footer)
 const siteData = useSiteData()
 
 const frontmatter = usePageFrontmatter()

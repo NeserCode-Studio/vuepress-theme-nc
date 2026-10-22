@@ -30,7 +30,6 @@ const headLinkIcon = computed(() => {
 const heroIconLink = computed(() =>
 	logo.value ? logo.value : headLinkIcon.value
 )
-console.log("[Debug Navbar] Using icon href", heroIconLink.value)
 
 const NavbarLogo: FunctionalComponent = () => {
 	if (!heroIconLink.value) return null

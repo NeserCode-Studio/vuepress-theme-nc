@@ -3,13 +3,13 @@ import {
   nesercodeTheme,
   extendDefaultNavbarConfig,
   extendDefaultSidebarConfig,
-} from "./theme";
+} from "../../theme/lib/node";
 import { defineUserConfig } from "vuepress";
 
 export default defineUserConfig({
   bundler: viteBundler(),
   theme: nesercodeTheme({
-    domain: "http://localhost:8080",
+    domain: "https://nesercode.github.io",
     giscus: {
       repo: "NeserCode/NeserCode.github.io",
       repoId: "R_kgDOHf8WIA",
@@ -25,7 +25,7 @@ export default defineUserConfig({
       loading: "lazy",
     },
     footer: {
-      year: "2022 - 2024",
+      year: "2022 - 2026",
       themeInfoDisplay: true,
       copyRight:
         "<a target='_blank' href='https://github.com/Nesercode'>NeserCode</a>",
@@ -78,9 +78,6 @@ export default defineUserConfig({
 
     github: {
       username: "nesercode",
-      // it got expired
-      accessServer: "https://github-info-server.onrender.com",
-      accessToken: "nesercode",
     },
 
     notFound: [

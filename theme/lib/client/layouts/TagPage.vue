@@ -22,7 +22,6 @@ function getComputedDescription() {
 	return `共 ${keys.length} 类`
 }
 
-console.log(`[Debug: List Tags]`, tags.value)
 </script>
 
 <template>

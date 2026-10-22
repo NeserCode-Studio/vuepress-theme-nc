@@ -6,9 +6,10 @@ import { useRouteLocale } from "@vuepress/client";
 import { useThemeLocaleData } from "@vuepress/plugin-theme-data/client";
 
 import { ArrowUturnLeftIcon } from "@heroicons/vue/24/outline";
+import type { DefaultThemeLocaleData } from "../../shared";
 
 const routeLocale = useRouteLocale();
-const themeLocale = useThemeLocaleData();
+const themeLocale = useThemeLocaleData<DefaultThemeLocaleData>();
 
 const messages = themeLocale.value.notFound ?? ["Not Found"];
 const getMsg = (): string =>

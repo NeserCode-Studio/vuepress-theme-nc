@@ -1,5 +1,5 @@
 import { Page } from "vuepress";
-import { PagesMapFilter, PagesMapTransformer } from ".";
+import { PagesMapFilter, PagesMapInfo, PagesMapTransformer } from ".";
 import { FrontmatterPluginState } from "./component";
 
 export const defaultConstants: {
@@ -29,7 +29,7 @@ export const DefaultPageInfoTansformer: PagesMapTransformer = (page: Page) => ({
   links: page.links,
   pathInferred: page.pathInferred,
   permalink: page.permalink,
-  routeMeta: page.routeMeta,
+  routeMeta: page.routeMeta as PagesMapInfo["routeMeta"],
   slug: page.slug,
   filePathRelative: page.filePathRelative,
 });

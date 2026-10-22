@@ -1,21 +1,12 @@
 <script lang="ts" setup>
-import { usePageData, usePageFrontmatter } from "vuepress/client";
 import Navbar from "../components/Navbar.vue";
 
 import { useScrollPromise } from "../composables/useScrollbarPromise";
-
-const pageData = usePageData();
-const pageFrontmatter = usePageFrontmatter();
 
 // handle scrollBehavior with transition
 const scrollPromise = useScrollPromise();
 const onBeforeEnter = scrollPromise.resolve;
 const onBeforeLeave = scrollPromise.pending;
-
-console.log("[Debug Page - Base Layout]", [
-  pageData.value,
-  pageFrontmatter.value,
-]);
 </script>
 
 <template>

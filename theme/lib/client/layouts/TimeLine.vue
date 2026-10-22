@@ -10,8 +10,6 @@ import { ArticleInfo, BlogTypeArticleData } from "../../shared"
 const pageData = usePageData()
 const timeLines = useBlogType<ArticleInfo>("timeLine")
 
-console.log("[Debug Timeline]", [timeLines.value])
-
 function getFormatTimeString(time: string) {
 	if (new Date(time))
 		return new Date(time).toLocaleString("zh-CN", {

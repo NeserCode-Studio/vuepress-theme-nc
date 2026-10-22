@@ -1,6 +1,6 @@
 import { useThemeLocaleData } from "@vuepress/plugin-theme-data/client"
 import { getHeaders, keys, startsWith } from "@vuepress/helper/client"
-import type { MenuItem } from "@vuepress/helper/client"
+import type { HeaderItem } from "@vuepress/helper/client"
 import { computed, inject, nextTick, onMounted, provide, ref, watch } from "vue"
 import type { ComputedRef, InjectionKey, Ref } from "vue"
 import {
@@ -25,7 +25,7 @@ import type { SidebarHeaderItem, SidebarItem } from "../typings"
 import { getAutoLink, isLinkInternal, resolvePrefix } from "../utils"
 import { useStorage, useToggle } from "@vueuse/core"
 
-export type HeadersRef = Ref<MenuItem[]>
+export type HeadersRef = Ref<HeaderItem[]>
 
 export const headersRef: HeadersRef = ref([])
 
@@ -125,7 +125,7 @@ export const resolveSidebarItems = (
 	page: PageData,
 	path: string,
 	routeLocale: string,
-	headers: MenuItem[]
+	headers: HeaderItem[]
 ): SidebarItem[] => {
 	// resolve sidebar items according to the config
 	if (sidebarConfig === false) {
@@ -151,7 +151,7 @@ export const resolveSidebarItems = (
  * Util to transform page header to sidebar item
  */
 export const resolveSidebarHeaderItem = (
-	header: MenuItem
+	header: HeaderItem
 ): SidebarHeaderItem => ({
 	text: header.title,
 	link: header.link,
@@ -159,7 +159,7 @@ export const resolveSidebarHeaderItem = (
 })
 
 export const resolveSidebarHeaderItems = (
-	headers?: MenuItem[]
+	headers?: HeaderItem[]
 ): SidebarHeaderItem[] =>
 	headers ? headers.map((header) => resolveSidebarHeaderItem(header)) : []
 
@@ -168,7 +168,7 @@ export const resolveSidebarHeaderItems = (
  */
 export const resolveSidebarHeadingItem = (
 	page: PageData,
-	headers: MenuItem[]
+	headers: HeaderItem[]
 ): SidebarItem[] => [
 	{
 		text: page.title,
@@ -182,7 +182,7 @@ export const resolveSidebarHeadingItem = (
  */
 export const resolveArraySidebarItems = (
 	sidebarConfig: SidebarArrayOptions,
-	headers: MenuItem[],
+	headers: HeaderItem[],
 	path: string,
 	prefix = ""
 ): SidebarItem[] => {
@@ -235,7 +235,7 @@ export const resolveArraySidebarItems = (
 export const resolveMultiSidebarItems = (
 	sidebarConfig: SidebarObjectOptions,
 	page: PageData,
-	headers: MenuItem[],
+	headers: HeaderItem[],
 	path: string
 ): SidebarItem[] => {
 	const sidebarRoutes = keys(sidebarConfig).sort((x, y) => y.length - x.length)

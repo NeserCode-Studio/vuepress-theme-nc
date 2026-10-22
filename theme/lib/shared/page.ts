@@ -38,6 +38,7 @@ export interface ThemePageData
 export type ThemePage = Page<ThemePageData>;
 
 export interface DefaultThemePageFrontmatter {
+  [key: string]: unknown;
   home?: boolean;
   navbar?: boolean;
   plugins?: FrontmatterPluginState;
@@ -91,9 +92,9 @@ export interface PagesMapInfo {
   pathInferred: string | null;
   permalink: string | null;
   routeMeta: {
-    title: string;
+    title?: string;
     _blog?: BlogMetaData;
-  };
+  } & PageData["routeMeta"];
   slug: string;
   filePathRelative: string | null;
 }

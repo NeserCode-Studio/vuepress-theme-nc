@@ -20,7 +20,9 @@ const computedStateSource = computed(() =>
 const isCommentActive = computed(() =>
 	usePluginState("comment", computedStateSource.value)
 )
-const tocHeaders = ref<PageHeader[]>(pageData.value.headers ?? [])
+const tocHeaders = ref<PageHeader[]>(
+	(pageData.value.headers ?? []) as PageHeader[]
+)
 
 const tocOptions = {
 	containerTag: "nav",
@@ -39,11 +41,12 @@ useSubTocFly(toc, tocFly)
 
 const $route = useRoute()
 Hook.onRoute(() => {
-	tocHeaders.value = pageData.value.headers ?? []
+	tocHeaders.value = (pageData.value.headers ?? []) as PageHeader[]
 
-	if (!isCommentActive || !document) return
+	if (!isCommentActive.value || typeof document === "undefined") return
 	if (
 		document.querySelector("h2#v-nc-comment") &&
+		tocHeaders.value.length > 0 &&
 		tocHeaders.value[tocHeaders.value.length - 1].slug !== "v-nc-comment"
 	)
 		tocHeaders.value.push({

@@ -61,7 +61,6 @@ export const useSubTocFly = (
 							offsetRadius = current - getTotal(sums, groupIndex) + groupIndex
 						}
 					}
-					// console.log(`[Debug Hash Fly Position]`, offsetRadius, sums, links)
 					;(
 						tocFly.value as HTMLDivElement
 					).style.transform = `translateY(calc(${offsetRadius * 100}% + ${

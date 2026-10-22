@@ -52,7 +52,7 @@ export const usePluginState = (
 };
 
 export const useElementSrcolled = (elementSelector: string) => {
-  if (!document) return false;
+  if (typeof document === "undefined") return false;
   const element = document.querySelector(elementSelector);
   if (!element) return false;
 
