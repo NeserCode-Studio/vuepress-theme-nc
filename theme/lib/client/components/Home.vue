@@ -28,6 +28,15 @@ const articles = computed<PagesMapInfo[]>(() => {
 
 const featuredArticle = computed(() => articles.value[0] ?? null)
 const recentArticles = computed(() => articles.value.slice(1, 7))
+const latestYear = computed(() => {
+	const date = featuredArticle.value
+		? new Date(featuredArticle.value.routeMeta._blog?.date ?? featuredArticle.value.date)
+		: null
+	return date && !Number.isNaN(date.getTime()) ? date.getFullYear() : "----"
+})
+const journalLoad = computed(() =>
+	Math.min(100, Math.round((articles.value.length / 12) * 100))
+)
 
 const topicEntries = computed(() => {
 	const topicMap = new Map<string, number>()
@@ -57,7 +66,7 @@ function getDate(article: PagesMapInfo): number {
 
 function formatDate(article: PagesMapInfo): string {
 	const date = new Date(article.routeMeta._blog?.date ?? article.date)
-	if (Number.isNaN(date.getTime())) return "Draft"
+	if (Number.isNaN(date.getTime())) return "草稿"
 
 	return date.toLocaleDateString("zh-CN", {
 		year: "numeric",
@@ -85,39 +94,131 @@ function getAuthor(article: PagesMapInfo): string {
 <template>
 	<div class="v-nc-home">
 		<section class="home-hero" aria-labelledby="home-title">
-			<p class="hero-eyebrow">Notes &amp; Journals</p>
-			<h1 id="home-title">{{ siteData.title }}</h1>
-			<p class="hero-tagline">{{ siteData.description }}</p>
+			<div class="hero-pile">
+				<article class="pile-card controlled title-card">
+					<p class="controlled-eyebrow">笔记与札记</p>
+					<h1 id="home-title">{{ siteData.title }}</h1>
+				</article>
 
-			<div class="hero-actions">
-				<RouterLink class="primary-action" to="/time/">
-					<span>Browse journal</span>
-					<span aria-hidden="true">&rarr;</span>
-				</RouterLink>
-				<RouterLink class="secondary-action" to="/tags/">
-					<span>Explore topics</span>
+				<article class="pile-card controlled tagline-card">
+					<p class="hero-tagline">{{ siteData.description }}</p>
+					<div class="hero-actions">
+						<RouterLink class="primary-action" to="/time/">
+							<span>浏览时间线</span>
+							<span aria-hidden="true">&rarr;</span>
+						</RouterLink>
+						<RouterLink class="secondary-action" to="/tags/">
+							<span>探索主题</span>
+						</RouterLink>
+					</div>
+				</article>
+
+				<article class="pile-card stat-card span-1">
+					<span class="stat-label">篇目</span>
+					<span class="stat-value">{{ articles.length }}</span>
+				</article>
+
+				<article class="pile-card stat-card span-1">
+					<span class="stat-label">主题</span>
+					<span class="stat-value">{{ topicEntries.length }}</span>
+				</article>
+
+				<article
+					class="pile-card note-card span-2 row-2"
+					v-if="featuredArticle"
+				>
+					<time>{{ formatDate(featuredArticle) }}</time>
+					<RouteLink
+						:to="featuredArticle.pathInferred!"
+						class="pile-title"
+					>
+						{{ featuredArticle.routeMeta._blog?.title }}
+					</RouteLink>
+					<span class="pile-excerpt">
+						{{ getExcerpt(featuredArticle) }}
+					</span>
+					<span class="pile-tags">
+						{{ getTags(featuredArticle).slice(0, 3).join(" / ") }}
+					</span>
+				</article>
+
+				<article
+					class="pile-card recent-card span-1 row-2"
+					v-for="article in recentArticles.slice(0, 4)"
+					:key="article.slug"
+				>
+					<time>{{ formatDate(article) }}</time>
+					<RouteLink :to="article.pathInferred!" class="pile-title">
+						{{ article.routeMeta._blog?.title }}
+					</RouteLink>
+					<span class="pile-excerpt">
+						{{ getExcerpt(article) }}
+					</span>
+				</article>
+
+				<article class="pile-card code-card span-2 row-1">
+					<span class="stat-label">灵感流</span>
+					<pre><code>记录 → 理解 → 分享</code></pre>
+				</article>
+
+				<article class="pile-card progress-card span-2 row-1">
+					<span class="stat-label">札记进度</span>
+					<span class="stat-value">{{ articles.length }}/12</span>
+					<span class="progress-track">
+						<span
+							class="progress-bar"
+							:style="{ width: `${journalLoad}%` }"
+						></span>
+					</span>
+				</article>
+
+				<article class="pile-card timeline-card span-2 row-2">
+					<span class="stat-label">时间脉络</span>
+					<div class="timeline-track">
+						<span
+							class="timeline-dot"
+							v-for="article in recentArticles.slice(0, 5)"
+							:key="article.slug"
+						></span>
+					</div>
+					<span class="timeline-years">{{ latestYear }}</span>
+				</article>
+
+				<article class="pile-card stamp-card span-1 row-1">
+					<span class="stamp">共 {{ articles.length }} 篇</span>
+				</article>
+
+				<article class="pile-card quote-card span-2 row-2">
+					<blockquote>
+						长文记录，简短思考。
+					</blockquote>
+				</article>
+
+				<article class="pile-card grid-card span-1 row-1" aria-hidden="true">
+					<div class="dot-grid">
+						<span v-for="dot in 9" :key="dot"></span>
+					</div>
+				</article>
+
+				<article class="pile-card arrow-card span-1 row-1" aria-hidden="true">
+					<span>&rarr;</span>
+				</article>
+
+				<RouterLink
+					class="pile-card pile-topic-card span-1 row-1"
+					v-for="topic in topicEntries.slice(0, 4)"
+					:key="topic.name"
+					:to="getTagPathByTag(topic.name)"
+				>
+					<span class="topic-name">{{ topic.name }}</span>
+					<small>{{ topic.count }}</small>
 				</RouterLink>
 			</div>
-
-			<dl class="hero-stats">
-				<div class="stat">
-					<dt>Entries</dt>
-					<dd>{{ articles.length }}</dd>
-				</div>
-				<div class="stat">
-					<dt>Topics</dt>
-					<dd>{{ topicEntries.length }}</dd>
-				</div>
-				<div class="stat">
-					<dt>Reading</dt>
-					<dd>Long-form</dd>
-				</div>
-			</dl>
 		</section>
 
 		<section class="featured-section" v-if="featuredArticle">
 			<div class="section-heading">
-				<span class="heading-label">Featured</span>
+				<span class="heading-label">精选阅读</span>
 				<span class="heading-rule" aria-hidden="true"></span>
 			</div>
 
@@ -142,7 +243,7 @@ function getAuthor(article: PagesMapInfo): string {
 						{{ tag }}
 					</RouterLink>
 					<RouteLink class="read-link" :to="featuredArticle.pathInferred!">
-						Read note
+						阅读全文
 					</RouteLink>
 				</div>
 			</article>
@@ -150,8 +251,8 @@ function getAuthor(article: PagesMapInfo): string {
 
 		<section class="recent-section" v-if="recentArticles.length">
 			<div class="section-heading">
-				<h2>Recent entries</h2>
-				<RouteLink class="heading-link" to="/time/">All entries</RouteLink>
+				<h2>最近文章</h2>
+				<RouteLink class="heading-link" to="/time/">全部文章</RouteLink>
 			</div>
 
 			<div class="entry-grid">
@@ -167,7 +268,7 @@ function getAuthor(article: PagesMapInfo): string {
 					</span>
 					<span class="card-excerpt">{{ getExcerpt(article) }}</span>
 					<span class="card-tags">
-						{{ getTags(article).slice(0, 2).join(" / ") || "Journal" }}
+						{{ getTags(article).slice(0, 2).join(" / ") || "札记" }}
 					</span>
 				</RouteLink>
 			</div>
@@ -175,8 +276,8 @@ function getAuthor(article: PagesMapInfo): string {
 
 		<section class="topic-section" v-if="topicEntries.length">
 			<div class="section-heading">
-				<h2>Topic index</h2>
-				<RouteLink class="heading-link" to="/tags/">All topics</RouteLink>
+				<h2>主题索引</h2>
+				<RouteLink class="heading-link" to="/tags/">全部主题</RouteLink>
 			</div>
 
 			<div class="topic-grid">
@@ -205,31 +306,67 @@ function getAuthor(article: PagesMapInfo): string {
 	border-slate-200 dark:border-slate-700;
 }
 
-.hero-eyebrow {
-	@apply inline-flex items-center gap-2 mb-4
+.hero-pile {
+	@apply grid grid-cols-2 gap-3;
+	grid-auto-rows: minmax(4.5rem, auto);
+	grid-auto-flow: dense;
+}
+
+.pile-card {
+	@apply relative flex min-w-0 flex-col gap-2 rounded-xl border p-3
+	border-slate-200 bg-white/90 shadow-sm backdrop-blur
+	text-slate-700 no-underline
+	transition-colors ease-in-out duration-200
+	hover:border-emerald-300 hover:bg-white
+	dark:border-slate-700 dark:bg-slate-900/90 dark:text-slate-200
+	dark:hover:border-emerald-500 dark:hover:bg-slate-900;
+}
+
+.pile-card:nth-child(3n) {
+	rotate: 0.45deg;
+}
+
+.pile-card:nth-child(3n + 1) {
+	rotate: -0.7deg;
+}
+
+.controlled {
+	@apply z-20;
+}
+
+.title-card {
+	@apply justify-center col-span-2 row-2 min-h-40 p-4
+	bg-white shadow-lg dark:bg-slate-900;
+}
+
+.controlled-eyebrow {
+	@apply inline-flex items-center gap-2
 	text-sm font-semibold font-mono
 	text-emerald-600 dark:text-emerald-400;
 }
 
-.hero-eyebrow::before {
+.controlled-eyebrow::before {
 	content: "";
 	@apply w-2 h-2 rounded-full bg-emerald-500;
 }
 
-.home-hero h1 {
-	@apply max-w-3xl mb-4
-	text-4xl leading-[1.1] font-black
+.title-card h1 {
+	@apply text-4xl leading-[1.05] font-black
 	text-slate-900 dark:text-slate-50;
 }
 
+.tagline-card {
+	@apply justify-between col-span-2 row-2 min-h-36 p-4
+	border-dashed;
+}
+
 .hero-tagline {
-	@apply max-w-2xl mb-8
-	text-lg leading-8
+	@apply text-lg leading-8
 	text-slate-600 dark:text-slate-300;
 }
 
 .hero-actions {
-	@apply flex flex-wrap items-center gap-3;
+	@apply mt-4 flex flex-wrap items-center gap-3;
 }
 
 .primary-action,
@@ -250,23 +387,172 @@ function getAuthor(article: PagesMapInfo): string {
 	dark:hover:border-slate-500 dark:hover:bg-slate-800;
 }
 
-.hero-stats {
-	@apply mt-10 grid grid-cols-1 gap-3 sm:grid-cols-3;
+.row-1 {
+	grid-row: span 1;
 }
 
-.hero-stats .stat {
-	@apply px-4 py-3 border-l-2
-	border-emerald-500/70 bg-slate-100/60
-	dark:bg-slate-800/50;
+.row-2 {
+	grid-row: span 2;
 }
 
-.hero-stats dt {
-	@apply text-xs font-semibold font-mono uppercase
+.stat-card {
+	@apply justify-center col-span-2 p-3
+	bg-slate-100/85 dark:bg-slate-800/55;
+}
+
+.stat-label {
+	@apply text-xs font-semibold font-mono
 	text-slate-500 dark:text-slate-400;
 }
 
-.hero-stats dd {
-	@apply mt-1 text-xl font-bold;
+.stat-value {
+	@apply text-xl font-bold;
+}
+
+.pile-title {
+	@apply line-clamp-2 text-lg font-bold leading-6
+	text-slate-900 no-underline
+	hover:text-emerald-600
+	dark:text-slate-50 dark:hover:text-emerald-400;
+}
+
+.pile-excerpt {
+	@apply line-clamp-3 text-sm leading-6
+	text-slate-600 dark:text-slate-300;
+}
+
+.pile-tags {
+	@apply mt-auto text-xs font-semibold font-mono
+	text-emerald-600 dark:text-emerald-400;
+}
+
+.code-card {
+	@apply justify-center col-span-2
+	bg-slate-950 text-slate-100
+	dark:bg-slate-950;
+}
+
+.code-card pre {
+	@apply m-0 overflow-x-auto text-sm font-mono;
+}
+
+.progress-track {
+	@apply h-1.5 w-full rounded-full bg-slate-200 dark:bg-slate-700;
+}
+
+.progress-bar {
+	@apply block h-full rounded-full bg-emerald-500;
+}
+
+.timeline-track {
+	@apply relative flex flex-1 items-center;
+}
+
+.timeline-track::before {
+	content: "";
+	@apply absolute left-2 right-2 h-px
+	border-t border-dashed border-emerald-400/60;
+}
+
+.timeline-dot {
+	@apply relative z-10 h-3 w-3 rounded-full border-2
+	border-emerald-500 bg-white dark:bg-slate-900;
+}
+
+.timeline-years {
+	@apply text-sm font-mono text-slate-500 dark:text-slate-400;
+}
+
+.stamp-card {
+	@apply justify-center items-center col-span-2;
+}
+
+.stamp {
+	@apply rounded-full border-2 border-dashed px-3 py-1
+	text-sm font-bold font-mono text-emerald-600
+	rotate-[-6deg] dark:text-emerald-400;
+}
+
+.quote-card {
+	@apply justify-center col-span-2;
+}
+
+.quote-card blockquote {
+	@apply m-0 text-lg font-semibold leading-7
+	text-slate-800 dark:text-slate-100;
+}
+
+.grid-card {
+	@apply justify-center items-center col-span-2;
+}
+
+.dot-grid {
+	@apply grid grid-cols-3 gap-2;
+}
+
+.dot-grid span {
+	@apply block h-1.5 w-1.5 rounded-full bg-slate-300 dark:bg-slate-600;
+}
+
+.arrow-card {
+	@apply justify-center items-center col-span-2 text-2xl;
+}
+
+.pile-topic-card {
+	@apply flex-row items-center justify-between col-span-2;
+}
+
+.pile-topic-card .topic-name {
+	@apply truncate text-sm font-semibold;
+}
+
+.pile-topic-card small {
+	@apply rounded-full bg-slate-200 px-1.5
+	text-xs font-bold dark:bg-slate-800;
+}
+
+@media (min-width: 640px) {
+	.hero-pile {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+
+	.span-1 {
+		grid-column: span 1;
+	}
+
+	.span-2 {
+		grid-column: span 2;
+	}
+
+	.title-card {
+		grid-column: span 3;
+	}
+
+	.tagline-card {
+		grid-column: span 3;
+	}
+}
+
+@media (min-width: 1024px) {
+	.hero-pile {
+		grid-template-columns: repeat(12, minmax(0, 1fr));
+	}
+
+	.span-1 {
+		grid-column: span 2;
+	}
+
+	.span-2 {
+		grid-column: span 3;
+	}
+
+	.title-card {
+		grid-column: span 5;
+	}
+
+	.tagline-card {
+		grid-column: span 5;
+	}
 }
 
 .section-heading {
