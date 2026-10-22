@@ -1,19 +1,48 @@
 <script lang="ts" setup>
-import { Ref, toRefs } from "vue"
-import { useSiteLocaleData } from "@vuepress/client"
+import { computed, toRefs, type Ref } from "vue"
+import { useSiteLocaleData } from "vuepress/client"
 
-import { getTimeAgo, getFormatDate } from "../composables/useDate"
+import { getTimeAgo } from "../composables/useDate"
+import { getTagPathByTag } from "../composables/useComponentUtils"
 
-import type { SiteLocaleData } from "@vuepress/client"
+import type { SiteLocaleData } from "vuepress/client"
 import type { BlogTypeArticleData } from "../../shared"
+
+type TimelineArticle = BlogTypeArticleData["items"][number]
 
 const $props = defineProps<{
 	articles: BlogTypeArticleData["items"]
 }>()
 
 const { articles } = toRefs($props)
-
 const siteLocale: Ref<SiteLocaleData> = useSiteLocaleData()
+
+const timelineGroups = computed(() => {
+	const groups = new Map<number, TimelineArticle[]>()
+
+	for (const article of articles.value) {
+		const year = new Date(article.info.date).getFullYear()
+		const group = groups.get(year) ?? []
+		group.push(article)
+		groups.set(year, group)
+	}
+
+	let startIndex = 0
+	return [...groups.entries()]
+		.sort(([currentYear], [nextYear]) => nextYear - currentYear)
+		.map(([year, groupArticles]) => {
+			const numberedArticles = groupArticles.map((article, index) => ({
+				article,
+				index: startIndex + index,
+			}))
+			startIndex += groupArticles.length
+
+			return {
+				year,
+				articles: numberedArticles,
+			}
+		})
+})
 
 function stringfyExcerpt(excerpt: string) {
 	let result: string
@@ -32,127 +61,232 @@ function getAuthor(author: string) {
 	return author === undefined ? "Unknown" : author
 }
 
-function getTagPath(tag: string) {
-	return `/tags/${tag.toLocaleLowerCase()}/`
+function getMonthDay(date: Date | string) {
+	return new Intl.DateTimeFormat("zh-CN", {
+		month: "2-digit",
+		day: "2-digit",
+	}).format(new Date(date))
+}
+
+function getClock(date: Date | string) {
+	return new Intl.DateTimeFormat("zh-CN", {
+		hour: "2-digit",
+		minute: "2-digit",
+		hourCycle: "h24",
+	}).format(new Date(date))
+}
+
+function getISODate(date: Date | string) {
+	return new Date(date).toISOString()
+}
+
+function getIndexLabel(index: number) {
+	return String(index + 1).padStart(2, "0")
 }
 </script>
 
 <template>
 	<div class="timeline-list">
-		<div
-			class="timeline-wrapper"
-			v-for="article in articles"
-			:key="article.path"
+		<section
+			class="timeline-group"
+			v-for="group in timelineGroups"
+			:key="group.year"
 		>
-			<div class="timeline-main">
-				<router-link :to="article.path" class="article-title">{{
-					article.info.title
-				}}</router-link>
-				<span class="article-info">
-					<span class="date"
-						>{{ getFormatDate(article.info.date) }} ·
-						{{ getTimeAgo(article.info.date) }}</span
-					>
-					<span class="author">by {{ getAuthor(article.info.author) }}</span>
-				</span>
-				<span class="article-excerpt">{{
-					stringfyExcerpt(article.info.excerpt)
-				}}</span>
-				<span class="article-tags">
-					<router-link
-						:to="getTagPath(tag)"
-						v-for="tag in article.info.tags.slice(0, 3)"
-						:key="tag"
-						class="tag-item"
-						>{{ tag }}</router-link
-					>
-					<span class="tag-item" v-if="article.info.tags.length > 3">
-						+{{ article.info.tags.length - 3 }} tags
-					</span>
-				</span>
+			<header class="timeline-group-header">
+				<span class="group-year">{{ group.year }}</span>
+				<span class="group-rule" aria-hidden="true"></span>
+				<span class="group-count">{{ group.articles.length }} 篇</span>
+			</header>
+
+			<div class="timeline-entries">
+				<article
+					class="timeline-entry"
+					v-for="{ article, index } in group.articles"
+					:key="article.path"
+					:style="{ '--timeline-index': index }"
+				>
+					<div class="entry-date">
+						<span class="month-day">{{ getMonthDay(article.info.date) }}</span>
+						<span class="year">{{ group.year }}</span>
+					</div>
+					<span class="entry-node" aria-hidden="true"></span>
+
+					<div class="entry-main">
+						<div class="entry-head">
+							<router-link
+								:to="article.path"
+								class="entry-title article-title"
+								>{{ article.info.title }}</router-link
+							>
+							<span class="entry-index">No.{{ getIndexLabel(index) }}</span>
+						</div>
+
+						<p class="entry-excerpt">
+							{{ stringfyExcerpt(article.info.excerpt) }}
+						</p>
+
+						<div class="entry-meta">
+							<time :datetime="getISODate(article.info.date)">
+								{{ getClock(article.info.date) }}
+							</time>
+							<span>{{ getTimeAgo(article.info.date) }}</span>
+							<span>by {{ getAuthor(article.info.author) }}</span>
+						</div>
+
+						<div class="entry-tags" v-if="article.info.tags.length > 0">
+							<router-link
+								:to="getTagPathByTag(tag)"
+								v-for="tag in article.info.tags.slice(0, 3)"
+								:key="tag"
+								class="tag-item"
+								>{{ tag }}</router-link
+							>
+							<span
+								class="tag-item more-tag"
+								v-if="article.info.tags.length > 3"
+							>
+								+{{ article.info.tags.length - 3 }} tags
+							</span>
+						</div>
+					</div>
+				</article>
 			</div>
-		</div>
+		</section>
 	</div>
 </template>
 
 <style lang="postcss" scoped>
 .timeline-list {
-	@apply w-full flex flex-col;
+	@apply w-full;
 }
 
-.timeline-wrapper {
-	@apply relative inline-block  sm:w-1/2 w-[90%] py-2
-	first:pt-4 last:pb-4
-	sm:odd:self-start odd:self-auto sm:even:self-end even:self-auto
-	sm:odd:border-r-2 sm:odd:border-l-0 odd:border-l-2 even:border-l-2
-	border-sky-400 dark:border-sky-700
-	sm:odd:pr-[5%] sm:odd:pl-0 odd:pr-0 odd:pl-[5%] even:pl-[5%]
-	sm:odd:translate-x-px odd:translate-x-0 sm:even:-translate-x-px even:translate-x-0
-	transition-colors ease-in-out duration-300;
+.timeline-group {
+	@apply mt-8 first:mt-0;
 }
-.timeline-wrapper:nth-child(odd)::before {
-	@apply sm:left-full right-full
-	transform -translate-y-px sm:-translate-x-full translate-x-full;
+
+.timeline-group-header {
+	@apply mb-5 flex items-center gap-3;
 }
-.timeline-wrapper:nth-child(even)::before {
-	@apply right-full
-	transform -translate-y-px translate-x-full;
+
+.timeline-group-header .group-year {
+	@apply text-2xl font-black font-mono text-slate-900 dark:text-slate-100;
 }
-.timeline-wrapper:nth-child(odd)::before,
-.timeline-wrapper:nth-child(even)::before {
+
+.timeline-group-header .group-rule {
+	@apply h-px min-w-6 flex-1 bg-slate-200 dark:bg-slate-700;
+}
+
+.timeline-group-header .group-count {
+	@apply text-xs text-slate-400 dark:text-slate-500;
+}
+
+.timeline-entries {
+	@apply relative;
+}
+
+.timeline-entries::before {
 	content: "";
-	width: calc(5% + 0.25rem);
-	@apply absolute top-1/2 sm:w-[10%] h-0.5
-	bg-green-400 dark:bg-green-500;
-}
-.timeline-wrapper:nth-child(odd)::after {
-	@apply sm:left-full left-0
-	transform -translate-y-2 sm:-translate-x-[7px] -translate-x-1/2;
-}
-.timeline-wrapper:nth-child(even)::after {
-	@apply right-full
-	transform -translate-y-2 translate-x-[7px];
-}
-.timeline-wrapper:nth-child(odd)::after,
-.timeline-wrapper:nth-child(even)::after {
-	content: "";
-	@apply absolute w-4 h-4 top-1/2
-	border-2 rounded-full
-	border-green-400 dark:border-green-500
-	bg-slate-50 dark:bg-sky-900
-	transition-all ease-in-out duration-300;
+	@apply absolute top-3 bottom-3 w-px
+	border-l border-dashed
+	border-slate-200 dark:border-slate-700;
+	left: 0.5rem;
 }
 
-.timeline-main {
-	@apply flex flex-col gap-1 justify-center px-4 py-3
-	rounded border-2 border-green-400 dark:border-green-500
-	transition-all ease-in-out duration-300;
+@media (min-width: 640px) {
+	.timeline-entries::before {
+		left: 7.25rem;
+	}
 }
 
-.timeline-main .article-title {
-	@apply w-fit inline-flex justify-center items-center
-	text-lg font-semibold text-green-500;
-}
-.timeline-main .article-info {
-	@apply inline-flex items-center gap-x-2 flex-wrap
-	text-sm text-gray-400 font-thin font-mono;
-}
-.article-info .date {
-	@apply text-neutral-400;
-}
-.timeline-main .article-excerpt {
-	@apply text-base text-gray-600 dark:text-gray-300
-	transition-colors ease-in-out duration-300;
+.timeline-entry {
+	@apply grid items-start gap-x-3;
+	grid-template-columns: 1.25rem minmax(0, 1fr);
+	animation: timeline-enter 0.45s ease-out forwards;
+	animation-delay: calc(var(--timeline-index) * 60ms);
 }
 
-.timeline-main .article-tags {
-	@apply flex flex-wrap gap-1 mt-2
-	text-sm;
+@media (min-width: 640px) {
+	.timeline-entry {
+		grid-template-columns: 5.5rem 2rem minmax(0, 1fr);
+	}
 }
-.article-tags .tag-item {
-	@apply w-fit max-w-full inline-flex justify-center items-center gap-2 py-0.5 px-1
-	border-2 border-transparent rounded bg-slate-200 dark:bg-slate-700
-	hover:bg-slate-300 dark:hover:bg-slate-600 text-sm cursor-pointer
-	transition-all ease-in-out duration-300 truncate;
+
+@keyframes timeline-enter {
+	from {
+		opacity: 0;
+		transform: translateY(0.75rem);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.entry-date {
+	@apply hidden flex-col text-right font-mono sm:flex;
+}
+
+.entry-date .month-day {
+	@apply text-lg font-bold text-slate-700 dark:text-slate-200;
+}
+
+.entry-date .year {
+	@apply text-xs text-slate-400 dark:text-slate-500;
+}
+
+.entry-node {
+	@apply relative z-10 mt-1 h-4 w-4 justify-self-center rounded-full
+	border-2 border-green-400 bg-slate-50 dark:border-green-500 dark:bg-slate-900
+	transition-all ease-in-out duration-200;
+}
+
+.timeline-entry:hover .entry-node {
+	@apply scale-110 bg-green-400;
+}
+
+.entry-main {
+	@apply flex min-w-0 flex-col gap-2 pb-6;
+}
+
+.timeline-entry:not(:last-child) .entry-main {
+	@apply border-b border-dashed border-slate-200 dark:border-slate-700;
+}
+
+.entry-head {
+	@apply flex items-start justify-between gap-3;
+}
+
+.entry-main .entry-title {
+	@apply inline-flex min-w-0 text-lg font-bold
+	text-slate-900 no-underline
+	hover:text-green-600
+	dark:text-slate-100 dark:hover:text-green-400
+	transition-colors ease-in-out duration-200;
+}
+
+.entry-index {
+	@apply shrink-0 pt-1 text-xs font-mono text-slate-400 dark:text-slate-500;
+}
+
+.entry-excerpt {
+	@apply line-clamp-2 text-sm leading-6 text-slate-600 dark:text-slate-300;
+}
+
+.entry-meta {
+	@apply flex flex-wrap items-center gap-x-2 gap-y-1 text-xs
+	text-slate-400 dark:text-slate-500;
+}
+
+.entry-tags {
+	@apply flex flex-wrap gap-1;
+}
+
+.entry-tags .tag-item {
+	@apply inline-flex max-w-full items-center justify-center gap-2
+	rounded border-2 border-transparent bg-slate-200 px-1 py-0.5
+	text-sm text-slate-700 no-underline
+	hover:bg-slate-300
+	dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600
+	cursor-pointer transition-all ease-in-out duration-200 truncate;
 }
 </style>
