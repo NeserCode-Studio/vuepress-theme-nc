@@ -1,5 +1,13 @@
 <script lang="ts" setup>
-import { computed } from "vue"
+import { computed, ref } from "vue"
+import {
+	ArrowUpTrayIcon,
+	CalendarIcon,
+	ChartBarIcon,
+	ChevronDownIcon,
+	MagnifyingGlassIcon,
+	PaperAirplaneIcon,
+} from "@heroicons/vue/24/outline"
 import { RouteLink, useSiteData, type SiteData } from "vuepress/client"
 
 import { defaultConstants } from "../../shared"
@@ -28,15 +36,34 @@ const articles = computed<PagesMapInfo[]>(() => {
 
 const featuredArticle = computed(() => articles.value[0] ?? null)
 const recentArticles = computed(() => articles.value.slice(1, 7))
-const latestYear = computed(() => {
-	const date = featuredArticle.value
-		? new Date(featuredArticle.value.routeMeta._blog?.date ?? featuredArticle.value.date)
-		: null
-	return date && !Number.isNaN(date.getTime()) ? date.getFullYear() : "----"
-})
 const journalLoad = computed(() =>
 	Math.min(100, Math.round((articles.value.length / 12) * 100))
 )
+const searchQuery = ref("")
+const topicFilter = ref("全部主题")
+const readingDensity = ref(64)
+const focusMode = ref(true)
+const noteRead = ref(true)
+const noteSaved = ref(false)
+const noteReview = ref(false)
+const contentTab = ref("笔记")
+const contentTabs = ["笔记", "方案", "速记"]
+const selectedDay = ref(2)
+const email = ref("")
+const subscribed = ref(false)
+const uploadName = ref("")
+const weekDays = ["一", "二", "三", "四", "五", "六", "日"]
+const weeklyBars = [32, 58, 44, 72, 61, 84, 49]
+const calendarDays = Array.from({ length: 28 }, (_, index) => index + 1)
+
+function onFileChange(event: Event) {
+	const target = event.target as HTMLInputElement
+	uploadName.value = target.files?.[0]?.name ?? ""
+}
+
+function subscribe() {
+	if (email.value.trim()) subscribed.value = true
+}
 
 const topicEntries = computed(() => {
 	const topicMap = new Map<string, number>()
@@ -94,132 +121,208 @@ function getAuthor(article: PagesMapInfo): string {
 <template>
 	<div class="v-nc-home">
 		<section class="home-hero" aria-labelledby="home-title">
-			<div class="hero-pile">
-				<article class="pile-card controlled title-card">
-					<p class="controlled-eyebrow">笔记与札记</p>
-					<h1 id="home-title">{{ siteData.title }}</h1>
-				</article>
+		<div class="hero-board">
+			<article class="wall-tile hero-anchor title-card">
+				<p class="tile-tag">学习工作台</p>
+				<h1 id="home-title">NeserCode</h1>
+				<span class="title-note">
+					{{ articles.length }} 篇 · {{ topicEntries.length }} 个主题
+				</span>
+			</article>
 
-				<article class="pile-card controlled tagline-card">
-					<p class="hero-tagline">{{ siteData.description }}</p>
-					<div class="hero-actions">
-						<RouterLink class="primary-action" to="/time/">
-							<span>浏览时间线</span>
-							<span aria-hidden="true">&rarr;</span>
-						</RouterLink>
-						<RouterLink class="secondary-action" to="/tags/">
-							<span>探索主题</span>
-						</RouterLink>
-					</div>
-				</article>
+			<article class="wall-tile hero-anchor claim-card">
+				<p class="hero-tagline">Make learning useful.</p>
+				<p class="claim-sub">让每个概念都落到实践里。</p>
+				<div class="hero-actions">
+					<RouterLink class="primary-action" to="/time/">
+						<span>看时间线</span>
+						<span aria-hidden="true">&rarr;</span>
+					</RouterLink>
+					<RouterLink class="secondary-action" to="/tags/">
+						<span>找主题</span>
+					</RouterLink>
+				</div>
+			</article>
 
-				<article class="pile-card stat-card span-1">
-					<span class="stat-label">篇目</span>
-					<span class="stat-value">{{ articles.length }}</span>
-				</article>
+			<article class="wall-tile wall-search">
+				<label class="tile-label" for="hero-search">检索框</label>
+				<div class="search-shell">
+					<MagnifyingGlassIcon class="search-icon" />
+					<input
+						id="hero-search"
+						v-model="searchQuery"
+						type="search"
+						autocomplete="off"
+						placeholder="搜索概念、代码或页面"
+					/>
+				</div>
+			</article>
 
-				<article class="pile-card stat-card span-1">
-					<span class="stat-label">主题</span>
-					<span class="stat-value">{{ topicEntries.length }}</span>
-				</article>
+			<article class="wall-tile wall-check">
+				<span class="tile-label">阅读状态</span>
+				<label class="check-item">
+					<input v-model="noteRead" type="checkbox" />
+					<span class="check-mark" aria-hidden="true"></span>
+					<span>已读</span>
+				</label>
+				<label class="check-item">
+					<input v-model="noteSaved" type="checkbox" />
+					<span class="check-mark" aria-hidden="true"></span>
+					<span>稍后保存</span>
+				</label>
+				<label class="check-item">
+					<input v-model="noteReview" type="checkbox" />
+					<span class="check-mark" aria-hidden="true"></span>
+					<span>复盘一次</span>
+				</label>
+			</article>
 
-				<article
-					class="pile-card note-card span-2 row-2"
-					v-if="featuredArticle"
-				>
-					<time>{{ formatDate(featuredArticle) }}</time>
-					<RouteLink
-						:to="featuredArticle.pathInferred!"
-						class="pile-title"
+			<article class="wall-tile wall-calendar">
+				<span class="tile-label">本周日程</span>
+				<div class="calendar-head">
+					<CalendarIcon class="icon" />
+					<span>七月</span>
+				</div>
+				<div class="calendar-grid">
+					<span
+						class="calendar-week"
+						v-for="day in weekDays"
+						:key="day"
 					>
-						{{ featuredArticle.routeMeta._blog?.title }}
-					</RouteLink>
-					<span class="pile-excerpt">
-						{{ getExcerpt(featuredArticle) }}
+						{{ day }}
 					</span>
-					<span class="pile-tags">
-						{{ getTags(featuredArticle).slice(0, 3).join(" / ") }}
-					</span>
-				</article>
+					<button
+						v-for="day in calendarDays"
+						:key="day"
+						type="button"
+						:class="{ active: selectedDay === day }"
+						@click="selectedDay = day"
+					>
+						{{ day }}
+					</button>
+				</div>
+			</article>
 
-				<article
-					class="pile-card recent-card span-1 row-2"
-					v-for="article in recentArticles.slice(0, 4)"
-					:key="article.slug"
+			<article class="wall-tile wall-toggle">
+				<label class="switch">
+					<input v-model="focusMode" type="checkbox" class="sr-only" />
+					<span class="switch-track">
+						<span class="switch-thumb"></span>
+					</span>
+					<span class="switch-text">专注模式</span>
+				</label>
+			</article>
+
+			<article class="wall-tile wall-range">
+				<label class="tile-label" for="hero-density">阅读密度</label>
+				<input
+					id="hero-density"
+					v-model.number="readingDensity"
+					class="range-input"
+					type="range"
+					min="0"
+					max="100"
+				/>
+				<div class="range-scale">
+					<span>简</span>
+					<span>{{ readingDensity }}%</span>
+					<span>繁</span>
+				</div>
+			</article>
+
+			<article class="wall-tile wall-select">
+				<label class="tile-label" for="hero-topic">主题筛选</label>
+				<div class="select-shell">
+					<select id="hero-topic" v-model="topicFilter">
+						<option value="全部主题">全部主题</option>
+						<option
+							v-for="topic in topicEntries.slice(0, 6)"
+							:key="topic.name"
+							:value="topic.name"
+						>
+							{{ topic.name }}
+						</option>
+					</select>
+					<ChevronDownIcon class="select-icon" />
+				</div>
+			</article>
+
+			<article v-if="featuredArticle" class="wall-tile wall-note">
+				<span class="business-label">业务块 · 当前在写</span>
+				<RouteLink
+					:to="featuredArticle.pathInferred!"
+					class="note-title"
 				>
-					<time>{{ formatDate(article) }}</time>
-					<RouteLink :to="article.pathInferred!" class="pile-title">
-						{{ article.routeMeta._blog?.title }}
-					</RouteLink>
-					<span class="pile-excerpt">
-						{{ getExcerpt(article) }}
+					{{ featuredArticle.routeMeta._blog?.title }}
+				</RouteLink>
+				<div class="note-foot">
+					<span>{{ formatDate(featuredArticle) }}</span>
+					<span>
+						{{ getTags(featuredArticle).slice(0, 2).join(" / ") || "札记" }}
 					</span>
-				</article>
+				</div>
+			</article>
 
-				<article class="pile-card code-card span-2 row-1">
-					<span class="stat-label">灵感流</span>
-					<pre><code>记录 → 理解 → 分享</code></pre>
-				</article>
+			<article class="wall-tile wall-form">
+				<p class="tile-label">学习通讯</p>
+				<form v-if="!subscribed" @submit.prevent="subscribe">
+					<input
+						v-model="email"
+						class="form-input"
+						type="email"
+						required
+						placeholder="填一个邮箱"
+					/>
+					<button class="form-button" type="submit">
+						<PaperAirplaneIcon class="icon" />
+						<span>加入</span>
+					</button>
+				</form>
+				<p v-else class="form-success">已收到，下一期会寄到你那里。</p>
+			</article>
 
-				<article class="pile-card progress-card span-2 row-1">
-					<span class="stat-label">札记进度</span>
-					<span class="stat-value">{{ articles.length }}/12</span>
-					<span class="progress-track">
-						<span
-							class="progress-bar"
-							:style="{ width: `${journalLoad}%` }"
-						></span>
-					</span>
-				</article>
+			<article class="wall-tile wall-chart">
+				<span class="tile-label">写作节奏</span>
+				<div class="bar-chart">
+					<span
+						v-for="(value, index) in weeklyBars"
+						:key="index"
+						:style="{ height: `${value}%` }"
+					></span>
+				</div>
+				<ChartBarIcon class="chart-icon" />
+			</article>
 
-				<article class="pile-card timeline-card span-2 row-2">
-					<span class="stat-label">时间脉络</span>
-					<div class="timeline-track">
-						<span
-							class="timeline-dot"
-							v-for="article in recentArticles.slice(0, 5)"
-							:key="article.slug"
-						></span>
-					</div>
-					<span class="timeline-years">{{ latestYear }}</span>
-				</article>
+			<article class="wall-tile wall-upload">
+				<span class="tile-label">资料投放</span>
+				<label class="upload-zone">
+					<ArrowUpTrayIcon class="icon" />
+					<span>{{ uploadName || "选择一份文件" }}</span>
+					<input type="file" class="visually-hidden" @change="onFileChange" />
+				</label>
+			</article>
 
-				<article class="pile-card stamp-card span-1 row-1">
-					<span class="stamp">共 {{ articles.length }} 篇</span>
-				</article>
+			<article class="wall-tile wall-segments">
+				<span class="tile-label">内容形态</span>
+				<div class="segmented" role="group" aria-label="内容形态">
+					<button
+						v-for="mode in contentTabs"
+						:key="mode"
+						type="button"
+						:class="{ active: contentTab === mode }"
+						@click="contentTab = mode"
+					>
+						{{ mode }}
+					</button>
+				</div>
+			</article>
 
-				<article class="pile-card quote-card span-2 row-2">
-					<blockquote>
-						长文记录，简短思考。
-					</blockquote>
-				</article>
-
-				<article class="pile-card grid-card span-1 row-1" aria-hidden="true">
-					<div class="dot-grid">
-						<span v-for="dot in 9" :key="dot"></span>
-					</div>
-				</article>
-
-				<article class="pile-card arrow-card span-1 row-1" aria-hidden="true">
-					<span>&rarr;</span>
-				</article>
-
-				<RouterLink
-					class="pile-card pile-topic-card span-1 row-1"
-					v-for="topic in topicEntries.slice(0, 4)"
-					:key="topic.name"
-					:to="getTagPathByTag(topic.name)"
-				>
-					<span class="topic-name">{{ topic.name }}</span>
-					<small>{{ topic.count }}</small>
-				</RouterLink>
 			</div>
 		</section>
 
 		<section class="featured-section" v-if="featuredArticle">
 			<div class="section-heading">
 				<span class="heading-label">精选阅读</span>
-				<span class="heading-rule" aria-hidden="true"></span>
 			</div>
 
 			<article class="featured-entry">
@@ -302,50 +405,58 @@ function getAuthor(article: PagesMapInfo): string {
 }
 
 .home-hero {
-	@apply relative pb-10 border-b
-	border-slate-200 dark:border-slate-700;
+	@apply relative pb-10;
 }
 
-.hero-pile {
-	@apply grid grid-cols-2 gap-3;
-	grid-auto-rows: minmax(4.5rem, auto);
+.home-hero::before {
+	content: "";
+	@apply pointer-events-none absolute inset-x-0 top-0 z-0 h-full;
+	background-image:
+		repeating-linear-gradient(
+			90deg,
+			rgba(148, 163, 184, 0.14) 0 1px,
+			transparent 1px 36px
+		),
+		repeating-linear-gradient(
+			0deg,
+			rgba(148, 163, 184, 0.09) 0 1px,
+			transparent 1px 30px
+		);
+	mask-image: linear-gradient(to bottom, black, transparent);
+}
+
+.hero-board {
+	@apply relative z-10 grid grid-cols-2 gap-3;
+	grid-auto-rows: minmax(3.6rem, auto);
 	grid-auto-flow: dense;
 }
 
-.pile-card {
+.wall-tile {
 	@apply relative flex min-w-0 flex-col gap-2 rounded-xl border p-3
-	border-slate-200 bg-white/90 shadow-sm backdrop-blur
+	border-slate-200 bg-white/95 shadow-sm backdrop-blur
 	text-slate-700 no-underline
 	transition-colors ease-in-out duration-200
 	hover:border-emerald-300 hover:bg-white
-	dark:border-slate-700 dark:bg-slate-900/90 dark:text-slate-200
+	dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200
 	dark:hover:border-emerald-500 dark:hover:bg-slate-900;
 }
 
-.pile-card:nth-child(3n) {
-	rotate: 0.45deg;
-}
-
-.pile-card:nth-child(3n + 1) {
-	rotate: -0.7deg;
-}
-
-.controlled {
+.hero-anchor {
 	@apply z-20;
+	rotate: 0;
 }
 
 .title-card {
-	@apply justify-center col-span-2 row-2 min-h-40 p-4
+	@apply col-span-2 row-span-2 justify-center gap-3 min-h-40 p-4
 	bg-white shadow-lg dark:bg-slate-900;
 }
 
-.controlled-eyebrow {
-	@apply inline-flex items-center gap-2
-	text-sm font-semibold font-mono
+.tile-tag {
+	@apply inline-flex items-center gap-2 text-sm font-semibold font-mono
 	text-emerald-600 dark:text-emerald-400;
 }
 
-.controlled-eyebrow::before {
+.tile-tag::before {
 	content: "";
 	@apply w-2 h-2 rounded-full bg-emerald-500;
 }
@@ -355,14 +466,24 @@ function getAuthor(article: PagesMapInfo): string {
 	text-slate-900 dark:text-slate-50;
 }
 
-.tagline-card {
-	@apply justify-between col-span-2 row-2 min-h-36 p-4
+.title-note {
+	@apply text-sm font-medium font-mono
+	text-slate-500 dark:text-slate-400;
+}
+
+.claim-card {
+	@apply col-span-2 row-span-2 justify-between min-h-32 p-4
 	border-dashed;
 }
 
 .hero-tagline {
-	@apply text-lg leading-8
-	text-slate-600 dark:text-slate-300;
+	@apply text-xl leading-8
+	text-slate-700 dark:text-slate-200;
+}
+
+.claim-sub {
+	@apply text-sm leading-6
+	text-slate-500 dark:text-slate-400;
 }
 
 .hero-actions {
@@ -387,172 +508,393 @@ function getAuthor(article: PagesMapInfo): string {
 	dark:hover:border-slate-500 dark:hover:bg-slate-800;
 }
 
-.row-1 {
-	grid-row: span 1;
-}
-
-.row-2 {
-	grid-row: span 2;
-}
-
-.stat-card {
-	@apply justify-center col-span-2 p-3
-	bg-slate-100/85 dark:bg-slate-800/55;
-}
-
-.stat-label {
-	@apply text-xs font-semibold font-mono
+.tile-label,
+.business-label {
+	@apply text-xs font-semibold font-mono uppercase tracking-wide
 	text-slate-500 dark:text-slate-400;
 }
 
-.stat-value {
-	@apply text-xl font-bold;
+.search-shell {
+	@apply flex h-10 items-center gap-2 rounded border px-3
+	border-slate-300 bg-white
+	focus-within:border-emerald-400
+	dark:border-slate-600 dark:bg-slate-950;
 }
 
-.pile-title {
+.search-shell input {
+	@apply min-w-0 flex-1 bg-transparent text-sm outline-none
+	text-slate-700 dark:text-slate-100;
+}
+
+.search-icon {
+	@apply h-4 w-4 shrink-0 text-slate-400;
+}
+
+.check-item {
+	@apply inline-flex items-center gap-2 text-sm;
+}
+
+.check-item input {
+	@apply sr-only;
+}
+
+.check-mark {
+	@apply inline-block h-4 w-4 rounded border border-slate-400 bg-white
+	transition-colors ease-in-out duration-200
+	dark:border-slate-500 dark:bg-slate-800;
+}
+
+.check-item input:checked + .check-mark {
+	@apply border-emerald-500 bg-emerald-500;
+}
+
+.check-item input:checked + .check-mark::after {
+	content: "";
+	@apply mt-1 ml-1 block h-2 w-2 rounded-full bg-white;
+}
+
+.wall-calendar .calendar-head {
+	@apply inline-flex items-center gap-2 text-sm font-semibold;
+}
+
+.calendar-head .icon {
+	@apply h-4 w-4 text-emerald-500;
+}
+
+.calendar-grid {
+	@apply grid grid-cols-7 gap-1 text-xs;
+}
+
+.calendar-week {
+	@apply text-center font-semibold font-mono text-slate-400;
+}
+
+.calendar-grid button {
+	@apply aspect-square rounded border border-transparent text-center
+	text-slate-600 transition-colors ease-in-out duration-200
+	hover:border-emerald-300 hover:bg-emerald-50
+	dark:text-slate-300 dark:hover:border-emerald-500
+	dark:hover:bg-emerald-500/10;
+}
+
+.calendar-grid button.active {
+	@apply border-emerald-500 bg-emerald-500 text-white;
+}
+
+.switch {
+	@apply inline-flex items-center gap-3 text-sm;
+}
+
+.switch-track {
+	@apply relative inline-flex h-6 w-11 items-center rounded-full
+	bg-slate-300 transition-colors ease-in-out duration-200
+	dark:bg-slate-700;
+}
+
+.switch-thumb {
+	@apply block h-4 w-4 rounded-full bg-white shadow transition-transform
+	ease-in-out duration-200;
+}
+
+.switch input:checked + .switch-track {
+	@apply bg-emerald-500;
+}
+
+.switch input:checked + .switch-track .switch-thumb {
+	transform: translateX(1.5rem);
+}
+
+.range-input {
+	@apply w-full accent-emerald-500;
+}
+
+.range-scale {
+	@apply flex items-center justify-between text-xs text-slate-400;
+}
+
+.select-shell {
+	@apply relative flex h-10 items-center;
+}
+
+.select-shell select {
+	@apply h-full w-full appearance-none rounded border bg-white px-3 pr-8
+	text-sm outline-none border-slate-300 text-slate-700
+	focus:border-emerald-400
+	dark:border-slate-600 dark:bg-slate-950 dark:text-slate-100;
+}
+
+.select-icon {
+	@apply pointer-events-none absolute right-3 h-4 w-4 text-slate-400;
+}
+
+.business-label {
+	@apply text-emerald-600 dark:text-emerald-400;
+}
+
+.note-title {
 	@apply line-clamp-2 text-lg font-bold leading-6
-	text-slate-900 no-underline
-	hover:text-emerald-600
+	text-slate-900 no-underline hover:text-emerald-600
 	dark:text-slate-50 dark:hover:text-emerald-400;
 }
 
-.pile-excerpt {
-	@apply line-clamp-3 text-sm leading-6
-	text-slate-600 dark:text-slate-300;
+.note-foot {
+	@apply mt-auto flex items-center justify-between gap-2 text-xs
+	text-slate-500 dark:text-slate-400;
 }
 
-.pile-tags {
-	@apply mt-auto text-xs font-semibold font-mono
-	text-emerald-600 dark:text-emerald-400;
+.wall-form form {
+	@apply flex gap-2;
 }
 
-.code-card {
-	@apply justify-center col-span-2
-	bg-slate-950 text-slate-100
-	dark:bg-slate-950;
+.form-input {
+	@apply h-10 min-w-0 flex-1 rounded border border-slate-300 bg-white px-3
+	text-sm outline-none focus:border-emerald-400
+	dark:border-slate-600 dark:bg-slate-950 dark:text-slate-100;
 }
 
-.code-card pre {
-	@apply m-0 overflow-x-auto text-sm font-mono;
+.form-button {
+	@apply inline-flex h-10 items-center gap-2 rounded bg-emerald-500 px-3
+	text-sm font-semibold text-white hover:bg-emerald-600;
 }
 
-.progress-track {
-	@apply h-1.5 w-full rounded-full bg-slate-200 dark:bg-slate-700;
+.form-button .icon {
+	@apply h-4 w-4;
 }
 
-.progress-bar {
-	@apply block h-full rounded-full bg-emerald-500;
+.form-success {
+	@apply text-sm text-emerald-600 dark:text-emerald-400;
 }
 
-.timeline-track {
-	@apply relative flex flex-1 items-center;
+.bar-chart {
+	@apply flex flex-1 items-end gap-1.5;
 }
 
-.timeline-track::before {
-	content: "";
-	@apply absolute left-2 right-2 h-px
-	border-t border-dashed border-emerald-400/60;
+.bar-chart span {
+	@apply block min-h-2 flex-1 rounded-t bg-emerald-400/70
+	dark:bg-emerald-500/60;
 }
 
-.timeline-dot {
-	@apply relative z-10 h-3 w-3 rounded-full border-2
-	border-emerald-500 bg-white dark:bg-slate-900;
+.chart-icon {
+	@apply h-4 w-4 self-end text-slate-400;
 }
 
-.timeline-years {
-	@apply text-sm font-mono text-slate-500 dark:text-slate-400;
+.upload-zone {
+	@apply flex min-h-20 flex-1 cursor-pointer flex-col items-center
+	justify-center gap-2 rounded border border-dashed px-2 text-center
+	text-sm text-slate-600 border-slate-300 bg-slate-50
+	hover:border-emerald-400 hover:bg-emerald-50
+	dark:border-slate-600 dark:bg-slate-950 dark:text-slate-300
+	dark:hover:border-emerald-500 dark:hover:bg-emerald-500/10;
 }
 
-.stamp-card {
-	@apply justify-center items-center col-span-2;
+.upload-zone .icon {
+	@apply h-5 w-5 text-emerald-500;
 }
 
-.stamp {
-	@apply rounded-full border-2 border-dashed px-3 py-1
-	text-sm font-bold font-mono text-emerald-600
-	rotate-[-6deg] dark:text-emerald-400;
+.visually-hidden {
+	@apply sr-only;
 }
 
-.quote-card {
-	@apply justify-center col-span-2;
+.segmented {
+	@apply inline-flex w-full rounded bg-slate-200 p-1
+	dark:bg-slate-800;
 }
 
-.quote-card blockquote {
-	@apply m-0 text-lg font-semibold leading-7
-	text-slate-800 dark:text-slate-100;
+.segmented button {
+	@apply h-8 min-w-0 flex-1 rounded px-2 text-sm font-semibold
+	text-slate-600 transition-colors ease-in-out duration-200
+	hover:bg-white/70 dark:text-slate-300 dark:hover:bg-slate-700;
 }
 
-.grid-card {
-	@apply justify-center items-center col-span-2;
+.segmented button.active {
+	@apply bg-white text-slate-900 shadow-sm
+	dark:bg-slate-950 dark:text-emerald-400;
 }
 
-.dot-grid {
-	@apply grid grid-cols-3 gap-2;
+.wall-search {
+	rotate: -0.4deg;
 }
 
-.dot-grid span {
-	@apply block h-1.5 w-1.5 rounded-full bg-slate-300 dark:bg-slate-600;
+.wall-check {
+	rotate: 0.6deg;
 }
 
-.arrow-card {
-	@apply justify-center items-center col-span-2 text-2xl;
+.wall-calendar {
+	rotate: -0.2deg;
 }
 
-.pile-topic-card {
-	@apply flex-row items-center justify-between col-span-2;
+.wall-toggle {
+	rotate: 1.1deg;
 }
 
-.pile-topic-card .topic-name {
-	@apply truncate text-sm font-semibold;
+.wall-range {
+	rotate: -0.8deg;
 }
 
-.pile-topic-card small {
-	@apply rounded-full bg-slate-200 px-1.5
-	text-xs font-bold dark:bg-slate-800;
+.wall-select {
+	rotate: 0.4deg;
+}
+
+.wall-note {
+	rotate: -0.6deg;
+}
+
+.wall-form {
+	rotate: 0.8deg;
+}
+
+.wall-chart {
+	rotate: -0.5deg;
+}
+
+.wall-upload {
+	rotate: 1deg;
+}
+
+.wall-segments {
+	rotate: -0.2deg;
 }
 
 @media (min-width: 640px) {
-	.hero-pile {
-		grid-template-columns: repeat(4, minmax(0, 1fr));
+	.hero-board {
+		grid-template-columns: repeat(6, minmax(0, 1fr));
+		grid-auto-rows: minmax(3.4rem, auto);
 	}
 
-	.span-1 {
+	.title-card,
+	.claim-card {
+		grid-column: span 3;
+		grid-row: span 2;
+	}
+
+	.wall-search,
+	.wall-check,
+	.wall-calendar,
+	.wall-select,
+	.wall-note,
+	.wall-form {
+		grid-column: span 3;
+	}
+
+	.wall-calendar {
+		grid-row: span 2;
+	}
+
+	.wall-toggle {
 		grid-column: span 1;
 	}
 
-	.span-2 {
+	.wall-range {
 		grid-column: span 2;
 	}
 
-	.title-card {
-		grid-column: span 3;
+	.wall-chart,
+	.wall-upload {
+		grid-column: span 2;
 	}
 
-	.tagline-card {
-		grid-column: span 3;
+	.wall-segments {
+		grid-column: span 4;
 	}
+
 }
 
 @media (min-width: 1024px) {
-	.hero-pile {
+	.hero-board {
 		grid-template-columns: repeat(12, minmax(0, 1fr));
+		grid-auto-rows: minmax(4rem, auto);
 	}
 
-	.span-1 {
-		grid-column: span 2;
+	.wall-search {
+		border-radius: 0.5rem;
 	}
 
-	.span-2 {
-		grid-column: span 3;
+	.wall-check {
+		border-radius: 1.1rem;
+		margin-top: 1.25rem;
+	}
+
+	.wall-calendar {
+		border-radius: 0.9rem;
+	}
+
+	.wall-toggle {
+		border-radius: 0.7rem;
+		margin-top: 0.75rem;
+	}
+
+	.wall-range {
+		border-radius: 1rem;
+		margin-top: 1.25rem;
+	}
+
+	.wall-select {
+		border-radius: 0.65rem;
+		margin-top: 0.5rem;
+	}
+
+	.wall-note {
+		border-radius: 1rem;
+		margin-top: 1rem;
+	}
+
+	.wall-form {
+		border-radius: 0.75rem;
+		margin-top: 0.5rem;
+	}
+
+	.wall-chart {
+		border-radius: 0.9rem;
+		margin-top: 1.25rem;
+	}
+
+	.wall-upload {
+		border-radius: 0.6rem;
+		margin-top: 0.5rem;
+	}
+
+	.wall-segments {
+		border-radius: 0.8rem;
+		margin-top: 1rem;
 	}
 
 	.title-card {
 		grid-column: span 5;
+		grid-row: span 2;
 	}
 
-	.tagline-card {
+	.claim-card {
+		grid-column: span 4;
+		grid-row: span 2;
+	}
+
+	.wall-search,
+	.wall-check,
+	.wall-calendar,
+	.wall-range,
+	.wall-chart,
+	.wall-upload {
+		grid-column: span 3;
+	}
+
+	.wall-calendar {
+		grid-row: span 2;
+	}
+
+	.wall-toggle {
+		grid-column: span 2;
+	}
+
+	.wall-select,
+	.wall-note,
+	.wall-form {
+		grid-column: span 4;
+	}
+
+	.wall-segments {
 		grid-column: span 5;
 	}
+
 }
 
 .section-heading {
