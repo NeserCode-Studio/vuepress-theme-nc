@@ -204,18 +204,6 @@
   resolved "https://registry.npmmirror.com/@mdit-vue/types/-/types-3.0.2.tgz#bcc569c5435ecb38b750a58ce69e555cf0021120"
   integrity sha512-00aAZ0F0NLik6I6Yba2emGbHLxv+QYrPH00qQ5dFKXlAo1Ll2RHDXwY7nN2WAfrx2pP+WrvSRFTGFCNGdzBDHw==
 
-"@mdit/helper@^1.1.3":
-  version "1.1.3"
-  resolved "https://registry.npmmirror.com/@mdit/helper/-/helper-1.1.3.tgz#acdfb0fd47bb0e681acf89fc6af0445dc512ab09"
-  integrity sha512-ZJxIn+WQSHzJqI05hfMNmskhJoxGmixKMIUBMkbnjOL6CiamLDmiEubu6rwgyGVa6W0kE0Q1fmu/mMyNoU4SZw==
-
-"@mdit/plugin-container@^2.0.2":
-  version "2.0.3"
-  resolved "https://registry.npmmirror.com/@mdit/plugin-container/-/plugin-container-2.0.3.tgz#c31e43e5148d60dd1769fca807c0ce11e87d570f"
-  integrity sha512-RE/ZT+a2jbrhmDX+bRtXvTaFeoTycfBdcymn72EoTpvfMUK0E06aDxx076nBkl9ksKZwajTU9g1sIQHZZwYDGA==
-  dependencies:
-    "@mdit/helper" "^1.1.3"
-
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.npmmirror.com/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz#7619c2eb21b25483f6d167548b4cfd5a7488c3d5"
@@ -830,13 +818,13 @@
     unified "^11.0.5"
     vue "^3.5.43"
 
-"@vuepress/plugin-markdown-container@2.0.0-rc.137":
-  version "2.0.0-rc.137"
-  resolved "https://registry.npmmirror.com/@vuepress/plugin-markdown-container/-/plugin-markdown-container-2.0.0-rc.137.tgz#a1143618eff8a62dbf0abc296ac4b50a7681bf7e"
-  integrity sha512-r3wfV4evIdXPSIRT+7XHoaFNY7LzAiiH4hqgfgPY1SgEAKsx6yDZbQI5hvFchYPiz3yHDnNftjVOoNmXv7yMxQ==
+"@vuepress/plugin-markdown-container@2.0.0-rc.135":
+  version "2.0.0-rc.135"
+  resolved "https://registry.npmmirror.com/@vuepress/plugin-markdown-container/-/plugin-markdown-container-2.0.0-rc.135.tgz#71c6a985c387b886076c1fe227fa39582efb8e49"
+  integrity sha512-o+8eG557fC4TcYrK93vaRIBnqCdzX+Anh8YXxiBgTBphr3KdWGWdzDymSlzzPlbjg3nJjSte//jbVro2ll3n2g==
   dependencies:
-    "@mdit/plugin-container" "^2.0.2"
     "@types/markdown-it" "^14.2.0"
+    markdown-it-container "^4.0.0"
 
 "@vuepress/plugin-nprogress@2.0.0-rc.135":
   version "2.0.0-rc.135"
@@ -1851,6 +1839,11 @@ markdown-it-anchor@^9.2.1:
   version "9.2.1"
   resolved "https://registry.npmmirror.com/markdown-it-anchor/-/markdown-it-anchor-9.2.1.tgz#0df1665838d1003f234feed6e864ede30734c203"
   integrity sha512-p6APiLJDFAW2GEvaavDvhIBn7jrX2jLv77NkBGgNacFTurbORYc4pyYySg/mI6mpR6cHQuAtzKtmqgQr4K8dsQ==
+
+markdown-it-container@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.npmmirror.com/markdown-it-container/-/markdown-it-container-4.0.0.tgz#3912394f7da6e8ef3b43a0f58b1d0ded851f2a38"
+  integrity sha512-HaNccxUH0l7BNGYbFbjmGpf5aLHAMTinqRZQAEQbMr2cdD3z91Q6kIo1oUn1CQndkT03jat6ckrdRYuwwqLlQw==
 
 markdown-it-emoji@^3.1.0:
   version "3.1.0"
